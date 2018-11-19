@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+    <MenuBar fx:id="mainMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Menu mnemonicParsing="false" text="File">
+            <MenuItem mnemonicParsing="false" onAction="#newFile" text="New">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#openFileDialog" text="Open...">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save As...">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#print" text="Print...">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <!-- The spaces after Exit are here to maintain menu width -->
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Exit                  ">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+            <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#copyText" text="Copy">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#cutText" text="Cut">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#pasteText" text="Paste">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#deleteText" text="Delete">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="DELETE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#selectAll" text="Select All">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertDateTime" text="Insert current date and time">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Options">
+            <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings...">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <CheckMenuItem id="word_wrap_menu" fx:id="wordWrapMenu" mnemonicParsing="false" onAction="#toggleWordWrap" text="Word Wrap">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="W" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                </accelerator>
+            </CheckMenuItem>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#openSearch" text="Find...">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#goTo" text="Go To...">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Other">
+            <MenuItem disable="true" mnemonicParsing="false" text="Opacity:" />
+            <CustomMenuItem mnemonicParsing="false" text="Opacity">
+                <content>
+                    <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
+                </content>
+            </CustomMenuItem>
+         <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse" />
+         <CheckMenuItem fx:id="menuWriteProtection" mnemonicParsing="false" onAction="#menuWriteProtection" text="Write protection" />
+         <SeparatorMenuItem mnemonicParsing="false" />
+         <MenuItem mnemonicParsing="false" onAction="#resetOtherSettings" text="Reset">
+            <accelerator>
+                <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator>
+         </MenuItem>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+            <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="About...">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator>
+            </MenuItem>
+        </Menu>
+    </MenuBar>
+    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="29.0" AnchorPane.bottomAnchor="-1.0"
+                AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="28.0">
+        <TextArea id="textEdit" fx:id="textEdit" layoutX="-1.0" layoutY="-1.0" onKeyTyped="#fileModified" prefHeight="676.0" prefWidth="1135.0" promptText="Type here...">
+            <font>
+                <Font name="Lucida Console" size="12.0" />
+            </font>
+        </TextArea>
+    </ScrollPane>
+</AnchorPane>
