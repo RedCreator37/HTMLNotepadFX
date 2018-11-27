@@ -202,7 +202,7 @@ public class Controller extends Component {
      * Save changes to current file or go to saveAs if it's a new file
      */
     public void saveFile() {
-        if (file != null) {  // if the text was already saved before
+        if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
 
             FileIO.saveFile(file, textEdit.getText());
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);    // remove the "modified" text
@@ -227,12 +227,8 @@ public class Controller extends Component {
 
         file = fileChooser.showSaveDialog(Main.currentStage);
 
-        if (file != null) { // If the user selected a file
-            FileIO.saveFile(file, textEdit.getText());
-
-            // add filename to the title bar
-            Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
-            modified = false; // the file hasn't been modified yet
+        if (file != null) {
+            saveFile();
         }
     }
 
@@ -240,7 +236,7 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        if (!modified) {    // if the text isn't already in the title bar
+        if (!modified && !writeProtected) {    // if the text isn't already in the title bar
             String currentTitle = Main.currentStage.getTitle();
             Main.setTitle(currentTitle + " (Modified)", Main.currentStage);
             modified = true;
@@ -321,7 +317,7 @@ public class Controller extends Component {
      * Show an About dialog with info about the program
      */
     public void showAboutDialog() {
-        String betaNotice = "";
+        String betaNotice;
 
         if (VersionData.isBeta) {
             betaNotice = "BETA Pre-release";
@@ -446,21 +442,11 @@ public class Controller extends Component {
      * Used to apply settings to controls
      */
     private void setOtherSettings() {
-        if (writeProtected) {
-            textEdit.setEditable(false);
-        } else {
-            textEdit.setEditable(true);
-        }
+        textEdit.setEditable(!writeProtected);
 
-        if (mouseDisabled) {
-            textEdit.setMouseTransparent(true);
-            mainMenuBar.setMouseTransparent(true);
-        } else {
-            textEdit.setMouseTransparent(false);
-            mainMenuBar.setMouseTransparent(false);
-        }
+        textEdit.setMouseTransparent(mouseDisabled);
 
-        if (opacity < 0.01f) {
+        if (opacity < 0.01f) {  // do not make the window invisible
             opacity = 0.01f;
         }
         Main.currentStage.setOpacity(opacity);
@@ -589,6 +575,20 @@ public class Controller extends Component {
     private String currentFont;
 
     /**
+     * Get the list of installed fonts and set it as the list of items in fontCombo
+     */
+    public void listFonts() {
+        // Get GraphicalEnvironment object
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+        // Get an array list of all fonts
+        ObservableList<String> allFonts = FXCollections.observableArrayList(
+                ge.getAvailableFontFamilyNames());
+
+        fontCombo.setItems(allFonts);
+    }
+
+    /**
      * Apply font properties to textEdit
      */
     public void settingsApply() {   // FIXME: not working
@@ -626,26 +626,14 @@ public class Controller extends Component {
     }
 
     /**
-     * Get the list of installed fonts and set it as the list of items in fontCombo
-     */
-    public void listFonts() {
-        // Get GraphicalEnvironment object
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
-        // Get an array list of all fonts
-        ObservableList<String> allFonts = FXCollections.observableArrayList(
-                ge.getAvailableFontFamilyNames());
-
-        fontCombo.setItems(allFonts);
-    }
-
-    /**
      * Reset settings to default values
      */
     public void settingsReset() {
         checkboxBold.setSelected(false);
         checkboxItalic.setSelected(false);
         fontSize.setText("13");
+        dateFormatTextField.setText("yyyy/MM/dd HH:mm:ss");
+        settingsApply();
     }
 
     /**

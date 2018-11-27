@@ -31,5 +31,5 @@ public class VersionData {
 
     public static final String buildDate = "November 2018";
 
-    public static boolean isBeta = true;
+    public static final boolean isBeta = true;
 }
