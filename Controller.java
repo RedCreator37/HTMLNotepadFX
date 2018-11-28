@@ -59,6 +59,7 @@ public class Controller extends Component {
 
     /* MAIN SETTINGS */
 
+    private boolean saveSettings = true;
     private boolean writeProtected = false;
     private boolean mouseDisabled = false;
     private float opacity = 1f;
@@ -92,19 +93,21 @@ public class Controller extends Component {
      * Save settings to an XML file
      */
     void saveSettings() {
-        Properties saveSettings = new Properties();
-        saveSettings.setProperty("write_protected", String.valueOf(writeProtected));
-        saveSettings.setProperty("mouse_disabled", String.valueOf(mouseDisabled));
-        saveSettings.setProperty("opacity", String.valueOf(opacity));
-        saveSettings.setProperty("date_format", dateFormat);
+        if (saveSettings) {
+            Properties saveSettings = new Properties();
+            saveSettings.setProperty("write_protected", String.valueOf(writeProtected));
+            saveSettings.setProperty("mouse_disabled", String.valueOf(mouseDisabled));
+            saveSettings.setProperty("opacity", String.valueOf(opacity));
+            saveSettings.setProperty("date_format", dateFormat);
 
-        try {
-            File file = new File(settingsLocation);
-            FileOutputStream fileOut = new FileOutputStream(file);
-            saveSettings.storeToXML(fileOut, "");
-            fileOut.close();
-        } catch (IOException e) {
-            System.out.println("Saving settings failed, continuing...");
+            try {
+                File file = new File(settingsLocation);
+                FileOutputStream fileOut = new FileOutputStream(file);
+                saveSettings.storeToXML(fileOut, "");
+                fileOut.close();
+            } catch (IOException e) {
+                System.out.println("Saving settings failed, continuing...");
+            }
         }
     }
 
@@ -354,11 +357,7 @@ public class Controller extends Component {
      * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
      */
     public void toggleWordWrap() {
-        if (wordWrapMenu.isSelected()) {  // Word Wrap is checked
-            textEdit.setWrapText(true);
-        } else {                            // Word Wrap is not checked
-            textEdit.setWrapText(false);
-        }
+        textEdit.setWrapText(wordWrapMenu.isSelected());
     }
 
     /**
@@ -414,7 +413,6 @@ public class Controller extends Component {
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
-
         setOtherSettings();
     }
 
@@ -423,7 +421,6 @@ public class Controller extends Component {
      */
     public void disableMouse() {
         mouseDisabled = disableMouse.isSelected();
-
         setOtherSettings();
     }
 
@@ -432,7 +429,6 @@ public class Controller extends Component {
      */
     public void menuWriteProtection() {
         writeProtected = menuWriteProtection.isSelected();
-
         setOtherSettings();
     }
 
@@ -457,13 +453,8 @@ public class Controller extends Component {
      * Reset all settings in Other menu
      */
     public void resetOtherSettings() {
-        // disable write protection
         writeProtected = false;
-
-        // enable the mouse again
         mouseDisabled = false;
-
-        // reset transparency
         opacity = 1f;
 
         // reset switches
@@ -483,7 +474,6 @@ public class Controller extends Component {
         boolean confirmedClose;
 
         if (modified) { // the file has been modified
-
             confirmedClose = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
@@ -532,7 +522,6 @@ public class Controller extends Component {
      */
     public void find() {    // FIXME: not working
         String searchTerm = searchInput.getText();
-
         int index = textEdit.getText().indexOf(searchTerm);
 
         if (index == -1) {  // the text hasn't been found in the file
@@ -563,9 +552,10 @@ public class Controller extends Component {
     /* Initialize controls */
     public CheckBox checkboxBold;
     public CheckBox checkboxItalic;
+    public CheckBox checkboxSaveSettings;
     public TextField fontSize;
     public TextField dateFormatTextField = new TextField();
-    public Button btnSettingsClose;
+    public Button btnSettingsOK;
     public ComboBox<String> fontCombo;
 
     private String currentFont;
@@ -587,12 +577,12 @@ public class Controller extends Component {
     /**
      * Apply font properties to textEdit
      */
-    public void settingsApply() {   // FIXME: not working
+    public void settingsOK() {
+        saveSettings = checkboxSaveSettings.isSelected();
         dateFormat = dateFormatTextField.getText();
 
-        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();   // Get selected font
-
-        textEdit.setFont(javafx.scene.text.Font.font(selectedFont));
+        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();
+        textEdit.setFont(javafx.scene.text.Font.font(selectedFont));    // FIXME: not working
         currentFont = textEdit.getFont().toString();
 
         if (checkboxBold.isSelected()) {                           // Bold font
@@ -613,12 +603,14 @@ public class Controller extends Component {
                     FontWeight.BOLD,
                     FontPosture.ITALIC,
                     Double.parseDouble(fontSize.getText())));
-
         } else {                                                    // Normal font
             textEdit.setFont(new Font(
                     currentFont,
                     Double.parseDouble(fontSize.getText())));
         }
+
+        Stage stage = (Stage) btnSettingsOK.getScene().getWindow();
+        stage.close();
     }
 
     /**
@@ -629,15 +621,8 @@ public class Controller extends Component {
         checkboxItalic.setSelected(false);
         fontSize.setText("13");
         dateFormatTextField.setText("yyyy/MM/dd HH:mm:ss");
-        settingsApply();
-    }
-
-    /**
-     * Close the settings window
-     */
-    public void settingsClose() {
-        Stage stage = (Stage) btnSettingsClose.getScene().getWindow();
-        stage.close();
+        checkboxSaveSettings.setSelected(true);
+        settingsOK();
     }
 
 } // end class Controller
