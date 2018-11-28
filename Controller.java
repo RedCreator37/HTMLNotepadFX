@@ -64,7 +64,7 @@ public class Controller extends Component {
     private float opacity = 1f;
     private String dateFormat = "yyyy/MM/dd HH:mm:ss";
 
-    private final String settingsLocation = "Notepad_Settings.xml";
+    private final String settingsLocation = ".Notepad_Settings.xml";
 
     /**
      * Load settings from an XML file
@@ -146,9 +146,9 @@ public class Controller extends Component {
         } else {    // the file hasn't been modified yet
             textEdit.setText("");
             Main.setTitle("Untitled - Notepad", Main.currentStage);
-            modified = false; // the file hasn't been modified yet
+            modified = false;
 
-            file = null;    // initialize a new file
+            file = null;
         }
     }
 
@@ -165,7 +165,6 @@ public class Controller extends Component {
         file = fileChooser.showOpenDialog(Main.currentStage);
 
         if (file != null) { // If the user selected a file
-
             openFile(file);
         }
     }
@@ -179,7 +178,7 @@ public class Controller extends Component {
 
             // Set the title bar text to match the file's name
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
-            modified = false; // the file hasn't been modified yet
+            modified = false;
 
         } else {    // if the file has been modified
             boolean confirmed;
@@ -191,9 +190,8 @@ public class Controller extends Component {
             if (confirmed) {    // user confirmed to discard the changes
                 textEdit.setText(FileIO.openFile(file));    // open the file
 
-                // Set the title bar text to match the file's name
                 Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
-                modified = false; // the file hasn't been modified yet
+                modified = false;
             }
         }
     }
@@ -206,7 +204,7 @@ public class Controller extends Component {
 
             FileIO.saveFile(file, textEdit.getText());
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);    // remove the "modified" text
-            modified = false; // the file hasn't been modified yet
+            modified = false;
 
         } else {    // if this is a new file
             saveAs();
@@ -250,6 +248,79 @@ public class Controller extends Component {
      */
     public void print() {
         Print.printText(textEdit.getText());
+    }
+
+    /* EDIT MENU FUNCTIONS */
+
+    /**
+     * Undo the last action done in textEdit
+     */
+    public void undo() {
+        textEdit.undo();
+
+        if (textEdit.isUndoable()) {
+            fileModified();
+        }
+    }
+
+    /**
+     * Redo the last action done in textEdit
+     */
+    public void redo() {
+        textEdit.redo();
+
+        if (textEdit.isRedoable()) {
+            fileModified();
+        }
+    }
+
+    /**
+     * Copy the selected text in textEdit to the system clipboard
+     */
+    public void copyText() {
+        textEdit.copy();
+    }
+
+    /**
+     * Cut the selected text in textEdit
+     */
+    public void cutText() {
+        textEdit.cut();
+        fileModified();
+    }
+
+    /**
+     * Paste the text from the system clipboard to textEdit
+     */
+    public void pasteText() {
+        textEdit.paste();
+        fileModified();
+    }
+
+    /**
+     * Delete the selected text in textEdit
+     */
+    public void deleteText() {
+        textEdit.replaceSelection("");
+        fileModified();
+    }
+
+    /**
+     * Append the current date and time to textEdit
+     */
+    public void insertDateTime() {
+        String timeStamp = new SimpleDateFormat(dateFormat).format(
+                Calendar.getInstance().getTime());
+
+        textEdit.appendText(timeStamp);
+        fileModified();
+    }
+
+    /**
+     * Select all text in textEdit
+     */
+    public void selectAll() {
+        textEdit.selectAll();
     }
 
     /* OPTIONS MENU FUNCTIONS */
@@ -333,79 +404,6 @@ public class Controller extends Component {
 
     }
 
-    /* EDIT MENU FUNCTIONS */
-
-    /**
-     * Undo the last action done in textEdit
-     */
-    public void undo() {
-        textEdit.undo();
-
-        if (textEdit.isUndoable()) {
-            fileModified();
-        }
-    }
-
-    /**
-     * Redo the last action done in textEdit
-     */
-    public void redo() {
-        textEdit.redo();
-
-        if (textEdit.isRedoable()) {
-            fileModified();
-        }
-    }
-
-    /**
-     * Copy the selected text in textEdit to the system clipboard
-     */
-    public void copyText() {
-        textEdit.copy();
-    }
-
-    /**
-     * Cut the selected text in textEdit
-     */
-    public void cutText() {
-        textEdit.cut();
-        fileModified();
-    }
-
-    /**
-     * Paste the text from the system clipboard to textEdit
-     */
-    public void pasteText() {
-        textEdit.paste();
-        fileModified();
-    }
-
-    /**
-     * Delete the selected text in textEdit
-     */
-    public void deleteText() {
-        textEdit.replaceSelection("");
-        fileModified();
-    }
-
-    /**
-     * Append the current date and time to textEdit
-     */
-    public void insertDateTime() {
-        String timeStamp = new SimpleDateFormat(dateFormat).format(
-                Calendar.getInstance().getTime());
-
-        textEdit.appendText(timeStamp);
-        fileModified();
-    }
-
-    /**
-     * Select all text in textEdit
-     */
-    public void selectAll() {
-        textEdit.selectAll();
-    }
-
     /* OTHER MENU FUNCTIONS */
 
     public CheckMenuItem disableMouse = new CheckMenuItem();
@@ -443,7 +441,6 @@ public class Controller extends Component {
      */
     private void setOtherSettings() {
         textEdit.setEditable(!writeProtected);
-
         textEdit.setMouseTransparent(mouseDisabled);
 
         if (opacity < 0.01f) {  // do not make the window invisible
@@ -544,8 +541,7 @@ public class Controller extends Component {
                     "Could not find " + searchTerm + " in the file");
 
         } else {    // the text has been found
-            // select the text in the file
-            textEdit.selectRange(
+            textEdit.selectRange(   // select the text in the file
                     searchTerm.charAt(0),
                     searchTerm.length());
         }
