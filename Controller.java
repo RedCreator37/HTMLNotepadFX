@@ -4,9 +4,6 @@ import Utilities.Print;
 import Utilities.VersionData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
@@ -16,7 +13,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -436,7 +432,6 @@ public class Controller extends Component {
      * Reset all settings in Other menu
      */
     public void resetOtherSettings() {
-        writeProtected = false;
         mouseDisabled = false;
         opacity = 1f;
 
@@ -471,63 +466,6 @@ public class Controller extends Component {
         }
     }
 
-
-    /*****************************************************************
-     *  S E A R C H     W I N D O W      F X M L      H A N D L E R  *
-     *****************************************************************/
-
-    /* Initialize controls */
-    public TextField searchInput;
-    public Button findClose;
-
-    /**
-     * Display the search window
-     */
-    public void openSearch() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXML/Find.fxml"));
-
-        try {
-            Scene scene;
-            scene = new Scene(fxmlLoader.load(), 344, 149);
-            Stage stage = new Stage();
-            stage.setTitle("Find");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Find the specified string in textEdit and select it
-     */
-    public void find() {    // FIXME: not working
-        String searchTerm = searchInput.getText();
-        int index = textEdit.getText().indexOf(searchTerm);
-
-        if (index == -1) {  // the text hasn't been found in the file
-            Dialogs.compactInfoDialog(
-                    "Find",
-                    "Could not find " + searchTerm + " in the file");
-
-        } else {    // the text has been found
-            textEdit.selectRange(   // select the text in the file
-                    searchTerm.charAt(0),
-                    searchTerm.length());
-        }
-    }
-
-    /**
-     * Close the search window
-     */
-    public void findClose() {
-        Stage stage = (Stage) findClose.getScene().getWindow();
-        stage.close();
-    }
-
-
     /*****************************************************************
      *   S E T T I N G S     T O O L B A R      F U N C T I O N S    *
      *****************************************************************/
@@ -537,6 +475,7 @@ public class Controller extends Component {
     public TextField dateFormatTextField = new TextField();
     public ComboBox<String> fontCombo = new ComboBox<>();
     public TextField fontSize = new TextField();
+    public TextField searchInput;
 
     private String currentFont;
     private String currentFontSize;
@@ -575,6 +514,25 @@ public class Controller extends Component {
         dateFormat = dateFormatTextField.getText();
         currentFont = selectedFont;
         currentFontSize = selectedFontSize;
+    }
+
+    /**
+     * Find the specified string in textEdit and select it
+     */
+    public void find() {
+        String searchTerm = searchInput.getText();
+        int index = textEdit.getText().indexOf(searchTerm);
+
+        if (index == -1) {  // the text hasn't been found in the file
+            Dialogs.compactInfoDialog(
+                    "Find",
+                    "Could not find " + searchTerm + " in the file");
+
+        } else {    // the text has been found
+            textEdit.selectRange(   // select the text in the file
+                    searchTerm.charAt(0),
+                    searchTerm.length());
+        }
     }
 
 } // end class Controller
