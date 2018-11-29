@@ -15,9 +15,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -79,6 +76,9 @@ public class Controller extends Component {
             mouseDisabled = Boolean.valueOf(loadSettings.getProperty("mouse_disabled"));
             opacity = Float.valueOf(loadSettings.getProperty("opacity"));
             dateFormat = loadSettings.getProperty("date_format");
+            wordWrap.setSelected(Boolean.valueOf(loadSettings.getProperty("word_wrap")));
+            currentFont = loadSettings.getProperty("font");
+            currentFontSize = loadSettings.getProperty("font_size");
         } catch (IOException e) {
             System.out.println("Loading settings failed, continuing...");
         }
@@ -86,6 +86,7 @@ public class Controller extends Component {
         if (opacity < 0.1f)
             opacity = 0.1f;
 
+        loadMainSettings();
         setOtherSettings();
     }
 
@@ -99,6 +100,13 @@ public class Controller extends Component {
             saveSettings.setProperty("mouse_disabled", String.valueOf(mouseDisabled));
             saveSettings.setProperty("opacity", String.valueOf(opacity));
             saveSettings.setProperty("date_format", dateFormat);
+            saveSettings.setProperty("word_wrap", String.valueOf(wordWrap.isSelected()));
+            saveSettings.setProperty("font_size", fontSize.getText());
+            try {
+                saveSettings.setProperty("font", fontCombo.getSelectionModel().getSelectedItem());
+            } catch (NullPointerException e) {
+                saveSettings.setProperty("font", "System");
+            }
 
             try {
                 File file = new File(settingsLocation);
@@ -117,9 +125,9 @@ public class Controller extends Component {
 
     /* Initialize controls */
     public TextArea textEdit = new TextArea();
-    public CheckMenuItem wordWrapMenu;
     public Slider opacitySlider = new Slider();
     public MenuBar mainMenuBar = new MenuBar();
+    public CheckBox wordWrap = new CheckBox();
 
     /* FILE OPERATIONS */
 
@@ -329,35 +337,10 @@ public class Controller extends Component {
     /* OPTIONS MENU FUNCTIONS */
 
     /**
-     * Open a dialog with settings for textEdit
-     */
-    public void openSettings() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXML/Settings.fxml"));
-        try {
-            Scene scene;
-            scene = new Scene(fxmlLoader.load(), 412, 261);
-            Stage stage = new Stage();
-            stage.setTitle("Settings");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (currentFont != null) {
-            fontCombo.setPromptText(currentFont);
-        }
-
-        dateFormatTextField.setText(dateFormat);
-    }
-
-    /**
      * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
      */
     public void toggleWordWrap() {
-        textEdit.setWrapText(wordWrapMenu.isSelected());
+        textEdit.setWrapText(wordWrap.isSelected());
     }
 
     /**
@@ -439,9 +422,9 @@ public class Controller extends Component {
         textEdit.setEditable(!writeProtected);
         textEdit.setMouseTransparent(mouseDisabled);
 
-        if (opacity < 0.01f) {  // do not make the window invisible
+        if (opacity < 0.01f)    // do not make the window invisible
             opacity = 0.01f;
-        }
+
         Main.currentStage.setOpacity(opacity);
 
         menuWriteProtection.setSelected(writeProtected);
@@ -546,25 +529,22 @@ public class Controller extends Component {
 
 
     /*****************************************************************
-     *  S E T T I N G S    W I N D O W     F X M L    H A N D L E R  *
+     *   S E T T I N G S     T O O L B A R      F U N C T I O N S    *
      *****************************************************************/
 
     /* Initialize controls */
-    public CheckBox checkboxBold;
-    public CheckBox checkboxItalic;
-    public CheckBox checkboxSaveSettings;
-    public TextField fontSize;
+    public CheckBox checkboxSaveSettings = new CheckBox();
     public TextField dateFormatTextField = new TextField();
-    public Button btnSettingsOK;
-    public ComboBox<String> fontCombo;
+    public ComboBox<String> fontCombo = new ComboBox<>();
+    public TextField fontSize = new TextField();
 
     private String currentFont;
+    private String currentFontSize;
 
     /**
      * Get the list of installed fonts and set it as the list of items in fontCombo
      */
     public void listFonts() {
-        // Get GraphicalEnvironment object
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
         // Get an array list of all fonts
@@ -575,54 +555,26 @@ public class Controller extends Component {
     }
 
     /**
-     * Apply font properties to textEdit
+     * Used only when loading settings from the XML config file
      */
-    public void settingsOK() {
-        saveSettings = checkboxSaveSettings.isSelected();
-        dateFormat = dateFormatTextField.getText();
-
-        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();
-        textEdit.setFont(javafx.scene.text.Font.font(selectedFont));    // FIXME: not working
-        currentFont = textEdit.getFont().toString();
-
-        if (checkboxBold.isSelected()) {                           // Bold font
-            textEdit.setFont(javafx.scene.text.Font.font(
-                    currentFont,
-                    FontWeight.BOLD,
-                    Double.parseDouble(fontSize.getText())));
-
-        } else if (checkboxItalic.isSelected()) {                  // Italic font
-            textEdit.setFont(javafx.scene.text.Font.font(
-                    currentFont,
-                    FontPosture.ITALIC,
-                    Double.parseDouble(fontSize.getText())));
-
-        } else if (checkboxBold.isSelected() && checkboxItalic.isSelected()) {    // Bold and italic font
-            textEdit.setFont(javafx.scene.text.Font.font(
-                    currentFont,
-                    FontWeight.BOLD,
-                    FontPosture.ITALIC,
-                    Double.parseDouble(fontSize.getText())));
-        } else {                                                    // Normal font
-            textEdit.setFont(new Font(
-                    currentFont,
-                    Double.parseDouble(fontSize.getText())));
-        }
-
-        Stage stage = (Stage) btnSettingsOK.getScene().getWindow();
-        stage.close();
+    private void loadMainSettings() {
+        textEdit.setStyle("-fx-font-family: " + currentFont + "; -fx-font-size: " + currentFontSize + ";");
+        fontSize.setText(currentFontSize);
+        dateFormatTextField.setText(dateFormat);
     }
 
     /**
-     * Reset settings to default values
+     * Set the main settings
      */
-    public void settingsReset() {
-        checkboxBold.setSelected(false);
-        checkboxItalic.setSelected(false);
-        fontSize.setText("13");
-        dateFormatTextField.setText("yyyy/MM/dd HH:mm:ss");
-        checkboxSaveSettings.setSelected(true);
-        settingsOK();
+    public void setSettings() {
+        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();
+        String selectedFontSize = fontSize.getText();
+        textEdit.setStyle("-fx-font-family: " + selectedFont + "; -fx-font-size: " + selectedFontSize + ";");
+
+        saveSettings = checkboxSaveSettings.isSelected();
+        dateFormat = dateFormatTextField.getText();
+        currentFont = selectedFont;
+        currentFontSize = selectedFontSize;
     }
 
 } // end class Controller
