@@ -55,8 +55,6 @@ public class Controller extends Component {
     private boolean saveSettings = true;
     private boolean writeProtected = false;
     private boolean mouseDisabled = false;
-    private float opacity = 1f;
-    private String dateFormat = "yyyy/MM/dd HH:mm:ss";
 
     private final String settingsLocation = ".Notepad_Settings.xml";
 
@@ -71,7 +69,7 @@ public class Controller extends Component {
             writeProtected = Boolean.valueOf(loadSettings.getProperty("write_protected"));
             mouseDisabled = Boolean.valueOf(loadSettings.getProperty("mouse_disabled"));
             opacity = Float.valueOf(loadSettings.getProperty("opacity"));
-            dateFormat = loadSettings.getProperty("date_format");
+            dateFormatTextField.setText(loadSettings.getProperty("date_format"));
             wordWrap.setSelected(Boolean.valueOf(loadSettings.getProperty("word_wrap")));
             currentFont = loadSettings.getProperty("font");
             currentFontSize = loadSettings.getProperty("font_size");
@@ -332,12 +330,10 @@ public class Controller extends Component {
 
     /* OPTIONS MENU FUNCTIONS */
 
-    /**
-     * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
-     */
-    public void toggleWordWrap() {
-        textEdit.setWrapText(wordWrap.isSelected());
-    }
+    public CheckMenuItem disableMouse = new CheckMenuItem();
+    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
+
+    private float opacity = 1f;
 
     /**
      * Display a dialog and ask the user for a position number and then place the cursor into the specified position
@@ -361,31 +357,6 @@ public class Controller extends Component {
             }
         }
     }
-
-    /**
-     * Show an About dialog with info about the program
-     */
-    public void showAboutDialog() {
-        String betaNotice;
-
-        if (VersionData.isBeta) {
-            betaNotice = "BETA Pre-release";
-        }
-
-        Dialogs.infoDialog(
-                "Notepad",
-                "About Notepad",
-                "Version: " + VersionData.version +
-                        "\nBuild number: " + VersionData.buildNumber + "" +
-                        "\nBuild date: " + VersionData.buildDate + "" +
-                        "\n" + betaNotice);
-
-    }
-
-    /* OTHER MENU FUNCTIONS */
-
-    public CheckMenuItem disableMouse = new CheckMenuItem();
-    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
 
     /**
      * Change the opacity of MainWindow
@@ -466,6 +437,26 @@ public class Controller extends Component {
         }
     }
 
+    /**
+     * Show an About dialog with info about the program
+     */
+    public void showAboutDialog() {
+        String betaNotice;
+
+        if (VersionData.isBeta) {
+            betaNotice = "BETA Pre-release";
+        }
+
+        Dialogs.infoDialog(
+                "Notepad",
+                "About Notepad",
+                "Version: " + VersionData.version +
+                        "\nBuild number: " + VersionData.buildNumber + "" +
+                        "\nBuild date: " + VersionData.buildDate + "" +
+                        "\n" + betaNotice);
+
+    }
+
     /*****************************************************************
      *   S E T T I N G S     T O O L B A R      F U N C T I O N S    *
      *****************************************************************/
@@ -479,6 +470,7 @@ public class Controller extends Component {
 
     private String currentFont;
     private String currentFontSize;
+    private String dateFormat = "yyyy/MM/dd HH:mm:ss";
 
     /**
      * Get the list of installed fonts and set it as the list of items in fontCombo
@@ -514,6 +506,13 @@ public class Controller extends Component {
         dateFormat = dateFormatTextField.getText();
         currentFont = selectedFont;
         currentFontSize = selectedFontSize;
+    }
+
+    /**
+     * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
+     */
+    public void toggleWordWrap() {
+        textEdit.setWrapText(wordWrap.isSelected());
     }
 
     /**

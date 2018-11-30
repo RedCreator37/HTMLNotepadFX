@@ -103,8 +103,6 @@
                     <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Other">
             <MenuItem disable="true" mnemonicParsing="false" text="Opacity:" />
             <CustomMenuItem mnemonicParsing="false" text="Opacity">
                 <content>
