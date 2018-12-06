@@ -15,6 +15,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <MenuBar fx:id="mainMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -137,5 +138,10 @@
    <CheckBox fx:id="checkboxSaveSettings" layoutX="676.0" layoutY="34.0" mnemonicParsing="false" onAction="#setSettings" selected="true" text="Save settings" />
    <CheckBox fx:id="wordWrap" layoutX="577.0" layoutY="34.0" mnemonicParsing="false" onAction="#toggleWordWrap" text="Word wrap" />
    <Label layoutX="790.0" layoutY="35.0" text="Find:" />
-   <TextField fx:id="searchInput" layoutX="828.0" layoutY="30.0" onAction="#find" prefHeight="27.0" prefWidth="228.0" promptText="Enter a search term..." />
+   <TextField fx:id="searchInput" layoutX="828.0" layoutY="30.0" onKeyTyped="#find" prefHeight="27.0" prefWidth="228.0" promptText="Enter a search term..." />
+   <Label fx:id="textNotFoundLabel" layoutX="1063.0" layoutY="35.0" text="Not found" textFill="RED" visible="false">
+      <font>
+         <Font name="System Bold" size="13.0" />
+      </font>
+   </Label>
 </AnchorPane>

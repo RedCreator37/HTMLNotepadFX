@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
@@ -55,6 +56,7 @@ public class Controller extends Component {
     private boolean saveSettings = true;
     private boolean writeProtected = false;
     private boolean mouseDisabled = false;
+    private float opacity = 1f;
 
     private final String settingsLocation = ".Notepad_Settings.xml";
 
@@ -121,7 +123,8 @@ public class Controller extends Component {
     public TextArea textEdit = new TextArea();
     public Slider opacitySlider = new Slider();
     public MenuBar mainMenuBar = new MenuBar();
-    public CheckBox wordWrap = new CheckBox();
+    public CheckMenuItem disableMouse = new CheckMenuItem();
+    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
 
     /* FILE OPERATIONS */
 
@@ -330,11 +333,6 @@ public class Controller extends Component {
 
     /* OPTIONS MENU FUNCTIONS */
 
-    public CheckMenuItem disableMouse = new CheckMenuItem();
-    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
-
-    private float opacity = 1f;
-
     /**
      * Display a dialog and ask the user for a position number and then place the cursor into the specified position
      */
@@ -462,10 +460,12 @@ public class Controller extends Component {
      *****************************************************************/
 
     /* Initialize controls */
+    public Label textNotFoundLabel = new Label();
     public CheckBox checkboxSaveSettings = new CheckBox();
     public TextField dateFormatTextField = new TextField();
     public ComboBox<String> fontCombo = new ComboBox<>();
     public TextField fontSize = new TextField();
+    public CheckBox wordWrap = new CheckBox();
     public TextField searchInput;
 
     private String currentFont;
@@ -523,14 +523,17 @@ public class Controller extends Component {
         int index = textEdit.getText().indexOf(searchTerm);
 
         if (index == -1) {  // the text hasn't been found in the file
-            Dialogs.compactInfoDialog(
-                    "Find",
-                    "Could not find " + searchTerm + " in the file");
+            textNotFoundLabel.setVisible(true);
 
         } else {    // the text has been found
-            textEdit.selectRange(   // select the text in the file
-                    searchTerm.charAt(0),
-                    searchTerm.length());
+            try {
+                textEdit.selectRange(   // select the text in the file
+                        searchTerm.charAt(0),
+                        searchTerm.length());
+            } catch (StringIndexOutOfBoundsException e) {
+                // doNothing
+            }
+            textNotFoundLabel.setVisible(false);
         }
     }
 
