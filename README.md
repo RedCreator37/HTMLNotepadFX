@@ -12,14 +12,13 @@ Mostly just notepad stuff:
 
 - Edit text files
 - Print text files
-- Toggle notepad transparency and some other features.
+- Some fancy other features...
 
 ## What's not working
 
 These are the things that don't work as expected (yet):
 
-- Settings
-- Searching
+- Search (selecting doesn't work as expected)
 - Printing on macOS (not sure about this one, it fails to open the print dialog for some reason)
 
 ## Requirements

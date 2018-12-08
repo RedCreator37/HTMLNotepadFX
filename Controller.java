@@ -1,4 +1,5 @@
 import Utilities.Dialogs;
+import Utilities.ErrorHandler;
 import Utilities.FileIO;
 import Utilities.Print;
 import Utilities.VersionData;
@@ -57,6 +58,9 @@ public class Controller extends Component {
     private boolean writeProtected = false;
     private boolean mouseDisabled = false;
     private float opacity = 1f;
+    private String currentFont;
+    private String currentFontSize;
+    private String dateFormat = "yyyy/MM/dd HH:mm:ss";
 
     private final String settingsLocation = ".Notepad_Settings.xml";
 
@@ -71,7 +75,7 @@ public class Controller extends Component {
             writeProtected = Boolean.valueOf(loadSettings.getProperty("write_protected"));
             mouseDisabled = Boolean.valueOf(loadSettings.getProperty("mouse_disabled"));
             opacity = Float.valueOf(loadSettings.getProperty("opacity"));
-            dateFormatTextField.setText(loadSettings.getProperty("date_format"));
+            dateFormat = loadSettings.getProperty("date_format");
             wordWrap.setSelected(Boolean.valueOf(loadSettings.getProperty("word_wrap")));
             currentFont = loadSettings.getProperty("font");
             currentFontSize = loadSettings.getProperty("font_size");
@@ -115,9 +119,9 @@ public class Controller extends Component {
         }
     }
 
-    /*****************************************************************
-     *  M A I N       W I N D O W       F X M L       H A N D L E R  *
-     *****************************************************************/
+    /***********************************************************
+     *     F  I  L  E         M  A  N  A  G  E  M  E  N  T     *
+     ***********************************************************/
 
     /* Initialize controls */
     public TextArea textEdit = new TextArea();
@@ -317,11 +321,15 @@ public class Controller extends Component {
      * Append the current date and time to textEdit
      */
     public void insertDateTime() {
-        String timeStamp = new SimpleDateFormat(dateFormat).format(
-                Calendar.getInstance().getTime());
+        try {
+            String timeStamp = new SimpleDateFormat(dateFormat).format(
+                    Calendar.getInstance().getTime());  // get the date/time
 
-        textEdit.appendText(timeStamp);
-        fileModified();
+            textEdit.appendText(timeStamp);
+            fileModified();
+        } catch (IllegalArgumentException e) {
+            ErrorHandler.invalidDateTimeFormat();
+        }
     }
 
     /**
@@ -468,10 +476,6 @@ public class Controller extends Component {
     public CheckBox wordWrap = new CheckBox();
     public TextField searchInput;
 
-    private String currentFont;
-    private String currentFontSize;
-    private String dateFormat = "yyyy/MM/dd HH:mm:ss";
-
     /**
      * Get the list of installed fonts and set it as the list of items in fontCombo
      */
@@ -495,7 +499,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Set the main settings
+     * Set main settings
      */
     public void setSettings() {
         String selectedFont = fontCombo.getSelectionModel().getSelectedItem();

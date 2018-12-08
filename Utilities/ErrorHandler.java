@@ -33,16 +33,20 @@ import java.io.StringWriter;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-class ErrorHandler {
+public class ErrorHandler {
 
-    /**
-     * Display a File not found dialog
-     */
     static void fileNotFound(String filename) {
         Dialogs.errorDialog(
                 "File not found",
                 "File not found",
                 "The specified file '" + filename + "' was not found.\nPlease include full path to the file.");
+    }
+
+    public static void invalidDateTimeFormat() {
+        Dialogs.errorDialog(
+                "Invalid date/time format",
+                "Invalid date/time format",
+                "Please enter a valid date/time format. \nExample: yyyy/MM/dd HH:mm:ss");
     }
 
     /**
@@ -80,7 +84,6 @@ class ErrorHandler {
 
         // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
-
         alert.showAndWait();
     }
 
@@ -118,7 +121,6 @@ class ErrorHandler {
 
         // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
-
         alert.showAndWait();
     }
 
