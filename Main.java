@@ -50,7 +50,7 @@ public class Main extends Application {
             boolean confirmed = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
             if (confirmed) {
                 Controller controller = new Controller();

@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <MenuBar fx:id="mainMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#newFile" text="New">
@@ -130,16 +130,16 @@
     <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="29.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="57.0">
         <TextArea id="textEdit" fx:id="textEdit" layoutX="-1.0" layoutY="-1.0" onKeyTyped="#fileModified" prefHeight="676.0" prefWidth="1135.0" promptText="Type here..." />
     </ScrollPane>
-   <ComboBox fx:id="fontCombo" layoutX="58.0" layoutY="29.0" onAction="#setSettings" onShown="#listFonts" prefHeight="27.0" prefWidth="202.0" />
-   <Label layoutX="14.0" layoutY="34.0" text="Font:" />
-   <TextField fx:id="fontSize" layoutX="260.0" layoutY="29.0" onAction="#setSettings" prefHeight="27.0" prefWidth="44.0" text="13" />
-   <TextField fx:id="dateFormatTextField" layoutX="401.0" layoutY="29.0" onAction="#setSettings" text="yyyy/MM/dd HH:mm:ss" />
-   <Label layoutX="312.0" layoutY="34.0" text="Date format:" />
-   <CheckBox fx:id="checkboxSaveSettings" layoutX="676.0" layoutY="34.0" mnemonicParsing="false" onAction="#setSettings" selected="true" text="Save settings" />
-   <CheckBox fx:id="wordWrap" layoutX="577.0" layoutY="34.0" mnemonicParsing="false" onAction="#toggleWordWrap" text="Word wrap" />
-   <Label layoutX="790.0" layoutY="35.0" text="Find:" />
-   <TextField fx:id="searchInput" layoutX="828.0" layoutY="30.0" onKeyTyped="#find" prefHeight="27.0" prefWidth="228.0" promptText="Enter a search term..." />
-   <Label fx:id="textNotFoundLabel" layoutX="1063.0" layoutY="35.0" text="Not found" textFill="RED" visible="false">
+   <ComboBox fx:id="fontCombo" layoutX="35.0" layoutY="28.0" onAction="#setSettings" onShown="#listFonts" prefHeight="27.0" prefWidth="202.0" />
+   <Label layoutX="3.0" layoutY="32.0" text="Font:" />
+   <TextField fx:id="fontSize" layoutX="243.0" layoutY="28.0" onAction="#setSettings" prefHeight="27.0" prefWidth="44.0" text="13" />
+   <TextField fx:id="dateFormatTextField" layoutX="371.0" layoutY="29.0" onAction="#setSettings" text="yyyy/MM/dd HH:mm:ss" />
+   <Label layoutX="298.0" layoutY="32.0" text="Date format:" />
+   <CheckBox fx:id="checkboxSaveSettings" layoutX="623.0" layoutY="32.0" mnemonicParsing="false" onAction="#setSettings" selected="true" text="Save settings" />
+   <CheckBox fx:id="wordWrap" layoutX="531.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleWordWrap" text="Word wrap" />
+   <Label layoutX="726.0" layoutY="32.0" text="Find:" />
+   <TextField fx:id="searchInput" layoutX="760.0" layoutY="28.0" onKeyTyped="#find" prefHeight="27.0" prefWidth="228.0" promptText="Enter a search term..." />
+   <Label fx:id="textNotFoundLabel" layoutX="995.0" layoutY="31.0" text="Not found" textFill="RED" visible="false">
       <font>
          <Font name="System Bold" size="13.0" />
       </font>

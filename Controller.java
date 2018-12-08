@@ -145,7 +145,7 @@ public class Controller extends Component {
             confirmedNewFile = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
             if (confirmedNewFile) {     // User selected OK
                 textEdit.setText("");
@@ -197,7 +197,7 @@ public class Controller extends Component {
             confirmed = Dialogs.confirmationDialog( // Ask for confirmation
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
             if (confirmed) {    // user confirmed to discard the changes
                 textEdit.setText(FileIO.openFile(file));    // open the file
@@ -432,7 +432,7 @@ public class Controller extends Component {
             confirmedClose = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
         } else {    // the file hasn't been modified
             confirmedClose = true;
