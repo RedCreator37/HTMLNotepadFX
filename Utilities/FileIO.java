@@ -43,7 +43,6 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(new FileReader(filename));   // open the file
-
             while (scan.hasNext()) // while there's still something to read
                 sb.append(scan.nextLine() + "\n");  // append text to StringBuilder
 
@@ -60,12 +59,10 @@ public class FileIO {
      */
     public static void saveFile(File file, String fileContent) {
         try {
-
             // create a buffered writer to write to a file
             BufferedWriter out = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
             out.write(fileContent); // write the contents of the TextArea to the file
             out.close();
-
         } catch (IOException e) {
             ErrorHandler.fileIOError(file.getAbsolutePath(), e);
         }

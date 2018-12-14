@@ -1,25 +1,20 @@
 import Utilities.Dialogs;
+import Utilities.ErrorHandler;
 import Utilities.FileIO;
 import Utilities.Print;
 import Utilities.VersionData;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
@@ -59,12 +54,15 @@ public class Controller extends Component {
 
     /* MAIN SETTINGS */
 
+    private boolean saveSettings = true;
     private boolean writeProtected = false;
     private boolean mouseDisabled = false;
     private float opacity = 1f;
+    private String currentFont;
+    private String currentFontSize;
     private String dateFormat = "yyyy/MM/dd HH:mm:ss";
 
-    private final String settingsLocation = "Notepad_Settings.xml";
+    private final String settingsLocation = ".Notepad_Settings.xml";
 
     /**
      * Load settings from an XML file
@@ -78,6 +76,9 @@ public class Controller extends Component {
             mouseDisabled = Boolean.valueOf(loadSettings.getProperty("mouse_disabled"));
             opacity = Float.valueOf(loadSettings.getProperty("opacity"));
             dateFormat = loadSettings.getProperty("date_format");
+            wordWrap.setSelected(Boolean.valueOf(loadSettings.getProperty("word_wrap")));
+            currentFont = loadSettings.getProperty("font");
+            currentFontSize = loadSettings.getProperty("font_size");
         } catch (IOException e) {
             System.out.println("Loading settings failed, continuing...");
         }
@@ -85,6 +86,7 @@ public class Controller extends Component {
         if (opacity < 0.1f)
             opacity = 0.1f;
 
+        loadMainSettings();
         setOtherSettings();
     }
 
@@ -92,31 +94,41 @@ public class Controller extends Component {
      * Save settings to an XML file
      */
     void saveSettings() {
-        Properties saveSettings = new Properties();
-        saveSettings.setProperty("write_protected", String.valueOf(writeProtected));
-        saveSettings.setProperty("mouse_disabled", String.valueOf(mouseDisabled));
-        saveSettings.setProperty("opacity", String.valueOf(opacity));
-        saveSettings.setProperty("date_format", dateFormat);
+        if (saveSettings) {
+            Properties saveSettings = new Properties();
+            saveSettings.setProperty("write_protected", String.valueOf(writeProtected));
+            saveSettings.setProperty("mouse_disabled", String.valueOf(mouseDisabled));
+            saveSettings.setProperty("opacity", String.valueOf(opacity));
+            saveSettings.setProperty("date_format", dateFormat);
+            saveSettings.setProperty("word_wrap", String.valueOf(wordWrap.isSelected()));
+            saveSettings.setProperty("font_size", fontSize.getText());
+            try {
+                saveSettings.setProperty("font", fontCombo.getSelectionModel().getSelectedItem());
+            } catch (NullPointerException e) {
+                saveSettings.setProperty("font", "System");
+            }
 
-        try {
-            File file = new File(settingsLocation);
-            FileOutputStream fileOut = new FileOutputStream(file);
-            saveSettings.storeToXML(fileOut, "");
-            fileOut.close();
-        } catch (IOException e) {
-            System.out.println("Saving settings failed, continuing...");
+            try {
+                File file = new File(settingsLocation);
+                FileOutputStream fileOut = new FileOutputStream(file);
+                saveSettings.storeToXML(fileOut, "");
+                fileOut.close();
+            } catch (IOException e) {
+                System.out.println("Saving settings failed, continuing...");
+            }
         }
     }
 
-    /*****************************************************************
-     *  M A I N       W I N D O W       F X M L       H A N D L E R  *
-     *****************************************************************/
+    /***********************************************************
+     *     F  I  L  E         M  A  N  A  G  E  M  E  N  T     *
+     ***********************************************************/
 
     /* Initialize controls */
     public TextArea textEdit = new TextArea();
-    public CheckMenuItem wordWrapMenu;
     public Slider opacitySlider = new Slider();
     public MenuBar mainMenuBar = new MenuBar();
+    public CheckMenuItem disableMouse = new CheckMenuItem();
+    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
 
     /* FILE OPERATIONS */
 
@@ -133,7 +145,7 @@ public class Controller extends Component {
             confirmedNewFile = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
             if (confirmedNewFile) {     // User selected OK
                 textEdit.setText("");
@@ -146,9 +158,9 @@ public class Controller extends Component {
         } else {    // the file hasn't been modified yet
             textEdit.setText("");
             Main.setTitle("Untitled - Notepad", Main.currentStage);
-            modified = false; // the file hasn't been modified yet
+            modified = false;
 
-            file = null;    // initialize a new file
+            file = null;
         }
     }
 
@@ -165,7 +177,6 @@ public class Controller extends Component {
         file = fileChooser.showOpenDialog(Main.currentStage);
 
         if (file != null) { // If the user selected a file
-
             openFile(file);
         }
     }
@@ -179,21 +190,20 @@ public class Controller extends Component {
 
             // Set the title bar text to match the file's name
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
-            modified = false; // the file hasn't been modified yet
+            modified = false;
 
         } else {    // if the file has been modified
             boolean confirmed;
             confirmed = Dialogs.confirmationDialog( // Ask for confirmation
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
             if (confirmed) {    // user confirmed to discard the changes
                 textEdit.setText(FileIO.openFile(file));    // open the file
 
-                // Set the title bar text to match the file's name
                 Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
-                modified = false; // the file hasn't been modified yet
+                modified = false;
             }
         }
     }
@@ -202,11 +212,11 @@ public class Controller extends Component {
      * Save changes to current file or go to saveAs if it's a new file
      */
     public void saveFile() {
-        if (file != null) {  // if the text was already saved before
+        if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
 
             FileIO.saveFile(file, textEdit.getText());
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);    // remove the "modified" text
-            modified = false; // the file hasn't been modified yet
+            modified = false;
 
         } else {    // if this is a new file
             saveAs();
@@ -227,12 +237,8 @@ public class Controller extends Component {
 
         file = fileChooser.showSaveDialog(Main.currentStage);
 
-        if (file != null) { // If the user selected a file
-            FileIO.saveFile(file, textEdit.getText());
-
-            // add filename to the title bar
-            Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
-            modified = false; // the file hasn't been modified yet
+        if (file != null) {
+            saveFile();
         }
     }
 
@@ -240,7 +246,7 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        if (!modified) {    // if the text isn't already in the title bar
+        if (!modified && !writeProtected) {    // if the text isn't already in the title bar
             String currentTitle = Main.currentStage.getTitle();
             Main.setTitle(currentTitle + " (Modified)", Main.currentStage);
             modified = true;
@@ -254,87 +260,6 @@ public class Controller extends Component {
      */
     public void print() {
         Print.printText(textEdit.getText());
-    }
-
-    /* OPTIONS MENU FUNCTIONS */
-
-    /**
-     * Open a dialog with settings for textEdit
-     */
-    public void openSettings() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXML/Settings.fxml"));
-        try {
-            Scene scene;
-            scene = new Scene(fxmlLoader.load(), 412, 261);
-            Stage stage = new Stage();
-            stage.setTitle("Settings");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (currentFont != null) {
-            fontCombo.setPromptText(currentFont);
-        }
-
-        dateFormatTextField.setText(dateFormat);
-    }
-
-    /**
-     * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
-     */
-    public void toggleWordWrap() {
-        if (wordWrapMenu.isSelected()) {  // Word Wrap is checked
-            textEdit.setWrapText(true);
-        } else {                            // Word Wrap is not checked
-            textEdit.setWrapText(false);
-        }
-    }
-
-    /**
-     * Display a dialog and ask the user for a position number and then place the cursor into the specified position
-     */
-    public void goTo() {
-        String defaultValue = Integer.toString(textEdit.getCaretPosition());    // get current position
-
-        TextInputDialog lineNumber = new TextInputDialog(defaultValue);
-        lineNumber.setTitle("Notepad");
-        lineNumber.setHeaderText("Go to...");
-        lineNumber.setContentText("Enter position:");
-
-        Optional<String> result = lineNumber.showAndWait(); // wait for input
-
-        if (result.isPresent()) {
-            try {
-                textEdit.positionCaret(Integer.parseInt(lineNumber.getResult()));   // place the cursor
-
-            } catch (Exception e) {
-                goTo();
-            }
-        }
-    }
-
-    /**
-     * Show an About dialog with info about the program
-     */
-    public void showAboutDialog() {
-        String betaNotice = "";
-
-        if (VersionData.isBeta) {
-            betaNotice = "BETA Pre-release";
-        }
-
-        Dialogs.infoDialog(
-                "Notepad",
-                "About Notepad",
-                "Version: " + VersionData.version +
-                        "\nBuild number: " + VersionData.buildNumber + "" +
-                        "\nBuild date: " + VersionData.buildDate + "" +
-                        "\n" + betaNotice);
-
     }
 
     /* EDIT MENU FUNCTIONS */
@@ -396,11 +321,15 @@ public class Controller extends Component {
      * Append the current date and time to textEdit
      */
     public void insertDateTime() {
-        String timeStamp = new SimpleDateFormat(dateFormat).format(
-                Calendar.getInstance().getTime());
+        try {
+            String timeStamp = new SimpleDateFormat(dateFormat).format(
+                    Calendar.getInstance().getTime());  // get the date/time
 
-        textEdit.appendText(timeStamp);
-        fileModified();
+            textEdit.appendText(timeStamp);
+            fileModified();
+        } catch (IllegalArgumentException e) {
+            ErrorHandler.invalidDateTimeFormat();
+        }
     }
 
     /**
@@ -410,17 +339,36 @@ public class Controller extends Component {
         textEdit.selectAll();
     }
 
-    /* OTHER MENU FUNCTIONS */
+    /* OPTIONS MENU FUNCTIONS */
 
-    public CheckMenuItem disableMouse = new CheckMenuItem();
-    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
+    /**
+     * Display a dialog and ask the user for a position number and then place the cursor into the specified position
+     */
+    public void goTo() {
+        String defaultValue = Integer.toString(textEdit.getCaretPosition());    // get current position
+
+        TextInputDialog lineNumber = new TextInputDialog(defaultValue);
+        lineNumber.setTitle("Notepad");
+        lineNumber.setHeaderText("Go to...");
+        lineNumber.setContentText("Enter position:");
+
+        Optional<String> result = lineNumber.showAndWait(); // wait for input
+
+        if (result.isPresent()) {
+            try {
+                textEdit.positionCaret(Integer.parseInt(lineNumber.getResult()));   // place the cursor
+
+            } catch (Exception e) {
+                goTo();
+            }
+        }
+    }
 
     /**
      * Change the opacity of MainWindow
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
-
         setOtherSettings();
     }
 
@@ -429,7 +377,6 @@ public class Controller extends Component {
      */
     public void disableMouse() {
         mouseDisabled = disableMouse.isSelected();
-
         setOtherSettings();
     }
 
@@ -438,7 +385,6 @@ public class Controller extends Component {
      */
     public void menuWriteProtection() {
         writeProtected = menuWriteProtection.isSelected();
-
         setOtherSettings();
     }
 
@@ -446,23 +392,12 @@ public class Controller extends Component {
      * Used to apply settings to controls
      */
     private void setOtherSettings() {
-        if (writeProtected) {
-            textEdit.setEditable(false);
-        } else {
-            textEdit.setEditable(true);
-        }
+        textEdit.setEditable(!writeProtected);
+        textEdit.setMouseTransparent(mouseDisabled);
 
-        if (mouseDisabled) {
-            textEdit.setMouseTransparent(true);
-            mainMenuBar.setMouseTransparent(true);
-        } else {
-            textEdit.setMouseTransparent(false);
-            mainMenuBar.setMouseTransparent(false);
-        }
-
-        if (opacity < 0.01f) {
+        if (opacity < 0.01f)    // do not make the window invisible
             opacity = 0.01f;
-        }
+
         Main.currentStage.setOpacity(opacity);
 
         menuWriteProtection.setSelected(writeProtected);
@@ -474,13 +409,7 @@ public class Controller extends Component {
      * Reset all settings in Other menu
      */
     public void resetOtherSettings() {
-        // disable write protection
-        writeProtected = false;
-
-        // enable the mouse again
         mouseDisabled = false;
-
-        // reset transparency
         opacity = 1f;
 
         // reset switches
@@ -500,11 +429,10 @@ public class Controller extends Component {
         boolean confirmedClose;
 
         if (modified) { // the file has been modified
-
             confirmedClose = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
-                    "Changes made to the file since last save will be lost! Continue?");
+                    "All unsaved changes will be lost! Continue?");
 
         } else {    // the file hasn't been modified
             confirmedClose = true;
@@ -515,121 +443,43 @@ public class Controller extends Component {
         }
     }
 
+    /**
+     * Show an About dialog with info about the program
+     */
+    public void showAboutDialog() {
+        String betaNotice;
+
+        if (VersionData.isBeta) {
+            betaNotice = "BETA Pre-release";
+        }
+
+        Dialogs.infoDialog(
+                "Notepad",
+                "About Notepad",
+                "Version: " + VersionData.version +
+                        "\nBuild number: " + VersionData.buildNumber + "" +
+                        "\nBuild date: " + VersionData.buildDate + "" +
+                        "\n" + betaNotice);
+
+    }
 
     /*****************************************************************
-     *  S E A R C H     W I N D O W      F X M L      H A N D L E R  *
+     *   S E T T I N G S     T O O L B A R      F U N C T I O N S    *
      *****************************************************************/
 
     /* Initialize controls */
-    public TextField searchInput;
-    public Button findClose;
-
-    /**
-     * Display the search window
-     */
-    public void openSearch() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXML/Find.fxml"));
-
-        try {
-            Scene scene;
-            scene = new Scene(fxmlLoader.load(), 344, 149);
-            Stage stage = new Stage();
-            stage.setTitle("Find");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Find the specified string in textEdit and select it
-     */
-    public void find() {    // FIXME: not working
-        String searchTerm = searchInput.getText();
-
-        int index = textEdit.getText().indexOf(searchTerm);
-
-        if (index == -1) {  // the text hasn't been found in the file
-            Dialogs.compactInfoDialog(
-                    "Find",
-                    "Could not find " + searchTerm + " in the file");
-
-        } else {    // the text has been found
-            // select the text in the file
-            textEdit.selectRange(
-                    searchTerm.charAt(0),
-                    searchTerm.length());
-        }
-    }
-
-    /**
-     * Close the search window
-     */
-    public void findClose() {
-        Stage stage = (Stage) findClose.getScene().getWindow();
-        stage.close();
-    }
-
-
-    /*****************************************************************
-     *  S E T T I N G S    W I N D O W     F X M L    H A N D L E R  *
-     *****************************************************************/
-
-    /* Initialize controls */
-    public CheckBox checkboxBold;
-    public CheckBox checkboxItalic;
-    public TextField fontSize;
+    public Label textNotFoundLabel = new Label();
+    public CheckBox checkboxSaveSettings = new CheckBox();
     public TextField dateFormatTextField = new TextField();
-    public Button btnSettingsClose;
-    public ComboBox<String> fontCombo;
-
-    private String currentFont;
-
-    /**
-     * Apply font properties to textEdit
-     */
-    public void settingsApply() {   // FIXME: not working
-        dateFormat = dateFormatTextField.getText();
-
-        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();   // Get selected font
-
-        textEdit.setFont(javafx.scene.text.Font.font(selectedFont));
-        currentFont = textEdit.getFont().toString();
-
-        if (checkboxBold.isSelected()) {                           // Bold font
-            textEdit.setFont(javafx.scene.text.Font.font(
-                    currentFont,
-                    FontWeight.BOLD,
-                    Double.parseDouble(fontSize.getText())));
-
-        } else if (checkboxItalic.isSelected()) {                  // Italic font
-            textEdit.setFont(javafx.scene.text.Font.font(
-                    currentFont,
-                    FontPosture.ITALIC,
-                    Double.parseDouble(fontSize.getText())));
-
-        } else if (checkboxBold.isSelected() && checkboxItalic.isSelected()) {    // Bold and italic font
-            textEdit.setFont(javafx.scene.text.Font.font(
-                    currentFont,
-                    FontWeight.BOLD,
-                    FontPosture.ITALIC,
-                    Double.parseDouble(fontSize.getText())));
-
-        } else {                                                    // Normal font
-            textEdit.setFont(new Font(
-                    currentFont,
-                    Double.parseDouble(fontSize.getText())));
-        }
-    }
+    public ComboBox<String> fontCombo = new ComboBox<>();
+    public TextField fontSize = new TextField();
+    public CheckBox wordWrap = new CheckBox();
+    public TextField searchInput;
 
     /**
      * Get the list of installed fonts and set it as the list of items in fontCombo
      */
     public void listFonts() {
-        // Get GraphicalEnvironment object
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
         // Get an array list of all fonts
@@ -640,20 +490,55 @@ public class Controller extends Component {
     }
 
     /**
-     * Reset settings to default values
+     * Used only when loading settings from the XML config file
      */
-    public void settingsReset() {
-        checkboxBold.setSelected(false);
-        checkboxItalic.setSelected(false);
-        fontSize.setText("13");
+    private void loadMainSettings() {
+        textEdit.setStyle("-fx-font-family: " + currentFont + "; -fx-font-size: " + currentFontSize + ";");
+        fontSize.setText(currentFontSize);
+        dateFormatTextField.setText(dateFormat);
     }
 
     /**
-     * Close the settings window
+     * Set main settings
      */
-    public void settingsClose() {
-        Stage stage = (Stage) btnSettingsClose.getScene().getWindow();
-        stage.close();
+    public void setSettings() {
+        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();
+        String selectedFontSize = fontSize.getText();
+        textEdit.setStyle("-fx-font-family: " + selectedFont + "; -fx-font-size: " + selectedFontSize + ";");
+
+        saveSettings = checkboxSaveSettings.isSelected();
+        dateFormat = dateFormatTextField.getText();
+        currentFont = selectedFont;
+        currentFontSize = selectedFontSize;
+    }
+
+    /**
+     * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
+     */
+    public void toggleWordWrap() {
+        textEdit.setWrapText(wordWrap.isSelected());
+    }
+
+    /**
+     * Find the specified string in textEdit and select it
+     */
+    public void find() {
+        String searchTerm = searchInput.getText();
+        int index = textEdit.getText().indexOf(searchTerm);
+
+        if (index == -1) {  // the text hasn't been found in the file
+            textNotFoundLabel.setVisible(true);
+
+        } else {    // the text has been found
+            try {
+                textEdit.selectRange(   // select the text in the file
+                        searchTerm.charAt(0),
+                        searchTerm.length());
+            } catch (StringIndexOutOfBoundsException e) {
+                // doNothing
+            }
+            textNotFoundLabel.setVisible(false);
+        }
     }
 
 } // end class Controller

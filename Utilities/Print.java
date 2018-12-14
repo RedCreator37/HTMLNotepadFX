@@ -33,7 +33,6 @@ public class Print {
      */
     public static void printText(String text) {
         JTextPane textPane = new JTextPane();
-
         textPane.setText(text);
 
         try {

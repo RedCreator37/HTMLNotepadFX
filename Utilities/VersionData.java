@@ -25,11 +25,11 @@ package Utilities;
  */
 public class VersionData {
 
-    public static final String version = "0.1";
+    public static final String version = "0.2";
 
-    public static final int buildNumber = 1027;
+    public static final int buildNumber = 1030;
 
-    public static final String buildDate = "November 2018";
+    public static final String buildDate = "December 2018";
 
-    public static boolean isBeta = true;
+    public static final boolean isBeta = true;
 }

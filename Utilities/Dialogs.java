@@ -89,7 +89,7 @@ public class Dialogs {
      * Please use ErrorHandler to set the dialog content.
      * Also use ErrorHandler to create more advanced/custom error dialogs
      */
-    static void errorDialog(String title, String headerText, String content) {
+    public static void errorDialog(String title, String headerText, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
