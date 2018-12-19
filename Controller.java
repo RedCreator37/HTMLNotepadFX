@@ -55,8 +55,6 @@ public class Controller extends Component {
     /* MAIN SETTINGS */
 
     private boolean saveSettings = true;
-    private boolean writeProtected = false;
-    private boolean mouseDisabled = false;
     private float opacity = 1f;
     private String currentFont;
     private String currentFontSize;
@@ -72,9 +70,9 @@ public class Controller extends Component {
 
         try {
             loadSettings.loadFromXML(new FileInputStream(settingsLocation));
-            writeProtected = Boolean.valueOf(loadSettings.getProperty("write_protected"));
-            mouseDisabled = Boolean.valueOf(loadSettings.getProperty("mouse_disabled"));
-            opacity = Float.valueOf(loadSettings.getProperty("opacity"));
+            textEdit.setEditable(!Boolean.valueOf(loadSettings.getProperty("write_protected")));
+            textEdit.setMouseTransparent(Boolean.valueOf(loadSettings.getProperty("mouse_disabled")));
+            opacitySlider.setValue(Float.valueOf(loadSettings.getProperty("opacity")) * 100);
             dateFormat = loadSettings.getProperty("date_format");
             wordWrap.setSelected(Boolean.valueOf(loadSettings.getProperty("word_wrap")));
             currentFont = loadSettings.getProperty("font");
@@ -87,7 +85,6 @@ public class Controller extends Component {
             opacity = 0.1f;
 
         loadMainSettings();
-        setOtherSettings();
     }
 
     /**
@@ -96,8 +93,8 @@ public class Controller extends Component {
     void saveSettings() {
         if (saveSettings) {
             Properties saveSettings = new Properties();
-            saveSettings.setProperty("write_protected", String.valueOf(writeProtected));
-            saveSettings.setProperty("mouse_disabled", String.valueOf(mouseDisabled));
+            saveSettings.setProperty("write_protected", String.valueOf(textEdit.isEditable()));
+            saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(opacity));
             saveSettings.setProperty("date_format", dateFormat);
             saveSettings.setProperty("word_wrap", String.valueOf(wordWrap.isSelected()));
@@ -246,7 +243,7 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        if (!modified && !writeProtected) {    // if the text isn't already in the title bar
+        if (!modified && textEdit.isEditable()) {    // if the text isn't already in the title bar
             String currentTitle = Main.currentStage.getTitle();
             Main.setTitle(currentTitle + " (Modified)", Main.currentStage);
             modified = true;
@@ -325,7 +322,7 @@ public class Controller extends Component {
             String timeStamp = new SimpleDateFormat(dateFormat).format(
                     Calendar.getInstance().getTime());  // get the date/time
 
-            textEdit.appendText(timeStamp);
+            textEdit.insertText(textEdit.getCaretPosition(), timeStamp);
             fileModified();
         } catch (IllegalArgumentException e) {
             ErrorHandler.invalidDateTimeFormat();
@@ -369,55 +366,23 @@ public class Controller extends Component {
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
-        setOtherSettings();
+        if (opacity < 0.01f)    // do not make the window invisible
+            opacity = 0.01f;
+        Main.currentStage.setOpacity(opacity);
     }
 
     /**
      * Disable mouse interaction with textEdit
      */
     public void disableMouse() {
-        mouseDisabled = disableMouse.isSelected();
-        setOtherSettings();
+        textEdit.setMouseTransparent(disableMouse.isSelected());
     }
 
     /**
      * Temporarily write protect textEdit
      */
     public void menuWriteProtection() {
-        writeProtected = menuWriteProtection.isSelected();
-        setOtherSettings();
-    }
-
-    /**
-     * Used to apply settings to controls
-     */
-    private void setOtherSettings() {
-        textEdit.setEditable(!writeProtected);
-        textEdit.setMouseTransparent(mouseDisabled);
-
-        if (opacity < 0.01f)    // do not make the window invisible
-            opacity = 0.01f;
-
-        Main.currentStage.setOpacity(opacity);
-
-        menuWriteProtection.setSelected(writeProtected);
-        disableMouse.setSelected(mouseDisabled);
-        opacitySlider.setValue(opacity * 100);
-    }
-
-    /**
-     * Reset all settings in Other menu
-     */
-    public void resetOtherSettings() {
-        mouseDisabled = false;
-        opacity = 1f;
-
-        // reset switches
-        opacitySlider.setValue(100);
-        menuWriteProtection.setSelected(false);
-        disableMouse.setSelected(false);
-
-        setOtherSettings();
+        textEdit.setEditable(!menuWriteProtection.isSelected());
     }
 
     /* CLOSING AND EXITING THE PROGRAM */

@@ -112,12 +112,6 @@
             </CustomMenuItem>
          <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse" />
          <CheckMenuItem fx:id="menuWriteProtection" mnemonicParsing="false" onAction="#menuWriteProtection" text="Write protection" />
-         <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem mnemonicParsing="false" onAction="#resetOtherSettings" text="Reset">
-            <accelerator>
-                <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-            </accelerator>
-         </MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="About...">
