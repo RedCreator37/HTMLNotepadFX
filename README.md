@@ -2,7 +2,7 @@
 
 #### This is almost the same as dev branch, except that HTMLEditor is used instead of TextArea
 
-This is a simple JavaFX notepad app (similar to Windows Notepad with some extra features).
+This is a simple JavaFX HTML notepad/editor app (JavaFX HTMLEditor wrapped in a nice window).
 
 *This is the first program I put on GitHub.*
 *I hope that you understand that some things aren't done perfectly.*
@@ -10,12 +10,12 @@ This is a simple JavaFX notepad app (similar to Windows Notepad with some extra 
 
 ## Features
 
-Mostly just notepad stuff:
+HTML edition of Notepad:
 
-- Edit text files
-- Print text files
-- Set display font
-- Insert date/time, toggle word wrap...
+- Edit HTML files
+- Print HTML files
+- WYSIWYG formatting
+- Make the window semi-transparent...
 
 ## What's not working
 

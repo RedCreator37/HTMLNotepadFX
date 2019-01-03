@@ -249,6 +249,18 @@ public class Controller extends Component {
      */
     public void toggleSaveSettings() {
         saveSettings = checkboxSaveSettings.isSelected();
+
+        if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
+            try {
+                File file = new File(settingsLocation);
+
+                if (file.delete()) {
+                    System.out.println("Removing settings file done. ");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

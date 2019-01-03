@@ -71,6 +71,6 @@
         </Menu>
     </MenuBar>
     <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="23.0" prefHeight="712.0" prefWidth="1137.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="23.0">
-        <HTMLEditor id="textEdit" fx:id="textEdit" htmlText="Type here..." layoutX="-1.0" layoutY="-1.0" onKeyTyped="#fileModified" prefHeight="676.0" prefWidth="1135.0" onKeyPressed="#fileModified"/>
+        <HTMLEditor id="textEdit" fx:id="textEdit" layoutX="-1.0" layoutY="-1.0" prefHeight="676.0" prefWidth="1135.0" onKeyPressed="#fileModified"/>
     </ScrollPane>
 </AnchorPane>
