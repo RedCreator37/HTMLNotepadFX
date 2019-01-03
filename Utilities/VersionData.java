@@ -3,7 +3,7 @@ package Utilities;
 /**
  * Version info class for Notepad
  *
- * Copyright (c) 2018 Tobija Žuntar
+ * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,11 +25,11 @@ package Utilities;
  */
 public class VersionData {
 
-    public static final String version = "0.2";
+    public static final String VERSION = "0.2";
 
-    public static final int buildNumber = 1030;
+    public static final int BUILD_NUMBER = 1032;
 
-    public static final String buildDate = "December 2018";
+    public static final String BUILD_DATE = "January 2019";
 
-    public static final boolean isBeta = true;
+    public static final boolean IS_BETA = true;
 }

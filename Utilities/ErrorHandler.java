@@ -13,7 +13,7 @@ import java.io.StringWriter;
  * Main error handler for Notepad
  * Please put all error messages here and call them instead of putting them directly into other classes.
  *
- * Copyright (c) 2018 Tobija Žuntar
+ * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

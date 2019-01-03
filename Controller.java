@@ -13,7 +13,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.stage.FileChooser;
 
 import java.awt.Component;
@@ -24,13 +23,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Optional;
 import java.util.Properties;
 
 /**
  * Controller class for MainWindow.fxml, Find.fxml and Settings.fxml
  *
- * Copyright (c) 2018 Tobija Žuntar
+ * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -95,7 +93,7 @@ public class Controller extends Component {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("write_protected", String.valueOf(textEdit.isEditable()));
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
-            saveSettings.setProperty("opacity", String.valueOf(opacity));
+            saveSettings.setProperty("opacity", String.valueOf(Main.currentStage.getOpacity()));
             saveSettings.setProperty("date_format", dateFormat);
             saveSettings.setProperty("word_wrap", String.valueOf(wordWrap.isSelected()));
             saveSettings.setProperty("font_size", fontSize.getText());
@@ -166,7 +164,6 @@ public class Controller extends Component {
      */
     public void openFileDialog() {
         FileChooser fileChooser = new FileChooser(); // Open a file chooser dialog
-
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
@@ -210,7 +207,6 @@ public class Controller extends Component {
      */
     public void saveFile() {
         if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
-
             FileIO.saveFile(file, textEdit.getText());
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);    // remove the "modified" text
             modified = false;
@@ -227,13 +223,11 @@ public class Controller extends Component {
     public void saveAs() {
         // Open a file chooser dialog
         FileChooser fileChooser = new FileChooser();
-
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         file = fileChooser.showSaveDialog(Main.currentStage);
-
         if (file != null) {
             saveFile();
         }
@@ -343,21 +337,16 @@ public class Controller extends Component {
      */
     public void goTo() {
         String defaultValue = Integer.toString(textEdit.getCaretPosition());    // get current position
+        String lineNumber = Dialogs.inputDialog(
+                "Notepad",
+                "Go to...",
+                "Enter position:",
+                defaultValue);
 
-        TextInputDialog lineNumber = new TextInputDialog(defaultValue);
-        lineNumber.setTitle("Notepad");
-        lineNumber.setHeaderText("Go to...");
-        lineNumber.setContentText("Enter position:");
-
-        Optional<String> result = lineNumber.showAndWait(); // wait for input
-
-        if (result.isPresent()) {
-            try {
-                textEdit.positionCaret(Integer.parseInt(lineNumber.getResult()));   // place the cursor
-
-            } catch (Exception e) {
-                goTo();
-            }
+        try {
+            textEdit.positionCaret(Integer.parseInt(lineNumber));   // place the cursor
+        } catch (NumberFormatException e) {
+            goTo();
         }
     }
 
@@ -414,16 +403,16 @@ public class Controller extends Component {
     public void showAboutDialog() {
         String betaNotice;
 
-        if (VersionData.isBeta) {
+        if (VersionData.IS_BETA) {
             betaNotice = "BETA Pre-release";
         }
 
         Dialogs.infoDialog(
                 "Notepad",
                 "About Notepad",
-                "Version: " + VersionData.version +
-                        "\nBuild number: " + VersionData.buildNumber + "" +
-                        "\nBuild date: " + VersionData.buildDate + "" +
+                "Version: " + VersionData.VERSION +
+                        "\nBuild number: " + VersionData.BUILD_NUMBER + "" +
+                        "\nBuild date: " + VersionData.BUILD_DATE + "" +
                         "\n" + betaNotice);
 
     }
@@ -469,19 +458,13 @@ public class Controller extends Component {
     public void setSettings() {
         String selectedFont = fontCombo.getSelectionModel().getSelectedItem();
         String selectedFontSize = fontSize.getText();
+        textEdit.setWrapText(wordWrap.isSelected());
         textEdit.setStyle("-fx-font-family: " + selectedFont + "; -fx-font-size: " + selectedFontSize + ";");
 
         saveSettings = checkboxSaveSettings.isSelected();
         dateFormat = dateFormatTextField.getText();
         currentFont = selectedFont;
         currentFontSize = selectedFontSize;
-    }
-
-    /**
-     * Toggle word wrap according to checked/unchecked state of Word Wrap menu item
-     */
-    public void toggleWordWrap() {
-        textEdit.setWrapText(wordWrap.isSelected());
     }
 
     /**

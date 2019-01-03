@@ -6,7 +6,7 @@ import java.awt.print.PrinterException;
 /**
  * Print handler for Notepad
  *
- * Copyright (c) 2018 Tobija Žuntar
+ * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
