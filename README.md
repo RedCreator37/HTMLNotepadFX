@@ -1,5 +1,7 @@
 # Notepad ![][licenseBadge] ![][versionBadge]
 
+#### This is almost the same as dev branch, except that HTMLEditor is used instead of TextArea
+
 This is a simple JavaFX notepad app (similar to Windows Notepad with some extra features).
 
 *This is the first program I put on GitHub.*
@@ -19,7 +21,6 @@ Mostly just notepad stuff:
 
 These are the things that don't work as expected (yet):
 
-- Search (selecting doesn't work as expected)
 - Printing on macOS (not sure about this one, it fails to open the print dialog for some reason)
 
 ## Requirements
