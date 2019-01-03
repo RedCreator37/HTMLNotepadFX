@@ -1,28 +1,18 @@
 import Utilities.Dialogs;
-import Utilities.ErrorHandler;
 import Utilities.FileIO;
 import Utilities.Print;
 import Utilities.VersionData;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 
 import java.awt.Component;
-import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Properties;
 
 /**
@@ -54,9 +44,6 @@ public class Controller extends Component {
 
     private boolean saveSettings = true;
     private float opacity = 1f;
-    private String currentFont;
-    private String currentFontSize;
-    private String dateFormat = "yyyy/MM/dd HH:mm:ss";
 
     private final String settingsLocation = ".Notepad_Settings.xml";
 
@@ -68,21 +55,14 @@ public class Controller extends Component {
 
         try {
             loadSettings.loadFromXML(new FileInputStream(settingsLocation));
-            textEdit.setEditable(!Boolean.valueOf(loadSettings.getProperty("write_protected")));
             textEdit.setMouseTransparent(Boolean.valueOf(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.valueOf(loadSettings.getProperty("opacity")) * 100);
-            dateFormat = loadSettings.getProperty("date_format");
-            wordWrap.setSelected(Boolean.valueOf(loadSettings.getProperty("word_wrap")));
-            currentFont = loadSettings.getProperty("font");
-            currentFontSize = loadSettings.getProperty("font_size");
         } catch (IOException e) {
             System.out.println("Loading settings failed, continuing...");
         }
 
         if (opacity < 0.1f)
             opacity = 0.1f;
-
-        loadMainSettings();
     }
 
     /**
@@ -91,18 +71,8 @@ public class Controller extends Component {
     void saveSettings() {
         if (saveSettings) {
             Properties saveSettings = new Properties();
-            saveSettings.setProperty("write_protected", String.valueOf(textEdit.isEditable()));
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(Main.currentStage.getOpacity()));
-            saveSettings.setProperty("date_format", dateFormat);
-            saveSettings.setProperty("word_wrap", String.valueOf(wordWrap.isSelected()));
-            saveSettings.setProperty("font_size", fontSize.getText());
-            try {
-                saveSettings.setProperty("font", fontCombo.getSelectionModel().getSelectedItem());
-            } catch (NullPointerException e) {
-                saveSettings.setProperty("font", "System");
-            }
-
             try {
                 File file = new File(settingsLocation);
                 FileOutputStream fileOut = new FileOutputStream(file);
@@ -119,11 +89,11 @@ public class Controller extends Component {
      ***********************************************************/
 
     /* Initialize controls */
-    public TextArea textEdit = new TextArea();
+    public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
     public MenuBar mainMenuBar = new MenuBar();
     public CheckMenuItem disableMouse = new CheckMenuItem();
-    public CheckMenuItem menuWriteProtection = new CheckMenuItem();
+    public CheckMenuItem checkboxSaveSettings = new CheckMenuItem();
 
     /* FILE OPERATIONS */
 
@@ -143,7 +113,7 @@ public class Controller extends Component {
                     "All unsaved changes will be lost! Continue?");
 
             if (confirmedNewFile) {     // User selected OK
-                textEdit.setText("");
+                textEdit.setHtmlText("");
                 Main.setTitle("Untitled - Notepad", Main.currentStage);
                 modified = false; // the file hasn't been modified yet
 
@@ -151,7 +121,7 @@ public class Controller extends Component {
             }
 
         } else {    // the file hasn't been modified yet
-            textEdit.setText("");
+            textEdit.setHtmlText("");
             Main.setTitle("Untitled - Notepad", Main.currentStage);
             modified = false;
 
@@ -180,7 +150,7 @@ public class Controller extends Component {
      */
     private void openFile(File file) {
         if (!modified) {    // if the file hasn't been modified yet
-            textEdit.setText(FileIO.openFile(file));    // open the file
+            textEdit.setHtmlText(FileIO.openFile(file));    // open the file
 
             // Set the title bar text to match the file's name
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
@@ -194,7 +164,7 @@ public class Controller extends Component {
                     "All unsaved changes will be lost! Continue?");
 
             if (confirmed) {    // user confirmed to discard the changes
-                textEdit.setText(FileIO.openFile(file));    // open the file
+                textEdit.setHtmlText(FileIO.openFile(file));    // open the file
 
                 Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
                 modified = false;
@@ -207,7 +177,7 @@ public class Controller extends Component {
      */
     public void saveFile() {
         if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
-            FileIO.saveFile(file, textEdit.getText());
+            FileIO.saveFile(file, textEdit.getHtmlText());
             Main.setTitle(file.getName() + " - Notepad", Main.currentStage);    // remove the "modified" text
             modified = false;
 
@@ -237,11 +207,11 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        if (!modified && textEdit.isEditable()) {    // if the text isn't already in the title bar
+        /*if (!modified && textEdit.isEditable()) {    // if the text isn't already in the title bar
             String currentTitle = Main.currentStage.getTitle();
             Main.setTitle(currentTitle + " (Modified)", Main.currentStage);
             modified = true;
-        }
+        }*/
     }
 
     /* PRINTING */
@@ -250,105 +220,10 @@ public class Controller extends Component {
      * Call the printing method in Print class
      */
     public void print() {
-        Print.printText(textEdit.getText());
-    }
-
-    /* EDIT MENU FUNCTIONS */
-
-    /**
-     * Undo the last action done in textEdit
-     */
-    public void undo() {
-        textEdit.undo();
-
-        if (textEdit.isUndoable()) {
-            fileModified();
-        }
-    }
-
-    /**
-     * Redo the last action done in textEdit
-     */
-    public void redo() {
-        textEdit.redo();
-
-        if (textEdit.isRedoable()) {
-            fileModified();
-        }
-    }
-
-    /**
-     * Copy the selected text in textEdit to the system clipboard
-     */
-    public void copyText() {
-        textEdit.copy();
-    }
-
-    /**
-     * Cut the selected text in textEdit
-     */
-    public void cutText() {
-        textEdit.cut();
-        fileModified();
-    }
-
-    /**
-     * Paste the text from the system clipboard to textEdit
-     */
-    public void pasteText() {
-        textEdit.paste();
-        fileModified();
-    }
-
-    /**
-     * Delete the selected text in textEdit
-     */
-    public void deleteText() {
-        textEdit.replaceSelection("");
-        fileModified();
-    }
-
-    /**
-     * Append the current date and time to textEdit
-     */
-    public void insertDateTime() {
-        try {
-            String timeStamp = new SimpleDateFormat(dateFormat).format(
-                    Calendar.getInstance().getTime());  // get the date/time
-
-            textEdit.insertText(textEdit.getCaretPosition(), timeStamp);
-            fileModified();
-        } catch (IllegalArgumentException e) {
-            ErrorHandler.invalidDateTimeFormat();
-        }
-    }
-
-    /**
-     * Select all text in textEdit
-     */
-    public void selectAll() {
-        textEdit.selectAll();
+        Print.printText(textEdit.getHtmlText());
     }
 
     /* OPTIONS MENU FUNCTIONS */
-
-    /**
-     * Display a dialog and ask the user for a position number and then place the cursor into the specified position
-     */
-    public void goTo() {
-        String defaultValue = Integer.toString(textEdit.getCaretPosition());    // get current position
-        String lineNumber = Dialogs.inputDialog(
-                "Notepad",
-                "Go to...",
-                "Enter position:",
-                defaultValue);
-
-        try {
-            textEdit.positionCaret(Integer.parseInt(lineNumber));   // place the cursor
-        } catch (NumberFormatException e) {
-            goTo();
-        }
-    }
 
     /**
      * Change the opacity of MainWindow
@@ -365,13 +240,6 @@ public class Controller extends Component {
      */
     public void disableMouse() {
         textEdit.setMouseTransparent(disableMouse.isSelected());
-    }
-
-    /**
-     * Temporarily write protect textEdit
-     */
-    public void menuWriteProtection() {
-        textEdit.setEditable(!menuWriteProtection.isSelected());
     }
 
     /* CLOSING AND EXITING THE PROGRAM */
@@ -417,76 +285,7 @@ public class Controller extends Component {
 
     }
 
-    /*****************************************************************
-     *   S E T T I N G S     T O O L B A R      F U N C T I O N S    *
-     *****************************************************************/
-
-    /* Initialize controls */
-    public Label textNotFoundLabel = new Label();
-    public CheckBox checkboxSaveSettings = new CheckBox();
-    public TextField dateFormatTextField = new TextField();
-    public ComboBox<String> fontCombo = new ComboBox<>();
-    public TextField fontSize = new TextField();
-    public CheckBox wordWrap = new CheckBox();
-    public TextField searchInput;
-
-    /**
-     * Get the list of installed fonts and set it as the list of items in fontCombo
-     */
-    public void listFonts() {
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
-        // Get an array list of all fonts
-        ObservableList<String> allFonts = FXCollections.observableArrayList(
-                ge.getAvailableFontFamilyNames());
-
-        fontCombo.setItems(allFonts);
-    }
-
-    /**
-     * Used only when loading settings from the XML config file
-     */
-    private void loadMainSettings() {
-        textEdit.setStyle("-fx-font-family: " + currentFont + "; -fx-font-size: " + currentFontSize + ";");
-        fontSize.setText(currentFontSize);
-        dateFormatTextField.setText(dateFormat);
-    }
-
-    /**
-     * Set main settings
-     */
-    public void setSettings() {
-        String selectedFont = fontCombo.getSelectionModel().getSelectedItem();
-        String selectedFontSize = fontSize.getText();
-        textEdit.setWrapText(wordWrap.isSelected());
-        textEdit.setStyle("-fx-font-family: " + selectedFont + "; -fx-font-size: " + selectedFontSize + ";");
-
+    public void toggleSaveSettings() {
         saveSettings = checkboxSaveSettings.isSelected();
-        dateFormat = dateFormatTextField.getText();
-        currentFont = selectedFont;
-        currentFontSize = selectedFontSize;
     }
-
-    /**
-     * Find the specified string in textEdit and select it
-     */
-    public void find() {
-        String searchTerm = searchInput.getText();
-        int index = textEdit.getText().indexOf(searchTerm);
-
-        if (index == -1) {  // the text hasn't been found in the file
-            textNotFoundLabel.setVisible(true);
-
-        } else {    // the text has been found
-            try {
-                textEdit.selectRange(   // select the text in the file
-                        searchTerm.charAt(0),
-                        searchTerm.length());
-            } catch (StringIndexOutOfBoundsException e) {
-                // doNothing
-            }
-            textNotFoundLabel.setVisible(false);
-        }
-    }
-
 } // end class Controller
