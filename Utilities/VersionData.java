@@ -25,7 +25,7 @@ package Utilities;
  */
 public class VersionData {
 
-    public static final String VERSION = "0.2";
+    public static final String VERSION = "0.2 HTML";
 
     public static final int BUILD_NUMBER = 1032;
 

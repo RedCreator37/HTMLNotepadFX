@@ -2,11 +2,15 @@ import Utilities.Dialogs;
 import Utilities.FileIO;
 import Utilities.Print;
 import Utilities.VersionData;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.awt.Component;
 import java.io.File;
@@ -16,7 +20,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Controller class for MainWindow.fxml, Find.fxml and Settings.fxml
+ * Controller class for MainWindow.fxml
  *
  * Copyright (c) 2019 Tobija Žuntar
  *
@@ -135,7 +139,7 @@ public class Controller extends Component {
     public void openFileDialog() {
         FileChooser fileChooser = new FileChooser(); // Open a file chooser dialog
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
-                new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
+                new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         file = fileChooser.showOpenDialog(Main.currentStage);
@@ -194,7 +198,7 @@ public class Controller extends Component {
         // Open a file chooser dialog
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
-                new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
+                new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         file = fileChooser.showSaveDialog(Main.currentStage);
@@ -207,11 +211,11 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        /*if (!modified && textEdit.isEditable()) {    // if the text isn't already in the title bar
+        if (!modified) {    // if the text isn't already in the title bar
             String currentTitle = Main.currentStage.getTitle();
             Main.setTitle(currentTitle + " (Modified)", Main.currentStage);
             modified = true;
-        }*/
+        }
     }
 
     /* PRINTING */
@@ -226,6 +230,35 @@ public class Controller extends Component {
     /* OPTIONS MENU FUNCTIONS */
 
     /**
+     * Open a window with HTML source of the text in textEdit
+     */
+    public void openSource() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("FXML/HTMLSource.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Untitled - Notepad");
+            stage.setScene(new Scene(root, 623, 387));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Set saving settings on or off
+     */
+    public void toggleSaveSettings() {
+        saveSettings = checkboxSaveSettings.isSelected();
+    }
+
+    /**
+     * Disable mouse interaction with textEdit
+     */
+    public void disableMouse() {
+        textEdit.setMouseTransparent(disableMouse.isSelected());
+    }
+
+    /**
      * Change the opacity of MainWindow
      */
     public void changeOpacity() {
@@ -235,11 +268,26 @@ public class Controller extends Component {
         Main.currentStage.setOpacity(opacity);
     }
 
+    /* INFO MENU FUNCTIONS */
+
     /**
-     * Disable mouse interaction with textEdit
+     * Show an About dialog with info about the program
      */
-    public void disableMouse() {
-        textEdit.setMouseTransparent(disableMouse.isSelected());
+    public void showAboutDialog() {
+        String betaNotice;
+
+        if (VersionData.IS_BETA) {
+            betaNotice = "BETA Pre-release";
+        }
+
+        Dialogs.infoDialog(
+                "Notepad",
+                "About Notepad",
+                "Version: " + VersionData.VERSION +
+                        "\nBuild number: " + VersionData.BUILD_NUMBER + "" +
+                        "\nBuild date: " + VersionData.BUILD_DATE + "" +
+                        "\n" + betaNotice);
+
     }
 
     /* CLOSING AND EXITING THE PROGRAM */
@@ -265,27 +313,4 @@ public class Controller extends Component {
         }
     }
 
-    /**
-     * Show an About dialog with info about the program
-     */
-    public void showAboutDialog() {
-        String betaNotice;
-
-        if (VersionData.IS_BETA) {
-            betaNotice = "BETA Pre-release";
-        }
-
-        Dialogs.infoDialog(
-                "Notepad",
-                "About Notepad",
-                "Version: " + VersionData.VERSION +
-                        "\nBuild number: " + VersionData.BUILD_NUMBER + "" +
-                        "\nBuild date: " + VersionData.BUILD_DATE + "" +
-                        "\n" + betaNotice);
-
-    }
-
-    public void toggleSaveSettings() {
-        saveSettings = checkboxSaveSettings.isSelected();
-    }
 } // end class Controller
