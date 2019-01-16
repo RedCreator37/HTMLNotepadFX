@@ -53,7 +53,7 @@ public class HTMLSource {
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        file = fileChooser.showSaveDialog(Main.currentStage);
+        file = fileChooser.showSaveDialog(MainFX.currentStage);
         if (file != null) {
             FileIO.saveFile(file, sourceText.getText());
         }

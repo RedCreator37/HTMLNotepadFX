@@ -76,7 +76,7 @@ public class Controller extends Component {
         if (saveSettings) {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
-            saveSettings.setProperty("opacity", String.valueOf(Main.currentStage.getOpacity()));
+            saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
             try {
                 File file = new File(settingsLocation);
                 FileOutputStream fileOut = new FileOutputStream(file);
@@ -118,7 +118,7 @@ public class Controller extends Component {
 
             if (confirmedNewFile) {     // User selected OK
                 textEdit.setHtmlText("");
-                Main.setTitle("Untitled - Notepad", Main.currentStage);
+                MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
                 modified = false; // the file hasn't been modified yet
 
                 file = null;    // initialize a new file
@@ -126,7 +126,7 @@ public class Controller extends Component {
 
         } else {    // the file hasn't been modified yet
             textEdit.setHtmlText("");
-            Main.setTitle("Untitled - Notepad", Main.currentStage);
+            MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
             modified = false;
 
             file = null;
@@ -142,7 +142,7 @@ public class Controller extends Component {
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        file = fileChooser.showOpenDialog(Main.currentStage);
+        file = fileChooser.showOpenDialog(MainFX.currentStage);
 
         if (file != null) { // If the user selected a file
             openFile(file);
@@ -157,7 +157,7 @@ public class Controller extends Component {
             textEdit.setHtmlText(FileIO.openFile(file));    // open the file
 
             // Set the title bar text to match the file's name
-            Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
+            MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);
             modified = false;
 
         } else {    // if the file has been modified
@@ -170,7 +170,7 @@ public class Controller extends Component {
             if (confirmed) {    // user confirmed to discard the changes
                 textEdit.setHtmlText(FileIO.openFile(file));    // open the file
 
-                Main.setTitle(file.getName() + " - Notepad", Main.currentStage);
+                MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);
                 modified = false;
             }
         }
@@ -182,7 +182,7 @@ public class Controller extends Component {
     public void saveFile() {
         if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
             FileIO.saveFile(file, textEdit.getHtmlText());
-            Main.setTitle(file.getName() + " - Notepad", Main.currentStage);    // remove the "modified" text
+            MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);    // remove the "modified" text
             modified = false;
 
         } else {    // if this is a new file
@@ -201,7 +201,7 @@ public class Controller extends Component {
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        file = fileChooser.showSaveDialog(Main.currentStage);
+        file = fileChooser.showSaveDialog(MainFX.currentStage);
         if (file != null) {
             saveFile();
         }
@@ -212,8 +212,8 @@ public class Controller extends Component {
      */
     public void fileModified() {
         if (!modified) {    // if the text isn't already in the title bar
-            String currentTitle = Main.currentStage.getTitle();
-            Main.setTitle(currentTitle + " (Modified)", Main.currentStage);
+            String currentTitle = MainFX.currentStage.getTitle();
+            MainFX.setTitle(currentTitle + " (Modified)", MainFX.currentStage);
             modified = true;
         }
     }
@@ -277,7 +277,7 @@ public class Controller extends Component {
         opacity = (float) opacitySlider.getValue() / 100;
         if (opacity < 0.01f)    // do not make the window invisible
             opacity = 0.01f;
-        Main.currentStage.setOpacity(opacity);
+        MainFX.currentStage.setOpacity(opacity);
     }
 
     /* INFO MENU FUNCTIONS */
