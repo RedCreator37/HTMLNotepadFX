@@ -35,7 +35,7 @@ public class HTMLSource {
     /**
      * Get the HTML source code from textEdit and put it into sourceText text area
      */
-    public void getHTMLSource() {
+    public void getHTMLSource() {   // FIXME: will sometimes get the text of a blank HTMLEditor
         Controller object = new Controller();
         String source = object.textEdit.getHtmlText();
 

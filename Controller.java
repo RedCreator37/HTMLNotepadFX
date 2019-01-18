@@ -213,7 +213,7 @@ public class Controller extends Component {
     public void exportSource() {
         // Open a file chooser dialog
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save HTML source to file");
+        fileChooser.setTitle("Export HTML source to a file");
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
