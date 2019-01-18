@@ -208,6 +208,30 @@ public class Controller extends Component {
     }
 
     /**
+     * Export the HTML source code of textEdit to a plain text file
+     */
+    public void exportSource() {
+        // Open a file chooser dialog
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save HTML source to file");
+        fileChooser.getExtensionFilters().addAll(   // set file extensions filter
+                new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
+                new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
+        );
+
+        if (file != null) { // set the initial filename to the HTML file's name + .txt if possible
+            fileChooser.setInitialFileName(file.getName() + ".txt");
+        }
+
+        File sourceFile;
+        sourceFile = fileChooser.showSaveDialog(MainFX.currentStage);
+
+        if (sourceFile != null) {
+            FileIO.saveFile(sourceFile, textEdit.getHtmlText());
+        }
+    }
+
+    /**
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
