@@ -1,7 +1,9 @@
 import Utilities.FileIO;
 import Utilities.Print;
+import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 
@@ -30,13 +32,13 @@ import java.io.File;
  */
 public class HTMLSource {
 
+    /* Initialize controls */
     public TextArea sourceText; // text area for source code
 
-    /**
-     * Get the HTML source code from textEdit and put it into sourceText text area
-     */
-    public void getHTMLSource() {   // FIXME: will sometimes get the text of a blank HTMLEditor
-        Controller object = new Controller();
+    /** Initialize the window, get the source code... */
+    @FXML
+    protected void initialize() {
+        Controller object = new Controller();   // FIXME: will sometimes get the text of a blank HTMLEditor
         String source = object.textEdit.getHtmlText();
 
         sourceText.setText(source);
@@ -64,5 +66,11 @@ public class HTMLSource {
      */
     public void printSource() {
         Print.printText(sourceText.getText());
+    }
+
+    /** Close the HTML Source code window */
+    public void closeSource() {
+        Stage stage = (Stage) sourceText.getScene().getWindow();
+        stage.close();
     }
 }

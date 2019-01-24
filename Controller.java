@@ -1,7 +1,6 @@
 import Utilities.Dialogs;
 import Utilities.FileIO;
 import Utilities.Print;
-import Utilities.VersionData;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -261,7 +260,7 @@ public class Controller extends Component {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/HTMLSource.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Untitled - Notepad");
-            stage.setScene(new Scene(root, 623, 387));
+            stage.setScene(new Scene(root, 822, 562));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -310,20 +309,16 @@ public class Controller extends Component {
      * Show an About dialog with info about the program
      */
     public void showAboutDialog() {
-        String betaNotice;
-
-        if (VersionData.IS_BETA) {
-            betaNotice = "BETA Pre-release";
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("FXML/About.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("About Notepad");
+            stage.setScene(new Scene(root, 638, 281));
+            stage.setResizable(false);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        Dialogs.infoDialog(
-                "Notepad",
-                "About Notepad",
-                "Version: " + VersionData.VERSION +
-                        "\nBuild number: " + VersionData.BUILD_NUMBER + "" +
-                        "\nBuild date: " + VersionData.BUILD_DATE + "" +
-                        "\n" + betaNotice);
-
     }
 
     /* CLOSING AND EXITING THE PROGRAM */
