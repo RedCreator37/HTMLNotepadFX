@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 /**
- * Controller class for HTMLSource.fxml
+ * Controller class for About.fxml
  *
  * Copyright (c) 2019 Tobija Žuntar
  *
