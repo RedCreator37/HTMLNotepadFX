@@ -44,7 +44,6 @@ import java.util.Properties;
 public class Controller extends Component {
 
     /* MAIN SETTINGS */
-
     private boolean saveSettings = true;
     private float opacity = 1f;
 
@@ -259,8 +258,14 @@ public class Controller extends Component {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/HTMLSource.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Untitled - Notepad");
+            stage.setTitle("HTML Source Code");
+
+            if (file != null) {
+                stage.setTitle("HTML Source Code - " + file.getName());
+            }
+
             stage.setScene(new Scene(root, 822, 562));
+            stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -315,6 +320,7 @@ public class Controller extends Component {
             stage.setTitle("About Notepad");
             stage.setScene(new Scene(root, 638, 281));
             stage.setResizable(false);
+            stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

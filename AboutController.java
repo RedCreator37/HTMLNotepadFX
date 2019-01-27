@@ -43,7 +43,7 @@ public class AboutController {
     public TextArea licenseTextArea;
 
     /**
-     * Set the values when the window is loaded
+     * Set the values when the window is initialized
      */
     @FXML
     protected void initialize() {
