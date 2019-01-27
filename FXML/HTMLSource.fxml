@@ -11,7 +11,7 @@
         <TextArea id="sourceText" fx:id="sourceText" editable="false" layoutX="-1.0" layoutY="-1.0" prefHeight="676.0" prefWidth="1135.0" />
     </ScrollPane>
     <Pane layoutX="-2.0" layoutY="582.0" prefHeight="36.0" prefWidth="824.0"
-          style="-fx-background-color: linear-gradient(from 25% 25% to 100% 100%, #9dc4ff, #e6f0ff);"
+          style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e2faff, #7681ff);"
           AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
         <Button defaultButton="true" layoutX="5.0" layoutY="5.0" mnemonicParsing="false" prefHeight="25.0"
                 prefWidth="67.0" onAction="#closeSource" text="Close"/>
