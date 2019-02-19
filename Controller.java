@@ -279,14 +279,22 @@ public class Controller extends Component {
         saveSettings = checkboxSaveSettings.isSelected();
 
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
-            try {
-                File file = new File(settingsLocation);
+            boolean doDeleteFile =  Dialogs.confirmationDialog( // display a confirmation dialog
+                    "Notepad",
+                    "Notepad",
+                    "Would you like to also delete the settings file?"
+            );
 
-                if (file.delete()) {
-                    System.out.println("Removing settings file done. ");
+            if (doDeleteFile) { // the user has chosen to delete the file
+                try {
+                    File file = new File(settingsLocation);
+
+                    if (file.delete()) {
+                        System.out.println("Removing settings file done.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Removing settings file failed, continuing...");
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
     }
