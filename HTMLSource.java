@@ -64,7 +64,7 @@ public class HTMLSource {
             FileIO.saveFile(file, sourceText.getText());
         }
 
-        // Now make it always on top again
+        // Now make the window always on top again
         stage.setAlwaysOnTop(true);
     }
 
