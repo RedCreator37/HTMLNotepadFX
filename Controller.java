@@ -352,8 +352,6 @@ public class Controller extends Component {
         if (symbolCode != null) {
             appendHTMLText(textEdit, symbolCode);
         }
-
-        // <p>I will display &euro;</p>
     }
 
     /* PRINTING */
