@@ -354,6 +354,25 @@ public class Controller extends Component {
         }
     }
 
+    /**
+     * Insert a custom HTML tag to textEdit
+     */
+    public void insertHTMLTag() {
+        String HTMLTag = Dialogs.inputDialog(
+                "Notepad",
+                "Insert a custom HTML tag",
+                "Refer to HTML documentation for valid values.\n" +
+                        "\nWarning!\n" +
+                        "Some browsers may block certain tags for safety reasons.",
+                "<tag>text</tag>"
+        );
+
+        // Check whether the user has clicked OK
+        if (HTMLTag != null) {
+            appendHTMLText(textEdit, HTMLTag);
+        }
+    }
+
     /* PRINTING */
 
     /**

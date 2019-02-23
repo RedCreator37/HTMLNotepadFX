@@ -66,6 +66,7 @@
             </Menu>
             <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote..." />
             <MenuItem mnemonicParsing="false" onAction="#insertSymbol" text="Symbol..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertHTMLTag" text="Custom HTML tag..." />
         </items>
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
