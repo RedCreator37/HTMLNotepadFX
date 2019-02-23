@@ -25,11 +25,11 @@ package Utilities;
  */
 public class VersionData {
 
-    public static final String VERSION = "0.2 HTML";
+    public static final String VERSION = "0.3 HTML";
 
-    public static final int BUILD_NUMBER = 1032;
+    public static final int BUILD_NUMBER = 1051;
 
-    public static final String BUILD_DATE = "January 2019";
+    public static final String BUILD_DATE = "February 2019";
 
     public static final boolean IS_BETA = true;
 }
