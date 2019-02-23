@@ -240,6 +240,30 @@ public class Controller extends Component {
         }
     }
 
+    /* INSERTING OBJECTS */
+
+    /**
+     * Insert a web image to textEdit
+     */
+    public void insertImage() {
+        String imageAddress = Dialogs.inputDialog(
+                "Notepad",
+                "Insert image",
+                "Enter the web address of an image you want to insert:",
+                "http://"
+        );
+
+        // Check whether the user has clicked OK
+        if (imageAddress != null) {
+            String compiledAddress = "<img src=\"" + imageAddress + "\" alt=\"" + imageAddress + "\" />";
+            appendHTMLText(textEdit, compiledAddress);
+        }
+    }
+
+    public void insertLink() {
+        // todo: add code to insert a link
+    }
+
     /* PRINTING */
 
     /**
@@ -282,7 +306,7 @@ public class Controller extends Component {
         saveSettings = checkboxSaveSettings.isSelected();
 
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
-            boolean doDeleteFile =  Dialogs.confirmationDialog( // display a confirmation dialog
+            boolean doDeleteFile = Dialogs.confirmationDialog( // display a confirmation dialog
                     "Notepad",
                     "Notepad",
                     "Would you like to also delete the settings file?"
@@ -359,6 +383,15 @@ public class Controller extends Component {
             saveSettings();
             System.exit(0);
         }
+    }
+
+    /* MISC */
+
+    /**
+     * Append text to the HTML code of an HTMLEditor control
+     */
+    private void appendHTMLText(HTMLEditor editor, String text) {
+        editor.setHtmlText(editor.getHtmlText() + text);
     }
 
 } // end class Controller
