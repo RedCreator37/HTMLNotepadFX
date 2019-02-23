@@ -249,14 +249,14 @@ public class Controller extends Component {
         String imageAddress = Dialogs.inputDialog(
                 "Notepad",
                 "Insert an image",
-                "Enter the web address of an image you want to insert:",
+                "Enter the web address of the image you want to insert:",
                 "http://"
         );
 
         // Check whether the user has clicked OK
         if (imageAddress != null) {
-            String compiledAddress = "<img src=\"" + imageAddress + "\" alt=\"" + imageAddress + "\" />";
-            appendHTMLText(textEdit, compiledAddress);
+            String compiledImageAddress = "<img src=\"" + imageAddress + "\" alt=\"" + imageAddress + "\" />";
+            appendHTMLText(textEdit, compiledImageAddress);
         }
     }
 
@@ -302,7 +302,7 @@ public class Controller extends Component {
      * Insert a script alternative text that will be displayed if the browser
      * blocks / does not support JavaScript scripts
      */
-    public void insertNoScriptText() {
+    public void insertScriptAltText() {
         String scriptAltText = Dialogs.inputDialog(
                 "Notepad",
                 "Insert script alternative text",
@@ -337,6 +337,24 @@ public class Controller extends Component {
     }
 
     /**
+     * Insert scrolling text (marquee tag) to textEdit
+     */
+    public void insertScrollingText() {
+        String marqueeText = Dialogs.inputDialog(
+                "Notepad",
+                "Insert scrolling text",
+                "Enter the text to insert:",
+                "Text"
+        );
+
+        // Check whether the user has clicked OK
+        if (marqueeText != null) {
+            String compiledHTMLMarquee = "<marquee> " + marqueeText + " </marquee>";
+            appendHTMLText(textEdit, compiledHTMLMarquee);
+        }
+    }
+
+    /**
      * Insert an HTML symbol to textEdit
      */
     public void insertSymbol() {
@@ -353,6 +371,43 @@ public class Controller extends Component {
             appendHTMLText(textEdit, symbolCode);
         }
     }
+
+    /**
+     * Insert a code tag to textEdit
+     */
+    public void insertCode() {
+        String code = Dialogs.inputDialog(
+                "Notepad",
+                "Insert source code",
+                "Enter source code to insert:",
+                "code"
+        );
+
+        // Check whether the user has clicked OK
+        if (code != null) {
+            String codeText = "<code> " + code + " </code>";
+            appendHTMLText(textEdit, codeText);
+        }
+    }
+
+    /**
+     * Insert an embedded website to textEdit
+     */
+    public void insertEmbeddedWebsite() {
+        String websiteAddress = Dialogs.inputDialog(
+                "Notepad",
+                "Embed a website",
+                "Enter web address of the website to embed:",
+                "http://"
+        );
+
+        // Check whether the user has clicked OK
+        if (websiteAddress != null) {
+            String IFrameTag = "<iframe src=\"" + websiteAddress + "\"></iframe>";
+            appendHTMLText(textEdit, IFrameTag);
+        }
+    }
+
 
     /**
      * Insert a custom HTML tag to textEdit

@@ -61,11 +61,14 @@
             <Menu mnemonicParsing="false" text="Scripts">
               <items>
                   <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script..." />
-                  <MenuItem mnemonicParsing="false" onAction="#insertNoScriptText" text="Script alternative text..." />
+                  <MenuItem mnemonicParsing="false" onAction="#insertScriptAltText" text="Script alternative text..." />
               </items>
             </Menu>
             <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertScrollingText" text="Scrolling text..." />
             <MenuItem mnemonicParsing="false" onAction="#insertSymbol" text="Symbol..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertCode" text="Code..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertEmbeddedWebsite" text="Embedded website..." />
             <MenuItem mnemonicParsing="false" onAction="#insertHTMLTag" text="Custom HTML tag..." />
         </items>
             <accelerator>
