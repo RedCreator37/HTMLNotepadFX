@@ -298,6 +298,10 @@ public class Controller extends Component {
         }
     }
 
+    /**
+     * Insert a script alternative text that will be displayed if the browser
+     * blocks / does not support JavaScript scripts
+     */
     public void insertNoScriptText() {
         String scriptAltText = Dialogs.inputDialog(
                 "Notepad",
@@ -312,6 +316,44 @@ public class Controller extends Component {
             String compiledScriptAltText = "<noscript> " + scriptAltText + " </noscript>";
             appendHTMLText(textEdit, compiledScriptAltText);
         }
+    }
+
+    /**
+     * Insert an HTML quote to textEdit
+     */
+    public void insertQuote() {
+        String quoteText = Dialogs.inputDialog(
+                "Notepad",
+                "Insert a quote",
+                "Enter a quote to insert:",
+                "Quote"
+        );
+
+        // Check whether the user has clicked OK
+        if (quoteText != null) {
+            String compiledHTMLQuote = "<q> " + quoteText + " </q>";
+            appendHTMLText(textEdit, compiledHTMLQuote);
+        }
+    }
+
+    /**
+     * Insert an HTML symbol to textEdit
+     */
+    public void insertSymbol() {
+        String symbolCode = Dialogs.inputDialog(
+                "Notepad",
+                "Insert a symbol",
+                "Enter a symbol code to insert:\n" +
+                        "Symbol codes must end with a semicolon!",
+                "&symbol;"
+        );
+
+        // Check whether the user has clicked OK
+        if (symbolCode != null) {
+            appendHTMLText(textEdit, symbolCode);
+        }
+
+        // <p>I will display &euro;</p>
     }
 
     /* PRINTING */

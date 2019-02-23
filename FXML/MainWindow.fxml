@@ -64,6 +64,8 @@
                   <MenuItem mnemonicParsing="false" onAction="#insertNoScriptText" text="Script alternative text..." />
               </items>
             </Menu>
+            <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertSymbol" text="Symbol..." />
         </items>
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
