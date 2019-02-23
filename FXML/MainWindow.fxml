@@ -56,8 +56,14 @@
         </Menu>
       <Menu mnemonicParsing="false" text="Insert">
         <items>
-          <MenuItem mnemonicParsing="false" text="Image..." onAction="#insertImage"/>
-            <MenuItem mnemonicParsing="false" text="Link..." onAction="#insertLink"/>
+          <MenuItem mnemonicParsing="false" onAction="#insertImage" text="Image..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertLink" text="Link..." />
+            <Menu mnemonicParsing="false" text="Scripts">
+              <items>
+                  <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script..." />
+                  <MenuItem mnemonicParsing="false" onAction="#insertNoScriptText" text="Script alternative text..." />
+              </items>
+            </Menu>
         </items>
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />

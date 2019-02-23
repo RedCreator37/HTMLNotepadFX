@@ -248,7 +248,7 @@ public class Controller extends Component {
     public void insertImage() {
         String imageAddress = Dialogs.inputDialog(
                 "Notepad",
-                "Insert image",
+                "Insert an image",
                 "Enter the web address of an image you want to insert:",
                 "http://"
         );
@@ -260,10 +260,13 @@ public class Controller extends Component {
         }
     }
 
+    /**
+     * Insert a hyperlink to textEdit
+     */
     public void insertLink() {
         String linkAddress = Dialogs.inputDialog(   // todo: find a better way to specify link text
                 "Notepad",
-                "Insert link",
+                "Insert a link",
                 "Enter a web address to insert as a link:",
                 "http://"
         );
@@ -272,6 +275,42 @@ public class Controller extends Component {
         if (linkAddress != null) {
             String compiledAddress = "<a href=\"" + linkAddress + "\">" + linkAddress + "</a>";
             appendHTMLText(textEdit, compiledAddress);
+        }
+    }
+
+    /**
+     * Insert a JavaScript script to textEdit
+     */
+    public void insertScript() {
+        String scriptText = Dialogs.inputDialog(
+                "Notepad",
+                "Insert a script",
+                "Warning!\n" +
+                        "Scripts can be harmful and some browsers will block them!\n" +
+                        "Enter your script to the input box on the right.",
+                "script"
+        );
+
+        // Check whether the user has clicked OK
+        if (scriptText != null) {
+            String compiledScriptText = "<script> " + scriptText + " </script>";
+            appendHTMLText(textEdit, compiledScriptText);
+        }
+    }
+
+    public void insertNoScriptText() {
+        String scriptAltText = Dialogs.inputDialog(
+                "Notepad",
+                "Insert script alternative text",
+                "This text will be displayed instead of a script if\n" +
+                        "the browser blocks / does not support JavaScript scripts.",
+                "Your browser does not support JavaScript."
+        );
+
+        // Check whether the user has clicked OK
+        if (scriptAltText != null) {
+            String compiledScriptAltText = "<noscript> " + scriptAltText + " </noscript>";
+            appendHTMLText(textEdit, compiledScriptAltText);
         }
     }
 
