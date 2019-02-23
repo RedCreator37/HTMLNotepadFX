@@ -48,8 +48,12 @@ public class HTMLSource {
      * Save the HTML source code to a text file
      */
     public void saveToFile() {
-        File file;
+        // We don't want the window to stay on top of Save As dialog
+        Stage stage = (Stage) sourceText.getScene().getWindow();
+        stage.setAlwaysOnTop(false);
+
         // Open a file chooser dialog
+        File file;
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
@@ -59,6 +63,9 @@ public class HTMLSource {
         if (file != null) {
             FileIO.saveFile(file, sourceText.getText());
         }
+
+        // Now make it always on top again
+        stage.setAlwaysOnTop(true);
     }
 
     /**
