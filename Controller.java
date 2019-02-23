@@ -261,7 +261,18 @@ public class Controller extends Component {
     }
 
     public void insertLink() {
-        // todo: add code to insert a link
+        String linkAddress = Dialogs.inputDialog(   // todo: find a better way to specify link text
+                "Notepad",
+                "Insert link",
+                "Enter a web address to insert as a link:",
+                "http://"
+        );
+
+        // Check whether the user has clicked OK
+        if (linkAddress != null) {
+            String compiledAddress = "<a href=\"" + linkAddress + "\">" + linkAddress + "</a>";
+            appendHTMLText(textEdit, compiledAddress);
+        }
     }
 
     /* PRINTING */
