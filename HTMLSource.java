@@ -34,14 +34,12 @@ public class HTMLSource {
 
     /* Initialize controls */
     public TextArea sourceText; // text area for source code
+    static String HTMLSourceText;
 
     /** Initialize the window, get the source code... */
     @FXML
-    protected void initialize() {
-        Controller object = new Controller();   // FIXME: will sometimes get the text of a blank HTMLEditor
-        String source = object.textEdit.getHtmlText();
-
-        sourceText.setText(source);
+    protected void initialize() {   // fixme: it sometimes takes more time to update the source code
+        sourceText.setText(HTMLSourceText);
     }
 
     /**

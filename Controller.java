@@ -260,9 +260,12 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("HTML Source Code");
 
+            // Get the filename if possible
             if (file != null) {
                 stage.setTitle("HTML Source Code - " + file.getName());
             }
+            // Get the HTML Source
+            HTMLSource.HTMLSourceText = textEdit.getHtmlText();
 
             stage.setScene(new Scene(root, 822, 562));
             stage.setAlwaysOnTop(true);
