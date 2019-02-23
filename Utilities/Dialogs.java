@@ -103,12 +103,12 @@ public class Dialogs {
      * Display a text input dialog with the default value in the input field
      */
     public static String inputDialog(String title, String headerText, String content, String defaultValue) {
-        TextInputDialog lineNumber = new TextInputDialog(defaultValue);
-        lineNumber.setTitle(title);
-        lineNumber.setHeaderText(headerText);
-        lineNumber.setContentText(content);
+        TextInputDialog inputDialog = new TextInputDialog(defaultValue);
+        inputDialog.setTitle(title);
+        inputDialog.setHeaderText(headerText);
+        inputDialog.setContentText(content);
 
-        lineNumber.showAndWait(); // wait for input
-        return lineNumber.getResult();
+        inputDialog.showAndWait(); // wait for input
+        return inputDialog.getResult();
     }
 }
