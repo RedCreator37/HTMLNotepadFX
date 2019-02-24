@@ -264,6 +264,10 @@ public class Controller extends Component {
                 Scanner scanner = new Scanner(inputStream);
 
                 textEdit.setHtmlText(""); // clean the textEdit first
+                MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
+                modified = false; // the file hasn't been modified yet
+
+                file = null;    // initialize a new file
 
                 while (scanner.hasNextLine()) {   // get the text and append it to textEdit
                     appendHTMLText(textEdit, scanner.nextLine());
