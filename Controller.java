@@ -16,7 +16,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
+import java.util.Scanner;
 
 /**
  * Controller class for MainWindow.fxml
@@ -240,6 +243,42 @@ public class Controller extends Component {
         }
     }
 
+    /**
+     * Retrieve a HTML file from the internet and load it in textEdit
+     */
+    public void downloadHTMLFile() {
+        String url = Dialogs.inputDialog(
+                "Notepad",
+                "Retrieve HTML file from web",
+                "Enter a valid web address of a HTML file to download and display.\n" +
+                        "Embedded objects (such as images) won't be downloaded in the process.\n" +
+                        "\nWarning!\n" +
+                        "Any unsaved changes in the current file will be lost!",
+                "http://"
+        );
+
+        if (url != null) {  // the user has clicked OK
+            try {
+                URL fileURL = new URL(url); // get the URL
+                InputStream inputStream = fileURL.openStream();
+                Scanner scanner = new Scanner(inputStream);
+
+                textEdit.setHtmlText(""); // clean the textEdit first
+
+                while (scanner.hasNextLine()) {   // get the text and append it to textEdit
+                    appendHTMLText(textEdit, scanner.nextLine());
+                }
+            } catch (IOException | IllegalArgumentException e) {
+                Dialogs.errorDialog(
+                        "Notepad",
+                        "Error retrieving HTML file",
+                        "An error has occurred while attempting to \nretrieve specified HTML file: \n" +
+                                e.getMessage()
+                );
+            }
+        }
+    }
+
     /* INSERTING OBJECTS */
 
     /**
@@ -319,7 +358,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert an HTML quote to textEdit
+     * Insert a HTML quote to textEdit
      */
     public void insertQuote() {
         String quoteText = Dialogs.inputDialog(
@@ -355,7 +394,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert an HTML symbol to textEdit
+     * Insert a HTML symbol to textEdit
      */
     public void insertSymbol() {
         String symbolCode = Dialogs.inputDialog(
@@ -403,11 +442,10 @@ public class Controller extends Component {
 
         // Check whether the user has clicked OK
         if (websiteAddress != null) {
-            String IFrameTag = "<iframe src=\"" + websiteAddress + "\"></iframe>";
+            String IFrameTag = "<iframe src=\"" + websiteAddress + "\" height=\"300\" width=\"500\"></iframe>";
             appendHTMLText(textEdit, IFrameTag);
         }
     }
-
 
     /**
      * Insert a custom HTML tag to textEdit
@@ -552,7 +590,7 @@ public class Controller extends Component {
     /* MISC */
 
     /**
-     * Append text to the HTML code of an HTMLEditor control
+     * Append text to the HTML code of a HTMLEditor control
      */
     private void appendHTMLText(HTMLEditor editor, String text) {
         editor.setHtmlText(editor.getHtmlText() + text);

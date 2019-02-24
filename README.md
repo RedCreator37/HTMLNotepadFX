@@ -41,4 +41,4 @@ I usually use a "fat jar" in combination with a simple script to load dependenci
 This is a temporary solution until the new version of Java Packager arrives. 
 
 [licenseBadge]: https://img.shields.io/badge/license-MIT-blue.svg
-[versionBadge]: https://img.shields.io/badge/version-0.2-brightgreen.svg
+[versionBadge]: https://img.shields.io/badge/version-0.3-brightgreen.svg
