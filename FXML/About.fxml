@@ -14,7 +14,7 @@
 
 <AnchorPane prefHeight="281.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
     <Pane prefHeight="46.0" prefWidth="498.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #36dbff, #2939eb);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Label prefHeight="45.0" prefWidth="638.0" text="About HTML Notepad">
+        <Label prefHeight="45.0" prefWidth="638.0" text="About Notepad">
             <font>
                 <Font name="System Bold" size="20.0" />
             </font>
