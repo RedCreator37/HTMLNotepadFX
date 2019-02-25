@@ -2,6 +2,7 @@ package Utilities;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
 
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import java.util.Optional;
  * This class is used as a general purpose dialog window creator.
  * You can use it to create dialogs in other classes.
  *
- * Copyright (c) 2018 Tobija Žuntar
+ * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -96,5 +97,18 @@ public class Dialogs {
         alert.setContentText(content);
 
         alert.showAndWait();
+    }
+
+    /**
+     * Display a text input dialog with the default value in the input field
+     */
+    public static String inputDialog(String title, String headerText, String content, String defaultValue) {
+        TextInputDialog inputDialog = new TextInputDialog(defaultValue);
+        inputDialog.setTitle(title);
+        inputDialog.setHeaderText(headerText);
+        inputDialog.setContentText(content);
+
+        inputDialog.showAndWait(); // wait for input
+        return inputDialog.getResult();
     }
 }

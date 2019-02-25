@@ -13,7 +13,7 @@ import java.io.StringWriter;
  * Main error handler for Notepad
  * Please put all error messages here and call them instead of putting them directly into other classes.
  *
- * Copyright (c) 2018 Tobija Žuntar
+ * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,20 +33,13 @@ import java.io.StringWriter;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-public class ErrorHandler {
+class ErrorHandler {
 
     static void fileNotFound(String filename) {
         Dialogs.errorDialog(
                 "File not found",
                 "File not found",
                 "The specified file '" + filename + "' was not found.\nPlease include full path to the file.");
-    }
-
-    public static void invalidDateTimeFormat() {
-        Dialogs.errorDialog(
-                "Invalid date/time format",
-                "Invalid date/time format",
-                "Please enter a valid date/time format. \nExample: yyyy/MM/dd HH:mm:ss");
     }
 
     /**

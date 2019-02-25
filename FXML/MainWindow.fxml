@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.CheckMenuItem?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.CustomMenuItem?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.HTMLEditor?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <MenuBar fx:id="mainMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -25,6 +20,7 @@
                     <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
+
             <MenuItem mnemonicParsing="false" onAction="#openFileDialog" text="Open...">
                 <accelerator>
                     <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
@@ -40,6 +36,9 @@
                     <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                 </accelerator>
             </MenuItem>
+         <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#downloadHTMLFile" text="Retrieve HTML file from the web..."/>
+            <MenuItem mnemonicParsing="false" onAction="#exportSource" text="Export HTML source code..."/>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#print" text="Print...">
                 <accelerator>
@@ -47,77 +46,46 @@
                 </accelerator>
             </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
-            <!-- The spaces after Exit are here to maintain menu width -->
-            <MenuItem mnemonicParsing="false" onAction="#close" text="Exit                  ">
+            <MenuItem mnemonicParsing="false" onAction="#close" text="Exit">
                 <accelerator>
                     <KeyCodeCombination alt="DOWN" code="F4" control="UP" meta="UP" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
+         <accelerator>
+            <KeyCodeCombination alt="DOWN" code="F" control="UP" meta="UP" shift="UP" shortcut="UP" />
+         </accelerator>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#copyText" text="Copy">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#cutText" text="Cut">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#pasteText" text="Paste">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="V" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#deleteText" text="Delete">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="DELETE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#selectAll" text="Select All">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="A" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#insertDateTime" text="Insert current date and time">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
+        <Menu mnemonicParsing="false" text="Insert">
+            <accelerator>
+                <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator>
+            <MenuItem mnemonicParsing="false" onAction="#insertImage" text="Image..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertLink" text="Link..." />
+            <Menu mnemonicParsing="false" text="Scripts">
+                <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script..." />
+                <MenuItem mnemonicParsing="false" onAction="#insertScriptAltText" text="Script alternative text..." />
+            </Menu>
+            <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertScrollingText" text="Scrolling text..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertSymbol" text="Symbol..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertCode" text="Code..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertEmbeddedWebsite" text="Embedded website..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertHTMLTag" text="Custom HTML tag..." />
         </Menu>
         <Menu mnemonicParsing="false" text="Options">
-            <MenuItem mnemonicParsing="false" onAction="#goTo" text="Go To...">
-                <accelerator>
-                    <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                </accelerator>
-            </MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#openSource" text="HTML Source Code" />
+            <SeparatorMenuItem />
+            <CheckMenuItem fx:id="checkboxSaveSettings" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings" />
             <MenuItem disable="true" mnemonicParsing="false" text="Opacity:" />
             <CustomMenuItem mnemonicParsing="false" text="Opacity">
                 <content>
                     <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
                 </content>
             </CustomMenuItem>
-         <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse" />
-         <CheckMenuItem fx:id="menuWriteProtection" mnemonicParsing="false" onAction="#menuWriteProtection" text="Write protection" />
-         <SeparatorMenuItem mnemonicParsing="false" />
-         <MenuItem mnemonicParsing="false" onAction="#resetOtherSettings" text="Reset">
+            <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse" />
             <accelerator>
-                <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                <KeyCodeCombination alt="DOWN" code="O" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator>
-         </MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" onAction="#showAboutDialog" text="About...">
@@ -125,23 +93,12 @@
                     <KeyCodeCombination alt="DOWN" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
+         <accelerator>
+            <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+         </accelerator>
         </Menu>
     </MenuBar>
-    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="29.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="57.0">
-        <TextArea id="textEdit" fx:id="textEdit" layoutX="-1.0" layoutY="-1.0" onKeyTyped="#fileModified" prefHeight="676.0" prefWidth="1135.0" promptText="Type here..." />
+    <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="23.0" prefHeight="715.0" prefWidth="1137.0" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="24.0">
+        <HTMLEditor id="textEdit" fx:id="textEdit" layoutX="-1.0" layoutY="-1.0" onKeyPressed="#fileModified" prefHeight="715.0" prefWidth="1135.0" />
     </ScrollPane>
-   <ComboBox fx:id="fontCombo" layoutX="35.0" layoutY="28.0" onAction="#setSettings" onShown="#listFonts" prefHeight="27.0" prefWidth="202.0" />
-   <Label layoutX="3.0" layoutY="32.0" text="Font:" />
-   <TextField fx:id="fontSize" layoutX="243.0" layoutY="28.0" onAction="#setSettings" prefHeight="27.0" prefWidth="44.0" text="13" />
-   <TextField fx:id="dateFormatTextField" layoutX="371.0" layoutY="29.0" onAction="#setSettings" text="yyyy/MM/dd HH:mm:ss" />
-   <Label layoutX="298.0" layoutY="32.0" text="Date format:" />
-   <CheckBox fx:id="checkboxSaveSettings" layoutX="623.0" layoutY="32.0" mnemonicParsing="false" onAction="#setSettings" selected="true" text="Save settings" />
-   <CheckBox fx:id="wordWrap" layoutX="531.0" layoutY="32.0" mnemonicParsing="false" onAction="#toggleWordWrap" text="Word wrap" />
-   <Label layoutX="726.0" layoutY="32.0" text="Find:" />
-   <TextField fx:id="searchInput" layoutX="760.0" layoutY="28.0" onKeyTyped="#find" prefHeight="27.0" prefWidth="228.0" promptText="Enter a search term..." />
-   <Label fx:id="textNotFoundLabel" layoutX="995.0" layoutY="31.0" text="Not found" textFill="RED" visible="false">
-      <font>
-         <Font name="System Bold" size="13.0" />
-      </font>
-   </Label>
 </AnchorPane>
