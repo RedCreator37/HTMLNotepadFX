@@ -259,39 +259,38 @@ public class Controller extends Component {
                 "http://"
         );
 
-        if (url != null) {  // the user has clicked OK
-            try {
-                Platform.runLater(() -> {   // set the waiting cursor
-                    Stage stage = (Stage) textEdit.getScene().getWindow();
-                    stage.getScene().setCursor(Cursor.WAIT);
-                });
+        // the user has clicked OK
+        if (url != null) try {
+            Platform.runLater(() -> {   // set the waiting cursor
+                Stage stage = (Stage) textEdit.getScene().getWindow();
+                stage.getScene().setCursor(Cursor.WAIT);
+            });
 
-                URL fileURL = new URL(url); // get the URL
-                InputStream inputStream = fileURL.openStream();
-                Scanner scanner = new Scanner(inputStream);
+            URL fileURL = new URL(url); // get the URL
+            InputStream inputStream = fileURL.openStream();
+            Scanner scanner = new Scanner(inputStream);
 
-                textEdit.setHtmlText(""); // clean the textEdit first
-                MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
-                modified = false; // the file hasn't been modified yet
+            textEdit.setHtmlText(""); // clean the textEdit first
+            MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
+            modified = false; // the file hasn't been modified yet
 
-                file = null;    // initialize a new file
+            file = null;    // initialize a new file
 
-                while (scanner.hasNextLine()) {   // get the text and append it to textEdit
-                    appendHTMLText(textEdit, scanner.nextLine());
-                }
-
-                Platform.runLater(() -> {   // revert to the default cursor
-                    Stage stage = (Stage) textEdit.getScene().getWindow();
-                    stage.getScene().setCursor(Cursor.DEFAULT);
-                });
-            } catch (IOException | IllegalArgumentException e) {
-                Dialogs.errorDialog(
-                        "Notepad",
-                        "Error retrieving HTML file",
-                        "An error has occurred while attempting to \nretrieve specified HTML file: \n" +
-                                e.getMessage()
-                );
+            while (scanner.hasNextLine()) {   // get the text and append it to textEdit
+                appendHTMLText(textEdit, scanner.nextLine());
             }
+
+            Platform.runLater(() -> {   // revert to the default cursor
+                Stage stage = (Stage) textEdit.getScene().getWindow();
+                stage.getScene().setCursor(Cursor.DEFAULT);
+            });
+        } catch (IOException | IllegalArgumentException e) {
+            Dialogs.errorDialog(
+                    "Notepad",
+                    "Error retrieving HTML file",
+                    "An error has occurred while attempting to \nretrieve specified HTML file: \n" +
+                            e.getMessage()
+            );
         }
     }
 
