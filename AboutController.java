@@ -81,7 +81,8 @@ public class AboutController {
                 "AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\n" +
                 "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n" +
                 "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" +
-                "SOFTWARE.\n";
+                "SOFTWARE.\n" +
+                "\nSource code is available on GitHub: github.com/RedCreator37/Simple-JavaFX-Notepad";
         licenseTextArea.setText(licenseText);
     }
 

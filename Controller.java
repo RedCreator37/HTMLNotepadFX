@@ -560,7 +560,6 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("About Notepad");
             stage.setScene(new Scene(root, 638, 281));
-            stage.setResizable(false);
             stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {
