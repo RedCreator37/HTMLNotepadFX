@@ -1,7 +1,9 @@
 import Utilities.Dialogs;
 import Utilities.FileIO;
 import Utilities.Print;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
@@ -259,6 +261,11 @@ public class Controller extends Component {
 
         if (url != null) {  // the user has clicked OK
             try {
+                Platform.runLater(() -> {   // set the waiting cursor
+                    Stage stage = (Stage) textEdit.getScene().getWindow();
+                    stage.getScene().setCursor(Cursor.WAIT);
+                });
+
                 URL fileURL = new URL(url); // get the URL
                 InputStream inputStream = fileURL.openStream();
                 Scanner scanner = new Scanner(inputStream);
@@ -272,6 +279,11 @@ public class Controller extends Component {
                 while (scanner.hasNextLine()) {   // get the text and append it to textEdit
                     appendHTMLText(textEdit, scanner.nextLine());
                 }
+
+                Platform.runLater(() -> {   // revert to the default cursor
+                    Stage stage = (Stage) textEdit.getScene().getWindow();
+                    stage.getScene().setCursor(Cursor.DEFAULT);
+                });
             } catch (IOException | IllegalArgumentException e) {
                 Dialogs.errorDialog(
                         "Notepad",
