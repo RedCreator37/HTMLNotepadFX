@@ -1,13 +1,4 @@
-import Utilities.Dialogs;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-/**
- * MainFX application class for Notepad
- *
+/*
  * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,6 +18,17 @@ import javafx.stage.Stage;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+import Utilities.Dialogs;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+/**
+ * MainFX application class for Notepad
  */
 
 public class MainFX extends Application {

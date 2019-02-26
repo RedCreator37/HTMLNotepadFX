@@ -1,11 +1,4 @@
-package Utilities;
-
-import javax.swing.JTextPane;
-import java.awt.print.PrinterException;
-
-/**
- * Print handler for Notepad
- *
+/*
  * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,6 +18,15 @@ import java.awt.print.PrinterException;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+package Utilities;
+
+import javax.swing.JTextPane;
+import java.awt.print.PrinterException;
+
+/**
+ * Print handler for Notepad
  */
 public class Print {
 

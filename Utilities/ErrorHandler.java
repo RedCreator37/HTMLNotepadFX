@@ -1,18 +1,4 @@
-package Utilities;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
-/**
- * Main error handler for Notepad
- * Please put all error messages here and call them instead of putting them directly into other classes.
- *
+/*
  * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,6 +18,22 @@ import java.io.StringWriter;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+package Utilities;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
+/**
+ * Main error handler for Notepad
+ * Please put all error messages here and call them instead of putting them directly into other classes.
  */
 class ErrorHandler {
 

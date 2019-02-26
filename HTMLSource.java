@@ -1,15 +1,4 @@
-import Utilities.FileIO;
-import Utilities.Print;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
-import java.io.File;
-
-/**
- * Controller class for HTMLSource.fxml
- *
+/*
  * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,6 +18,19 @@ import java.io.File;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+import Utilities.FileIO;
+import Utilities.Print;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
+
+/**
+ * Controller class for HTMLSource.fxml
  */
 public class HTMLSource {
 

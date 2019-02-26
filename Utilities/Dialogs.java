@@ -1,15 +1,4 @@
-package Utilities;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TextInputDialog;
-
-import java.util.Optional;
-
-/**
- * This class is used as a general purpose dialog window creator.
- * You can use it to create dialogs in other classes.
- *
+/*
  * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -29,6 +18,19 @@ import java.util.Optional;
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ */
+
+package Utilities;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextInputDialog;
+
+import java.util.Optional;
+
+/**
+ * This class is used as a general purpose dialog window creator.
+ * You can use it to create dialogs in other classes.
  */
 public class Dialogs {
 

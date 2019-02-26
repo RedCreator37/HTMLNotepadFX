@@ -1,8 +1,4 @@
-package Utilities;
-
-/**
- * Version info class for Notepad
- *
+/*
  * Copyright (c) 2019 Tobija Žuntar
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,11 +19,17 @@ package Utilities;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+package Utilities;
+
+/**
+ * Version info class for Notepad
+ */
 public class VersionData {
 
     public static final String VERSION = "0.3 HTML";
 
-    public static final int BUILD_NUMBER = 1051;
+    public static final int BUILD_NUMBER = 1054;
 
     public static final String BUILD_DATE = "February 2019";
 
