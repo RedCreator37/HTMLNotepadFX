@@ -61,7 +61,7 @@
             </accelerator>
             <MenuItem mnemonicParsing="false" onAction="#insertImage" text="Image..." />
             <MenuItem mnemonicParsing="false" onAction="#insertLink" text="Link..." />
-            <Menu mnemonicParsing="false" text="Scripts">
+            <Menu mnemonicParsing="false" text="Script">
                 <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script..." />
                 <MenuItem mnemonicParsing="false" onAction="#insertScriptAltText" text="Script alternative text..." />
             </Menu>

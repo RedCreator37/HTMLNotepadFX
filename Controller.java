@@ -279,11 +279,6 @@ public class Controller extends Component {
             while (scanner.hasNextLine()) {   // get the text and append it to textEdit
                 appendHTMLText(textEdit, scanner.nextLine());
             }
-
-            Platform.runLater(() -> {   // revert to the default cursor
-                Stage stage = (Stage) textEdit.getScene().getWindow();
-                stage.getScene().setCursor(Cursor.DEFAULT);
-            });
         } catch (IOException | IllegalArgumentException e) {
             Dialogs.errorDialog(
                     "Notepad",
@@ -291,6 +286,11 @@ public class Controller extends Component {
                     "An error has occurred while attempting to \nretrieve specified HTML file: \n" +
                             e.getMessage()
             );
+        } finally {
+            Platform.runLater(() -> {   // revert to the default cursor
+                Stage stage = (Stage) textEdit.getScene().getWindow();
+                stage.getScene().setCursor(Cursor.DEFAULT);
+            });
         }
     }
 
