@@ -48,7 +48,7 @@ public class HTMLSource {
      * Save the HTML source code to a text file
      */
     public void saveToFile() {
-        // We don't want the window to stay on top of Save As dialog
+        // We don't want the window to stay above the Save As dialog
         Stage stage = (Stage) sourceText.getScene().getWindow();
         stage.setAlwaysOnTop(false);
 

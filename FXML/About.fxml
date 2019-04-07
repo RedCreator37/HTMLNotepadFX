@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="281.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
+<AnchorPane prefHeight="281.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
     <Pane prefHeight="46.0" prefWidth="498.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #36dbff, #2939eb);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Label prefHeight="45.0" prefWidth="638.0" text="About Notepad">
             <font>
@@ -92,7 +92,7 @@
          <Font name="System Bold" size="14.0" />
       </font>
    </Label>
-   <Label fx:id="diskLabel" layoutX="155.0" layoutY="200.0" text="diskSpace" AnchorPane.leftAnchor="155.0" AnchorPane.topAnchor="200.0">
+   <Label fx:id="diskLabel" layoutX="173.0" layoutY="200.0" text="diskSpace" AnchorPane.leftAnchor="173.0" AnchorPane.topAnchor="200.0">
       <font>
          <Font size="14.0" />
       </font>
