@@ -6,11 +6,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="562.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HTMLSource">
+<AnchorPane prefHeight="562.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HTMLSource">
     <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="33.0" prefHeight="355.0" prefWidth="726.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
         <TextArea id="sourceText" fx:id="sourceText" editable="false" layoutX="-1.0" layoutY="-1.0" prefHeight="676.0" prefWidth="1135.0" wrapText="true" />
     </ScrollPane>
-    <Pane layoutX="-2.0" layoutY="582.0" prefHeight="36.0" prefWidth="824.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #e2faff, #7681ff);" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
+    <Pane layoutX="-2.0" layoutY="582.0" prefHeight="36.0" prefWidth="824.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #dfe1ff, #7681ff);" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
         <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#closeSource" prefHeight="25.0" prefWidth="67.0" text="Close" />
         <Button layoutX="744.0" layoutY="5.0" mnemonicParsing="false" onAction="#saveToFile" text="Save to file" />
         <Button layoutX="670.0" layoutY="5.0" mnemonicParsing="false" onAction="#printSource" prefHeight="25.0" prefWidth="67.0" text="Print" />
