@@ -22,15 +22,6 @@
 
 package Utilities;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 /**
  * Main error handler for Notepad
  * Please put all error messages here and call them instead of putting them directly into other classes.
@@ -44,79 +35,20 @@ class ErrorHandler {
                 "The specified file '" + filename + "' was not found.\nPlease include full path to the file.");
     }
 
-    /**
-     * Display a generic error related to file operations
-     * (saving, opening, creating etc.) and print stacktrace
-     * in Details sub-panel
-     */
-    static void fileIOError(String filename, Exception ex) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("File I/O Error");
-        alert.setHeaderText("File Input / Output error");
-        alert.setContentText("There was an error processing the file " + filename);
-
-        // Create expandable Exception.
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label("Details:");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        // Set expandable Exception into the dialog pane.
-        alert.getDialogPane().setExpandableContent(expContent);
-        alert.showAndWait();
+    static void fileIOError(String filename, Exception exception) {
+        Dialogs.detailedExceptionDialog(
+                "File I/O Error",
+                "File Input / Output error",
+                "There was an error processing the file " + filename,
+                exception);
     }
 
-    /**
-     * Display a generic print error and display stacktrace
-     * in Details sub-panel
-     */
-    static void printError(Exception ex) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Print Error");
-        alert.setHeaderText("Could not print the document");
-        alert.setContentText("There was an error processing your request");
-
-        // Create expandable Exception.
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        ex.printStackTrace(pw);
-        String exceptionText = sw.toString();
-
-        Label label = new Label("Details:");
-
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
-        textArea.setWrapText(true);
-
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
-
-        GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
-
-        // Set expandable Exception into the dialog pane.
-        alert.getDialogPane().setExpandableContent(expContent);
-        alert.showAndWait();
+    static void printError(Exception exception) {
+        Dialogs.detailedExceptionDialog(
+                "Print Error",
+                "Could not print the document",
+                "There was an error processing your request",
+                exception);
     }
 
 } // end class Utilities.ErrorHandler
