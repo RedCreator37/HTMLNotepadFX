@@ -46,7 +46,7 @@ public class FileIO {
         try {
             Scanner scan = new Scanner(new FileReader(filename));   // open the file
             while (scan.hasNext()) // while there's still something to read
-                sb.append(scan.nextLine() + "\n");  // append text to StringBuilder
+                sb.append(scan.nextLine()).append("\n");  // append text to a StringBuilder
 
         } catch (FileNotFoundException e) {
             ErrorHandler.fileNotFound(filename);

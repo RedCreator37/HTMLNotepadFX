@@ -34,7 +34,7 @@ public class Print {
      * Display a print dialog and send the text to printer when settings are accepted
      */
     public static void printText(String text) {
-        JTextPane textPane = new JTextPane();
+        JTextPane textPane = new JTextPane();   // fixme: not working on macOS
         textPane.setText(text);
 
         try {
