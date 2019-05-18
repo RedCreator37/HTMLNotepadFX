@@ -61,7 +61,6 @@ public class Controller extends Component {
      */
     void loadSettings() {
         Properties loadSettings = new Properties();
-
         try {
             loadSettings.loadFromXML(new FileInputStream(settingsLocation));
             textEdit.setMouseTransparent(Boolean.valueOf(loadSettings.getProperty("mouse_disabled")));
@@ -93,9 +92,9 @@ public class Controller extends Component {
         }
     }
 
-    /***********************************************************
-     *     F  I  L  E         M  A  N  A  G  E  M  E  N  T     *
-     ***********************************************************/
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   F I L E   M A N A G E M E N T
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /* Initialize controls */
     public HTMLEditor textEdit = new HTMLEditor();
@@ -103,8 +102,6 @@ public class Controller extends Component {
     public MenuBar mainMenuBar = new MenuBar();
     public CheckMenuItem disableMouse = new CheckMenuItem();
     public CheckMenuItem checkboxSaveSettings = new CheckMenuItem();
-
-    /* FILE OPERATIONS */
 
     private File file;  // current file
     private boolean modified;   // whether the file has been modified
@@ -296,7 +293,16 @@ public class Controller extends Component {
         }
     }
 
-    /* INSERTING OBJECTS */
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   E D I T I N G   A N D   O B J E C T   I N S E R T I O N
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Append text to the HTML code of a HTMLEditor control
+     */
+    private void appendHTMLText(HTMLEditor editor, String text) {
+        editor.setHtmlText(editor.getHtmlText() + text);
+    }
 
     /**
      * Insert a web image to textEdit
@@ -483,7 +489,9 @@ public class Controller extends Component {
         }
     }
 
-    /* PRINTING */
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   P R I N T I N G
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Call the printing method in Print class
@@ -492,7 +500,9 @@ public class Controller extends Component {
         Print.printText(textEdit.getHtmlText());
     }
 
-    /* OPTIONS MENU FUNCTIONS */
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   O P T I O N S   M E N U
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Open a window with HTML source of the text in textEdit
@@ -528,7 +538,7 @@ public class Controller extends Component {
             boolean doDeleteFile = Dialogs.confirmationDialog( // display a confirmation dialog
                     "Notepad",
                     "Notepad",
-                    "Would you like to also delete the settings file?"
+                    "Would you also like to delete the settings file?"
             );
 
             if (doDeleteFile) { // the user has chosen to delete the file
@@ -562,7 +572,9 @@ public class Controller extends Component {
         MainFX.currentStage.setOpacity(opacity);
     }
 
-    /* INFO MENU FUNCTIONS */
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   I N F O   M E N U
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Show an About dialog with info about the program
@@ -580,7 +592,9 @@ public class Controller extends Component {
         }
     }
 
-    /* CLOSING AND EXITING THE PROGRAM */
+    /////////////////////////////////////////////////////////////////////////////////////
+    //   C L O S I N G   A N D   E X I T I N G   T H E   P R O G R A M
+    /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Close the program
@@ -597,19 +611,11 @@ public class Controller extends Component {
         } else {    // the file hasn't been modified
             confirmedClose = true;
         }
+
         if (confirmedClose) {     // User selected OK
             saveSettings();
             System.exit(0);
         }
-    }
-
-    /* MISC */
-
-    /**
-     * Append text to the HTML code of a HTMLEditor control
-     */
-    private void appendHTMLText(HTMLEditor editor, String text) {
-        editor.setHtmlText(editor.getHtmlText() + text);
     }
 
 } // end class Controller

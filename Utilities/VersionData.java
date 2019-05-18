@@ -29,9 +29,9 @@ public class VersionData {
 
     public static final String VERSION = "0.3 HTML";
 
-    public static final int BUILD_NUMBER = 1057;
+    public static final int BUILD_NUMBER = 1070;
 
-    public static final String BUILD_DATE = "April 2019";
+    public static final String BUILD_DATE = "May 2019";
 
     public static final boolean IS_BETA = true;
 }
