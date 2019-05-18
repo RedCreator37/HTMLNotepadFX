@@ -541,16 +541,15 @@ public class Controller extends Component {
                     "Would you also like to delete the settings file?"
             );
 
-            if (doDeleteFile) { // the user has chosen to delete the file
-                try {
-                    File file = new File(settingsLocation);
+            // the user has chosen to delete the file
+            if (doDeleteFile) try {
+                File file = new File(settingsLocation);
 
-                    if (file.delete()) {
-                        System.out.println("Removing settings file done.");
-                    }
-                } catch (Exception e) {
-                    System.out.println("Removing settings file failed, continuing...");
+                if (file.delete()) {
+                    System.out.println("Removing settings file done.");
                 }
+            } catch (Exception e) {
+                System.out.println("Removing settings file failed, continuing...");
             }
         }
     }
