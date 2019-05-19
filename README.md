@@ -23,10 +23,10 @@ Things that don't work as expected (yet). I'll try to fix them as soon as possib
 
 ## To Do
 
-Features to include in later releases and things that should be improved:
+Features to be included in later releases and things that should be improved:
 
-- A simple way to deploy HTML pages to a server
-- Improved UI (it currently looks pretty boring...)
+- A simple way to deploy HTML pages to a web server
+- Improved UI (it currently looks really boring...)
 - Make use of resource bundles or something else that'll allow the UI to be translated to other languages
 
 ## Requirements
