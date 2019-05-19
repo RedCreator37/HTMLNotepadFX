@@ -107,7 +107,7 @@ public class Controller extends Component {
     private boolean modified;   // whether the file has been modified
 
     /**
-     * Create a blank file by deleting the content of textEdit
+     * Create a blank file by deleting the contents of textEdit
      */
     public void newFile() {
         boolean confirmedNewFile;
