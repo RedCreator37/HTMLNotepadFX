@@ -23,6 +23,7 @@
 import Utilities.Dialogs;
 import Utilities.FileIO;
 import Utilities.Print;
+import Utilities.VersionData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -50,8 +51,9 @@ import java.util.Scanner;
  */
 public class Controller extends Component {
 
-    /* MAIN SETTINGS */
+    /* Main settings */
     private boolean saveSettings = true;
+    private double configVersion = VersionData.CONFIG_VERSION;
     private float opacity = 1f;
 
     private final String settingsLocation = ".Notepad_Settings.xml";
@@ -65,6 +67,16 @@ public class Controller extends Component {
             loadSettings.loadFromXML(new FileInputStream(settingsLocation));
             textEdit.setMouseTransparent(Boolean.valueOf(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.valueOf(loadSettings.getProperty("opacity")) * 100);
+            configVersion = Integer.parseInt(loadSettings.getProperty("config_version"));
+
+            if (configVersion != VersionData.CONFIG_VERSION) {
+                Dialogs.warningDialog(
+                        "Notepad",
+                        "Invalid config file version",
+                        "Loaded config file reports version " + configVersion +
+                                " while this program is using version " + VersionData.CONFIG_VERSION +
+                                "\nKeep in mind that some settings probably haven't been loaded.");
+            }
         } catch (IOException e) {
             System.out.println("Loading settings failed, continuing...");
         }
@@ -81,6 +93,7 @@ public class Controller extends Component {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
+            saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
                 File file = new File(settingsLocation);
                 FileOutputStream fileOut = new FileOutputStream(file);

@@ -34,4 +34,6 @@ public class VersionData {
     public static final String BUILD_DATE = "May 2019";
 
     public static final boolean IS_BETA = true;
+
+    public static final int CONFIG_VERSION = 1;
 }
