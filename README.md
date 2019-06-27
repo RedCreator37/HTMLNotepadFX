@@ -37,7 +37,8 @@ You'll have to manually install JavaFX since it's no longer bundled with JDK.
 
 ## Usage
 
-As said before, you need OpenJDK 11 and OpenJFX SDK 11. Compile the source code and compress
+As said before, you need OpenJDK 11 and [OpenJFX SDK 11][openJFX] (older versions may work but
+aren't tested). Compile the source code and compress
 it into a .jar then run
 
 ```bash
@@ -50,3 +51,4 @@ This is a temporary solution until the new version of Java Packager arrives.
 
 [licenseBadge]: https://img.shields.io/badge/license-MIT-blue.svg
 [versionBadge]: https://img.shields.io/badge/version-0.3-brightgreen.svg
+[openJFX]: https://openjfx.io/

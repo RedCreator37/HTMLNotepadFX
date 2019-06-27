@@ -137,10 +137,8 @@ public class Dialogs {
         String exceptionText = stringWriter.toString();
 
         Label label = new Label("Details:");
-
         TextArea textArea = new TextArea(exceptionText);
         textArea.setEditable(false);
-        textArea.setWrapText(true);
 
         textArea.setMaxWidth(Double.MAX_VALUE);
         textArea.setMaxHeight(Double.MAX_VALUE);

@@ -28,9 +28,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * MainFX application class for Notepad
+ * Main application class for Notepad
  */
-
 public class MainFX extends Application {
 
     static Stage currentStage;

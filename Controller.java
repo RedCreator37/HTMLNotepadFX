@@ -77,7 +77,7 @@ public class Controller extends Component {
                                 " while this program is using version " + VersionData.CONFIG_VERSION +
                                 "\nKeep in mind that some settings probably haven't been loaded.");
             }
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             System.out.println("Loading settings failed, continuing...");
         }
 
