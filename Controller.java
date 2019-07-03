@@ -56,15 +56,13 @@ public class Controller extends Component {
     private double configVersion = VersionData.CONFIG_VERSION;
     private float opacity = 1f;
 
-    private final String settingsLocation = ".Notepad_Settings.xml";
-
     /**
      * Load settings from an XML file
      */
     void loadSettings() {
         Properties loadSettings = new Properties();
         try {
-            loadSettings.loadFromXML(new FileInputStream(settingsLocation));
+            loadSettings.loadFromXML(new FileInputStream(VersionData.SETTINGS_LOCATION));
             textEdit.setMouseTransparent(Boolean.valueOf(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.valueOf(loadSettings.getProperty("opacity")) * 100);
             configVersion = Integer.parseInt(loadSettings.getProperty("config_version"));
@@ -95,7 +93,7 @@ public class Controller extends Component {
             saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
             saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
-                File file = new File(settingsLocation);
+                File file = new File(VersionData.SETTINGS_LOCATION);
                 FileOutputStream fileOut = new FileOutputStream(file);
                 saveSettings.storeToXML(fileOut, "");
                 fileOut.close();
@@ -556,7 +554,7 @@ public class Controller extends Component {
 
             // the user has chosen to delete the file
             if (doDeleteFile) try {
-                File file = new File(settingsLocation);
+                File file = new File(VersionData.SETTINGS_LOCATION);
 
                 if (file.delete()) {
                     System.out.println("Removing settings file done.");
