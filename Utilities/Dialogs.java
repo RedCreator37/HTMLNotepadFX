@@ -44,6 +44,9 @@ import java.util.Optional;
 /**
  * This class is used as a general purpose dialog window creator.
  * You can use it to create dialogs in other classes.
+ *
+ * Parts of the code from
+ * <href a="https://code.makery.ch/blog/javafx-dialogs-official/"></href>
  */
 public class Dialogs {
 
@@ -130,8 +133,7 @@ public class Dialogs {
     /**
      * Display a customizable text input dialog with two fields, the
      * second field will be updated when the text in the first one is
-     * changed. For more info on custom dialogs go to
-     * <href a="https://code.makery.ch/blog/javafx-dialogs-official/"></href>
+     * changed.
      *
      * @param title       dialog title
      * @param headerText  the header text to be displayed in the dialog
