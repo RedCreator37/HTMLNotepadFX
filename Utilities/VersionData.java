@@ -37,7 +37,7 @@ public class VersionData {
 
     public static final String SETTINGS_LOCATION = getConfigFileLocation();
 
-    public static final int CONFIG_VERSION = 1;
+    public static final double CONFIG_VERSION = 1;
 
     /**
      * Get the location of Notepad config file

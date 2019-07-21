@@ -22,13 +22,20 @@
 
 package Utilities;
 
+import javafx.application.Platform;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.util.Pair;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -118,6 +125,72 @@ public class Dialogs {
 
         inputDialog.showAndWait(); // wait for input
         return inputDialog.getResult();
+    }
+
+    /**
+     * Display a customizable text input dialog with two fields, the
+     * second field will be updated when the text in the first one is
+     * changed.
+     *
+     * @param title       dialog title
+     * @param headerText  the header text to be displayed in the dialog
+     * @param buttonText  default button action text (ex. "Insert")
+     * @param content     the text that'll be displayed above input fields
+     * @param promptText1 first text field's prompt text
+     * @param promptText2 second text field's prompt text
+     * @param label1      text to be displayed before the first text field
+     * @param label2      the same as label1, this time for the second field
+     * @return an Optional String Pair (both Key and Value contain a
+     * string, first one is the first field's text, second one is the
+     * second field's text).
+     */
+    public static Optional<Pair<String, String>> doubleInputDialog(String title, String headerText, String content,
+                                                                   String buttonText, String promptText1,
+                                                                   String promptText2, String label1, String label2) {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setHeaderText(headerText);
+
+        // set button types
+        ButtonType mainButtonType = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
+
+        // create other controls
+        GridPane pane = new GridPane();
+        TextField field1 = new TextField(), field2 = new TextField();
+
+        pane.setHgap(10);
+        pane.setVgap(10);
+        pane.setPadding(new Insets(10, 10, 10, 10));
+
+        field1.setPromptText(promptText1);
+        field2.setPromptText(promptText2);
+
+        pane.add(new Label(content), 0, 0);
+        pane.add(new Label(label1), 0, 1);
+        pane.add(field1, 1, 1);
+        pane.add(new Label(label2), 0, 2);
+        pane.add(field2, 1, 2);
+
+        // disable the main button until some text is entered into the fields
+        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
+        mainButton.setDisable(true);
+        field1.textProperty().addListener((observable, oldValue, newValue) -> {
+            field2.setText(field1.getText());
+            mainButton.setDisable(newValue.trim().isEmpty());
+        });
+
+        dialog.getDialogPane().setContent(pane);
+        Platform.runLater(field1::requestFocus);
+
+        // convert the result to a string pair
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == mainButtonType)
+                return new Pair<>(field1.getText(), field2.getText());
+            return null;
+        });
+
+        return dialog.showAndWait();
     }
 
     /**

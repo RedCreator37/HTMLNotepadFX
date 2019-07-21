@@ -35,6 +35,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.awt.Component;
 import java.io.File;
@@ -43,6 +44,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -337,18 +339,20 @@ public class Controller extends Component {
      * Insert a hyperlink to textEdit
      */
     public void insertLink() {
-        String linkAddress = Dialogs.inputDialog(   // todo: find a better way to specify link text
-                "Notepad",
-                "Insert a link",
-                "Enter a web address to insert as a link:",
-                "http://"
-        );
+        Optional<Pair<String, String>> result =
+                Dialogs.doubleInputDialog(
+                        "Notepad",
+                        "Insert hyperlink",
+                        "Insert a hyperlink into the document",
+                        "Insert",
+                        "Enter link address",
+                        "Enter link Text",
+                        "Address:", "Text:");
 
-        // Check whether the user has clicked OK
-        if (linkAddress != null) {
-            String compiledAddress = "<a href=\"" + linkAddress + "\">" + linkAddress + "</a>";
+        result.ifPresent(bothFields -> {
+            String compiledAddress = "<a href=\"" + bothFields.getKey() + "\">" + bothFields.getValue() + "</a>";
             appendHTMLText(textEdit, compiledAddress);
-        }
+        });
     }
 
     /**
