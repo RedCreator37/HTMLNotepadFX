@@ -29,30 +29,6 @@ import java.util.Optional;
 public class Dialogs {
 
     /**
-     * Display a basic information dialog
-     */
-    public static void infoDialog(String title, String headerText, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(headerText);
-        alert.setContentText(content);
-
-        alert.showAndWait();
-    }
-
-    /**
-     * Display an info dialog without header
-     */
-    public static void compactInfoDialog(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-
-        alert.showAndWait();
-    }
-
-    /**
      * Display a warning dialog with an OK button
      */
     public static void warningDialog(String title, String headerText, String content) {
