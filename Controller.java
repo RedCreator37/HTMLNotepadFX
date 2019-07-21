@@ -321,18 +321,21 @@ public class Controller extends Component {
      * Insert a web image to textEdit
      */
     public void insertImage() {
-        String imageAddress = Dialogs.inputDialog(
-                "Notepad",
-                "Insert an image",
-                "Enter the web address of the image you want to insert:",
-                "http://"
-        );
+        Optional<Pair<String, String>> result =
+                Dialogs.doubleInputDialog(
+                        "Notepad",
+                        "Insert an image",
+                        "Insert an image into the document",
+                        "Insert",
+                        "Enter image address",
+                        "Enter image alternative text",
+                        "Address:", "Alt Text:");
 
-        // Check whether the user has clicked OK
-        if (imageAddress != null) {
-            String compiledImageAddress = "<img src=\"" + imageAddress + "\" alt=\"" + imageAddress + "\" />";
+        result.ifPresent(bothFields -> {
+            String compiledImageAddress = "<img src=\"" + bothFields.getKey() + "\" alt=\""
+                    + bothFields.getValue() + "\" />";
             appendHTMLText(textEdit, compiledImageAddress);
-        }
+        });
     }
 
     /**
@@ -346,11 +349,12 @@ public class Controller extends Component {
                         "Insert a hyperlink into the document",
                         "Insert",
                         "Enter link address",
-                        "Enter link Text",
+                        "Enter link text",
                         "Address:", "Text:");
 
         result.ifPresent(bothFields -> {
-            String compiledAddress = "<a href=\"" + bothFields.getKey() + "\">" + bothFields.getValue() + "</a>";
+            String compiledAddress = "<a href=\"" + bothFields.getKey() + "\">"
+                    + bothFields.getValue() + "</a>";
             appendHTMLText(textEdit, compiledAddress);
         });
     }

@@ -157,21 +157,26 @@ public class Dialogs {
         dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
 
         // create other controls
-        GridPane pane = new GridPane();
+        GridPane pane = new GridPane(), textPane = new GridPane(),
+                controlPane = new GridPane();
         TextField field1 = new TextField(), field2 = new TextField();
 
-        pane.setHgap(10);
-        pane.setVgap(10);
-        pane.setPadding(new Insets(10, 10, 10, 10));
+        controlPane.setHgap(10);
+        textPane.setHgap(10);
+        controlPane.setVgap(10);
+        controlPane.setPadding(new Insets(10, 10, 0, 0));
 
         field1.setPromptText(promptText1);
         field2.setPromptText(promptText2);
 
-        pane.add(new Label(content), 0, 0);
-        pane.add(new Label(label1), 0, 1);
-        pane.add(field1, 1, 1);
-        pane.add(new Label(label2), 0, 2);
-        pane.add(field2, 1, 2);
+        textPane.add(new Label(content), 0, 0);
+        controlPane.add(new Label(label1), 0, 0);
+        controlPane.add(field1, 1, 0);
+        controlPane.add(new Label(label2), 0, 1);
+        controlPane.add(field2, 1, 1);
+
+        pane.add(textPane, 0, 0);
+        pane.add(controlPane, 0, 1);
 
         // disable the main button until some text is entered into the fields
         Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
