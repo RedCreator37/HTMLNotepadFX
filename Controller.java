@@ -293,6 +293,7 @@ public class Controller extends Component {
      */
     private void appendHTMLText(HTMLEditor editor, String text) {
         editor.setHtmlText(editor.getHtmlText() + text);
+        fileModified();
     }
 
     /**
