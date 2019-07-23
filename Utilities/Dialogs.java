@@ -156,6 +156,57 @@ public class Dialogs {
     }
 
     /**
+     * Display a text input dialog with a Text Area instead of a Text
+     * Field.
+     *
+     * @param title      dialog title
+     * @param headerText dialog header text
+     * @param content    dialog content text (will be displayed in a Label
+     *                   above the Text Area)
+     * @param buttonText default button action text (ex. "Insert")
+     * @param promptText Text Area's prompt text
+     * @return entered text (can be null!)
+     */
+    public static String textAreaInputDialog(String title, String headerText, String content,
+                                             String buttonText, String promptText) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setHeaderText(headerText);
+
+        // set button types
+        ButtonType mainButtonType = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
+
+        // create the text area
+        GridPane pane = new GridPane();
+        Label contentText = new Label(content + "\n");
+        TextArea area = new TextArea();
+
+        area.setPromptText(promptText);
+        pane.add(contentText, 0, 0);
+        pane.add(area, 0, 1);
+
+        // disable the button until some text is entered
+        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
+        mainButton.setDisable(true);
+        area.textProperty().addListener(((observableValue, oldValue, newValue)
+                -> mainButton.setDisable(false)));
+
+        dialog.getDialogPane().setContent(pane);
+        Platform.runLater(area::requestFocus);
+
+        // convert the result
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == mainButtonType)
+                return area.getText();
+            return null;
+        });
+
+        dialog.showAndWait();
+        return dialog.getResult();
+    }
+
+    /**
      * Display a generic error dialog with a details sub pane containing
      * exception stacktrace.
      */

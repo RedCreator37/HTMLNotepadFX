@@ -341,13 +341,13 @@ public class Controller extends Component {
      * Insert a JavaScript script to textEdit
      */
     public void insertScript() {
-        String scriptText = Dialogs.inputDialog(
+        String scriptText = Dialogs.textAreaInputDialog(
                 "Notepad",
                 "Insert a script",
                 "Warning!\n" +
-                        "Scripts can be harmful and some browsers will block them!\n" +
-                        "Enter your script to the input box on the right.",
-                "script"
+                        "Scripts can be harmful and some browsers will block them!\n",
+                "Insert",
+                "Enter script code"
         );
 
         // Check whether the user has clicked OK
@@ -362,12 +362,14 @@ public class Controller extends Component {
      * blocks / does not support JavaScript scripts
      */
     public void insertScriptAltText() {
-        String scriptAltText = Dialogs.inputDialog(
+        String scriptAltText = Dialogs.textAreaInputDialog(
                 "Notepad",
                 "Insert script alternative text",
-                "This text will be displayed instead of a script if\n" +
-                        "the browser blocks / does not support JavaScript scripts.",
-                "Your browser does not support JavaScript."
+                "This text will be displayed instead of script result\n" +
+                        "if the browser blocks / doesn't support JavaScript scripts.",
+                "Insert",
+                "Enter something like \"Your browser does not support" +
+                        "JavaScript\"..."
         );
 
         // Check whether the user has clicked OK
@@ -381,11 +383,12 @@ public class Controller extends Component {
      * Insert a HTML quote to textEdit
      */
     public void insertQuote() {
-        String quoteText = Dialogs.inputDialog(
+        String quoteText = Dialogs.textAreaInputDialog(
                 "Notepad",
                 "Insert a quote",
                 "Enter a quote to insert:",
-                "Quote"
+                "Insert",
+                "Enter a quote..."
         );
 
         // Check whether the user has clicked OK
@@ -435,11 +438,12 @@ public class Controller extends Component {
      * Insert a code tag to textEdit
      */
     public void insertCode() {
-        String code = Dialogs.inputDialog(
+        String code = Dialogs.textAreaInputDialog(
                 "Notepad",
                 "Insert source code",
-                "Enter source code to insert:",
-                "code"
+                "Insert some text to be displayed in the <code> tag:",
+                "Insert",
+                "Enter some code..."
         );
 
         // Check whether the user has clicked OK
@@ -471,13 +475,14 @@ public class Controller extends Component {
      * Insert a custom HTML tag to textEdit
      */
     public void insertHTMLTag() {
-        String HTMLTag = Dialogs.inputDialog(
+        String HTMLTag = Dialogs.textAreaInputDialog(
                 "Notepad",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
                         "\nWarning!\n" +
-                        "Some browsers may block certain tags for safety reasons.",
-                "<tag>text</tag>"
+                        "Some browsers may block certain tags for security reasons.",
+                "Insert",
+                "Enter something like \"<tag>text</tag>\""
         );
 
         // Check whether the user has clicked OK
