@@ -43,8 +43,8 @@ public class Controller extends Component {
         Properties loadSettings = new Properties();
         try {
             loadSettings.loadFromXML(new FileInputStream(VersionData.SETTINGS_LOCATION));
-            textEdit.setMouseTransparent(Boolean.valueOf(loadSettings.getProperty("mouse_disabled")));
-            opacitySlider.setValue(Float.valueOf(loadSettings.getProperty("opacity")) * 100);
+            textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
+            opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
             configVersion = Integer.parseInt(loadSettings.getProperty("config_version"));
 
             if (configVersion != VersionData.CONFIG_VERSION) {
@@ -467,7 +467,8 @@ public class Controller extends Component {
 
         // Check whether the user has clicked OK
         if (websiteAddress != null) {
-            String IFrameTag = "<iframe src=\"" + websiteAddress + "\" height=\"300\" width=\"500\"></iframe>";
+            String IFrameTag = "<iframe src=\"" + websiteAddress + "\" height=\"300\" " +
+                    "width=\"500\"></iframe>";
             appendHTMLText(textEdit, IFrameTag);
         }
     }
@@ -487,9 +488,7 @@ public class Controller extends Component {
         );
 
         // Check whether the user has clicked OK
-        if (HTMLTag != null) {
-            appendHTMLText(textEdit, HTMLTag);
-        }
+        if (HTMLTag != null) appendHTMLText(textEdit, HTMLTag);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -527,7 +526,27 @@ public class Controller extends Component {
             stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Failed loading HTML source code window: "
+                    + e.getMessage());
+        }
+    }
+
+    /**
+     * Open a Quick Calculator window
+     */
+    public void openQuickCalculator() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("FXML/QuickCalculator.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Quick Calculator");
+
+            stage.setScene(new Scene(root, 455, 151));
+            stage.setResizable(false);
+            stage.setAlwaysOnTop(true);
+            stage.show();
+        } catch (IOException e) {
+            System.err.println("Failed loading Quick Calculator: "
+                    + e.getMessage());
         }
     }
 
