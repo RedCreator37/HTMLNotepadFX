@@ -1,4 +1,4 @@
-package Utilities;
+package util;
 
 /**
  * Main error handler for Notepad
@@ -10,7 +10,8 @@ class ErrorHandler {
         Dialogs.errorDialog(
                 "File not found",
                 "File not found",
-                "The specified file '" + filename + "' was not found.\nPlease include full path to the file.");
+                "The specified file '" + filename + "' was not found." +
+                        "\nPlease include full path to the file.");
     }
 
     static void fileIOError(String filename, Exception exception) {

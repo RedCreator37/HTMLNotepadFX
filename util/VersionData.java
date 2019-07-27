@@ -1,4 +1,4 @@
-package Utilities;
+package util;
 
 /**
  * Version info class for Notepad

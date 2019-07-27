@@ -1,7 +1,5 @@
-import Utilities.Dialogs;
+import util.Dialogs;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,7 +18,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/MainWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/MainWindow.fxml"));
         primaryStage.setTitle("Untitled - Notepad");
 
         // adjust the window size to make it work on smaller screens

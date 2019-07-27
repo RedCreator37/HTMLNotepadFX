@@ -1,7 +1,7 @@
-import Utilities.Dialogs;
-import Utilities.FileIO;
-import Utilities.Print;
-import Utilities.VersionData;
+import util.Dialogs;
+import util.FileIO;
+import util.Print;
+import util.VersionData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -267,7 +267,7 @@ public class Controller extends Component {
             file = null;    // initialize a new file
 
             while (scanner.hasNextLine()) {   // get the text and append it to textEdit
-                appendHTMLText(textEdit, scanner.nextLine());
+                appendHtmlText(textEdit, scanner.nextLine());
             }
         } catch (IOException | IllegalArgumentException e) {
             Dialogs.errorDialog(
@@ -291,7 +291,7 @@ public class Controller extends Component {
     /**
      * Append text to the HTML code of a HTMLEditor control
      */
-    private void appendHTMLText(HTMLEditor editor, String text) {
+    private void appendHtmlText(HTMLEditor editor, String text) {
         editor.setHtmlText(editor.getHtmlText() + text);
         fileModified();
     }
@@ -313,7 +313,7 @@ public class Controller extends Component {
         result.ifPresent(bothFields -> {
             String compiledImageAddress = "<img src=\"" + bothFields.getKey() + "\" alt=\""
                     + bothFields.getValue() + "\" />";
-            appendHTMLText(textEdit, compiledImageAddress);
+            appendHtmlText(textEdit, compiledImageAddress);
         });
     }
 
@@ -334,7 +334,7 @@ public class Controller extends Component {
         result.ifPresent(bothFields -> {
             String compiledAddress = "<a href=\"" + bothFields.getKey() + "\">"
                     + bothFields.getValue() + "</a>";
-            appendHTMLText(textEdit, compiledAddress);
+            appendHtmlText(textEdit, compiledAddress);
         });
     }
 
@@ -354,7 +354,7 @@ public class Controller extends Component {
         // Check whether the user has clicked OK
         if (scriptText != null) {
             String compiledScriptText = "<script> " + scriptText + " </script>";
-            appendHTMLText(textEdit, compiledScriptText);
+            appendHtmlText(textEdit, compiledScriptText);
         }
     }
 
@@ -376,7 +376,7 @@ public class Controller extends Component {
         // Check whether the user has clicked OK
         if (scriptAltText != null) {
             String compiledScriptAltText = "<noscript> " + scriptAltText + " </noscript>";
-            appendHTMLText(textEdit, compiledScriptAltText);
+            appendHtmlText(textEdit, compiledScriptAltText);
         }
     }
 
@@ -395,7 +395,7 @@ public class Controller extends Component {
         // Check whether the user has clicked OK
         if (quoteText != null) {
             String compiledHTMLQuote = "<q> " + quoteText + " </q>";
-            appendHTMLText(textEdit, compiledHTMLQuote);
+            appendHtmlText(textEdit, compiledHTMLQuote);
         }
     }
 
@@ -413,7 +413,7 @@ public class Controller extends Component {
         // Check whether the user has clicked OK
         if (marqueeText != null) {
             String compiledHTMLMarquee = "<marquee> " + marqueeText + " </marquee>";
-            appendHTMLText(textEdit, compiledHTMLMarquee);
+            appendHtmlText(textEdit, compiledHTMLMarquee);
         }
     }
 
@@ -431,7 +431,7 @@ public class Controller extends Component {
 
         // Check whether the user has clicked OK
         if (symbolCode != null) {
-            appendHTMLText(textEdit, symbolCode);
+            appendHtmlText(textEdit, symbolCode);
         }
     }
 
@@ -450,7 +450,7 @@ public class Controller extends Component {
         // Check whether the user has clicked OK
         if (code != null) {
             String codeText = "<code> " + code + " </code>";
-            appendHTMLText(textEdit, codeText);
+            appendHtmlText(textEdit, codeText);
         }
     }
 
@@ -469,7 +469,7 @@ public class Controller extends Component {
         if (websiteAddress != null) {
             String IFrameTag = "<iframe src=\"" + websiteAddress + "\" height=\"300\" " +
                     "width=\"500\"></iframe>";
-            appendHTMLText(textEdit, IFrameTag);
+            appendHtmlText(textEdit, IFrameTag);
         }
     }
 
@@ -488,7 +488,7 @@ public class Controller extends Component {
         );
 
         // Check whether the user has clicked OK
-        if (HTMLTag != null) appendHTMLText(textEdit, HTMLTag);
+        if (HTMLTag != null) appendHtmlText(textEdit, HTMLTag);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -511,7 +511,7 @@ public class Controller extends Component {
      */
     public void openSource() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXML/HTMLSource.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/HTMLSource.fxml"));
             Stage stage = new Stage();
             stage.setTitle("HTML Source Code");
 
@@ -536,7 +536,7 @@ public class Controller extends Component {
      */
     public void openQuickCalculator() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXML/QuickCalculator.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/QuickCalculator.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
 
@@ -602,7 +602,7 @@ public class Controller extends Component {
      */
     public void showAboutDialog() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("FXML/About.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/About.fxml"));
             Stage stage = new Stage();
             stage.setTitle("About Notepad");
             stage.setScene(new Scene(root, 638, 281));

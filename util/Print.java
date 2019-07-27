@@ -1,4 +1,4 @@
-package Utilities;
+package util;
 
 import javax.swing.JTextPane;
 import java.awt.print.PrinterException;

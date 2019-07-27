@@ -1,5 +1,5 @@
-import Utilities.FileIO;
-import Utilities.Print;
+import util.FileIO;
+import util.Print;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;

@@ -1,4 +1,4 @@
-package Utilities;
+package util;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
