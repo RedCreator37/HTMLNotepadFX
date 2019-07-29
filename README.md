@@ -4,7 +4,7 @@ Notepad is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrapped in a
 
 *This is the first program I put on GitHub.*
 *I hope that you understand that some things aren't done perfectly.*
-*PRs are welcome :D*
+*Contributions are welcome :D*
 
 ## Features
 
@@ -27,7 +27,7 @@ Features to be included in later releases and things that should be improved:
 
 - A simple way to deploy HTML pages to a web server
 - Improved the UI (it currently looks really boring...)
-- Make use of resource bundles or something else that'll allow the UI to be translated to other languages
+- Make use of resource bundles or something else that'll allow the UI to be translated to other languages easily
 
 ## Requirements
 
@@ -50,5 +50,5 @@ java --module-path="path_to_your_openjfx_sdk" \
 This is a temporary solution until the new version of Java Packager arrives.
 
 [licenseBadge]: https://img.shields.io/badge/license-MIT-blue.svg
-[versionBadge]: https://img.shields.io/badge/version-0.3-brightgreen.svg
+[versionBadge]: https://img.shields.io/badge/version-0.4-brightgreen.svg
 [openJFX]: https://openjfx.io/

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.math.BigDecimal;
 
 /**
  * A very basic calculator which performs mathematical operations on
@@ -52,28 +53,28 @@ public class QuickCalcController {
      *                      is passed.
      */
     private void calculate(String input1, String input2, int calculationID) {
-        double num1, num2;
-        num1 = safeStringToDouble(input1);
-        num2 = safeStringToDouble(input2);
+        BigDecimal num1, num2;
+        num1 = stringToBigDecimal(input1);
+        num2 = stringToBigDecimal(input2);
 
         switch (calculationID) { // perform the calculations
             case 0: // add
-                resultField.setText(String.valueOf(num1 + num2));
+                resultField.setText(num1.add(num2).toString());
                 break;
             case 1: // subtract
-                resultField.setText(String.valueOf(num1 - num2));
+                resultField.setText(num1.subtract(num2).toString());
                 break;
             case 2: // multiply
-                resultField.setText(String.valueOf(num1 * num2));
+                resultField.setText(num1.multiply(num2).toString());
                 break;
             case 3: // divide
-                resultField.setText(String.valueOf(num1 / num2));
+                resultField.setText(num1.divide(num2).toString());
                 break;
             case 4: // exponent by two
-                resultField.setText(String.valueOf(num1 * num1));
+                resultField.setText(num1.multiply(num1).toString());
                 break;
             case 5: // exponent by three
-                resultField.setText(String.valueOf((num1 * num1) * (num1 * num1)));
+                resultField.setText(num1.multiply(num1.multiply(num1)).toString());
                 break;
             default:
                 throw new IllegalStateException();
@@ -91,13 +92,16 @@ public class QuickCalcController {
     }
 
     /**
-     * Try to convert string to integer, return 0 if conversion fails
+     * Try to convert input string to BigDecimal
+     *
+     * @param string input string
+     * @return result of the conversion or 0 if it fails
      */
-    private double safeStringToDouble(String string) {
+    private BigDecimal stringToBigDecimal(String string) {
         try {
-            return Double.parseDouble(string);
+            return new BigDecimal(string);
         } catch (NumberFormatException e) {
-            return 0;
+            return BigDecimal.ZERO;
         }
     }
 
