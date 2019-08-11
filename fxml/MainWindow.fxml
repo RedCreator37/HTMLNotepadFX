@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.HTMLEditor?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <MenuBar fx:id="mainMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#newFile" text="New">
@@ -37,8 +37,8 @@
                 </accelerator>
             </MenuItem>
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#downloadHTMLFile" text="Retrieve HTML file from the web..."/>
-            <MenuItem mnemonicParsing="false" onAction="#exportSource" text="Export HTML source code..."/>
+            <MenuItem mnemonicParsing="false" onAction="#downloadHTMLFile" text="Retrieve HTML file from the web..." />
+            <MenuItem mnemonicParsing="false" onAction="#exportSource" text="Export HTML source code..." />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#print" text="Print...">
                 <accelerator>
@@ -83,6 +83,7 @@
                     <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
                 </content>
             </CustomMenuItem>
+            <CheckMenuItem fx:id="reloadLastFile" mnemonicParsing="false" selected="true" text="Reload last file" />
             <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse" />
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="O" control="UP" meta="UP" shift="UP" shortcut="UP" />

@@ -43,7 +43,7 @@ it into a .jar then run
 
 ```bash
 java --module-path="path_to_your_openjfx_sdk" \
-    --add-modules=javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.web,javafx.swing,javafx.media \
+    --add-modules=javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.web,javafx.swing \
     -jar your_jar_file.jar
 ```
 

@@ -38,7 +38,6 @@ public class QuickCalcController {
         Platform.runLater(field1::requestFocus);
     }
 
-
     /**
      * Perform the calculations
      *
@@ -68,7 +67,11 @@ public class QuickCalcController {
                 resultField.setText(num1.multiply(num2).toString());
                 break;
             case 3: // divide
-                resultField.setText(num1.divide(num2).toString());
+                try {
+                    resultField.setText(num1.divide(num2).toString());
+                } catch (ArithmeticException e) {
+                    resultField.setText(BigDecimal.ZERO.toString());
+                }
                 break;
             case 4: // exponent by two
                 resultField.setText(num1.multiply(num1).toString());

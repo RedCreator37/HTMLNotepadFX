@@ -1,7 +1,3 @@
-import util.Dialogs;
-import util.FileIO;
-import util.Print;
-import util.VersionData;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -14,6 +10,10 @@ import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import util.Dialogs;
+import util.FileIO;
+import util.Print;
+import util.VersionData;
 
 import java.awt.Component;
 import java.io.File;
@@ -45,6 +45,15 @@ public class Controller extends Component {
             loadSettings.loadFromXML(new FileInputStream(VersionData.SETTINGS_LOCATION));
             textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
+
+            // attempt to reload last used file
+            String lastFileName = loadSettings.getProperty("last_file");
+            if (lastFileName != null) {
+                file = new File(lastFileName);
+                openFile(file);
+            }
+
+            reloadLastFile.setSelected(Boolean.parseBoolean(loadSettings.getProperty("last_file")));
             configVersion = Integer.parseInt(loadSettings.getProperty("config_version"));
 
             if (configVersion != VersionData.CONFIG_VERSION) {
@@ -71,6 +80,7 @@ public class Controller extends Component {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
+            if (file != null && reloadLastFile.isSelected()) saveSettings.setProperty("last_file", file.getAbsolutePath());
             saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
                 File file = new File(VersionData.SETTINGS_LOCATION);
@@ -92,6 +102,7 @@ public class Controller extends Component {
     public Slider opacitySlider = new Slider();
     public MenuBar mainMenuBar = new MenuBar();
     public CheckMenuItem disableMouse = new CheckMenuItem();
+    public CheckMenuItem reloadLastFile = new CheckMenuItem();
     public CheckMenuItem checkboxSaveSettings = new CheckMenuItem();
 
     private File file;  // current file
@@ -177,7 +188,6 @@ public class Controller extends Component {
             FileIO.saveFile(file, textEdit.getHtmlText());
             MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);    // remove the "modified" text
             modified = false;
-
         } else {    // if this is a new file
             saveAs();
         }
@@ -622,13 +632,11 @@ public class Controller extends Component {
      */
     public void close() {
         boolean confirmedClose;
-
         if (modified) { // the file has been modified
             confirmedClose = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
-
         } else {    // the file hasn't been modified
             confirmedClose = true;
         }
