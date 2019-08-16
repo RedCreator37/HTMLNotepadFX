@@ -38,9 +38,8 @@ public class HTMLSource {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         file = fileChooser.showSaveDialog(MainFX.currentStage);
-        if (file != null) {
+        if (file != null)
             FileIO.saveFile(file, sourceText.getText());
-        }
 
         // Now make the window always on top again
         stage.setAlwaysOnTop(true);

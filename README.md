@@ -29,6 +29,8 @@ Features to be included in later releases and things that should be improved:
 - Improved the UI (it currently looks really boring...)
 - Make use of resource bundles or something else that'll allow the UI to be translated to other languages easily
 
+Early development versions are in the *dev-html* branch.
+
 ## Requirements
 
 Notepad is built on Java 11 and JavaFX (actually open source version of both, i.e. OpenJDK and OpenJFX).

@@ -31,7 +31,7 @@ import java.util.Scanner;
  */
 public class Controller extends Component {
 
-    /* Main settings */
+    // general settings
     private boolean saveSettings = true;
     private double configVersion = VersionData.CONFIG_VERSION;
     private float opacity = 1f;
@@ -46,7 +46,7 @@ public class Controller extends Component {
             textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
 
-            // attempt to reload last used file
+            // attempt to reload the last used file
             String lastFileName = loadSettings.getProperty("last_file");
             if (lastFileName != null) {
                 file = new File(lastFileName);
@@ -80,7 +80,11 @@ public class Controller extends Component {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
-            if (file != null && reloadLastFile.isSelected()) saveSettings.setProperty("last_file", file.getAbsolutePath());
+
+            // save the current file name
+            if (file != null && reloadLastFile.isSelected())
+                saveSettings.setProperty("last_file", file.getAbsolutePath());
+
             saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
                 File file = new File(VersionData.SETTINGS_LOCATION);
@@ -105,8 +109,8 @@ public class Controller extends Component {
     public CheckMenuItem reloadLastFile = new CheckMenuItem();
     public CheckMenuItem checkboxSaveSettings = new CheckMenuItem();
 
-    private File file;  // current file
-    private boolean modified;   // whether the file has been modified
+    private File file;
+    private boolean modified;
 
     /**
      * Create a blank file by deleting the contents of textEdit
@@ -148,9 +152,7 @@ public class Controller extends Component {
 
         file = fileChooser.showOpenDialog(MainFX.currentStage);
 
-        if (file != null) { // If the user selected a file
-            openFile(file);
-        }
+        if (file != null) openFile(file);
     }
 
     /**
@@ -188,9 +190,7 @@ public class Controller extends Component {
             FileIO.saveFile(file, textEdit.getHtmlText());
             MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);    // remove the "modified" text
             modified = false;
-        } else {    // if this is a new file
-            saveAs();
-        }
+        } else saveAs();
     }
 
     /**
@@ -205,9 +205,7 @@ public class Controller extends Component {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         file = fileChooser.showSaveDialog(MainFX.currentStage);
-        if (file != null) {
-            saveFile();
-        }
+        if (file != null) saveFile();
     }
 
     /**
@@ -222,16 +220,14 @@ public class Controller extends Component {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
         );
 
-        if (file != null) { // set the initial filename to the HTML file's name + .txt if possible
+        if (file != null) // set the initial filename to the HTML file's name + .txt if possible
             fileChooser.setInitialFileName(file.getName() + ".txt");
-        }
 
         File sourceFile;
         sourceFile = fileChooser.showSaveDialog(MainFX.currentStage);
 
-        if (sourceFile != null) {
+        if (sourceFile != null)
             FileIO.saveFile(sourceFile, textEdit.getHtmlText());
-        }
     }
 
     /**
@@ -274,11 +270,10 @@ public class Controller extends Component {
             MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
             modified = false; // the file hasn't been modified yet
 
-            file = null;    // initialize a new file
+            file = null;
 
-            while (scanner.hasNextLine()) {   // get the text and append it to textEdit
+            while (scanner.hasNextLine()) // get the text and append it to textEdit
                 appendHtmlText(textEdit, scanner.nextLine());
-            }
         } catch (IOException | IllegalArgumentException e) {
             Dialogs.errorDialog(
                     "Notepad",
@@ -440,9 +435,8 @@ public class Controller extends Component {
         );
 
         // Check whether the user has clicked OK
-        if (symbolCode != null) {
+        if (symbolCode != null)
             appendHtmlText(textEdit, symbolCode);
-        }
     }
 
     /**
@@ -526,9 +520,9 @@ public class Controller extends Component {
             stage.setTitle("HTML Source Code");
 
             // Get the filename if possible
-            if (file != null) {
+            if (file != null)
                 stage.setTitle("HTML Source Code - " + file.getName());
-            }
+
             // Get the HTML Source
             HTMLSource.HTMLSourceText = textEdit.getHtmlText();
 
@@ -550,7 +544,7 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
 
-            stage.setScene(new Scene(root, 455, 151));
+            stage.setScene(new Scene(root, 449, 110));
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
             stage.show();
@@ -577,9 +571,8 @@ public class Controller extends Component {
             if (doDeleteFile) try {
                 File file = new File(VersionData.SETTINGS_LOCATION);
 
-                if (file.delete()) {
+                if (file.delete())
                     System.out.println("Removing settings file done.");
-                }
             } catch (Exception e) {
                 System.out.println("Removing settings file failed, continuing...");
             }
@@ -598,7 +591,7 @@ public class Controller extends Component {
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
-        if (opacity < 0.01f)    // do not make the window invisible
+        if (opacity < 0.01f) // do not make the window invisible
             opacity = 0.01f;
         MainFX.currentStage.setOpacity(opacity);
     }
@@ -632,14 +625,12 @@ public class Controller extends Component {
      */
     public void close() {
         boolean confirmedClose;
-        if (modified) { // the file has been modified
+        if (modified) {
             confirmedClose = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
-        } else {    // the file hasn't been modified
-            confirmedClose = true;
-        }
+        } else confirmedClose = true;
 
         if (confirmedClose) {     // User selected OK
             saveSettings();

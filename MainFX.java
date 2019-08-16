@@ -47,9 +47,7 @@ public class MainFX extends Application {
                 controller.saveSettings();
 
                 System.exit(0); // User selected OK, close the program
-            } else {
-                event.consume(); // User selected Cancel, don't close the program
-            }
+            } else event.consume(); // User selected Cancel, don't close the program
         });
 
         System.gc();
