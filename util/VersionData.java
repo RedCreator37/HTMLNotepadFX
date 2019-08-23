@@ -21,7 +21,7 @@ public class VersionData {
      * Get the location of Notepad config file
      */
     private static String getConfigFileLocation() {
-        String os = (System.getProperty("os.name").toLowerCase());
+        String os = System.getProperty("os.name").toLowerCase();
 
         if (os.contains("win")) return System.getProperty("user.home")  // windows
                 + "\\notepad_settings.xml";

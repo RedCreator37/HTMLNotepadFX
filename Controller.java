@@ -22,6 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Scanner;
@@ -91,6 +94,13 @@ public class Controller extends Component {
                 FileOutputStream fileOut = new FileOutputStream(file);
                 saveSettings.storeToXML(fileOut, "");
                 fileOut.close();
+
+                // attempt to make the settings file hidden
+                String os = System.getProperty("os.name").toLowerCase();
+                if (os.contains("win")) {
+                    Path path = Paths.get(file.getAbsolutePath());
+                    Files.setAttribute(path, "dos:hidden", true);
+                }
             } catch (IOException e) {
                 System.out.println("Saving settings failed, continuing...");
             }

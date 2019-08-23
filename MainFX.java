@@ -24,8 +24,8 @@ public class MainFX extends Application {
         // adjust the window size to make it work on smaller screens
         Pair<Double, Double> screenSize = getScreenSize();
         double width = 1135, height = 700;
-        if (screenSize.getKey() < height) height = screenSize.getKey();
-        if (screenSize.getValue() < width) width = screenSize.getValue();
+        if (screenSize.getKey() < width) width = screenSize.getValue();
+        if (screenSize.getValue() < height) height = screenSize.getKey();
 
         primaryStage.setScene(new Scene(root, width, height));
         primaryStage.show();
