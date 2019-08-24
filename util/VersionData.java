@@ -7,9 +7,9 @@ public class VersionData {
 
     public static final String VERSION = "0.4 HTML";
 
-    public static final int BUILD_NUMBER = 1085;
+    public static final int BUILD_NUMBER = 1103;
 
-    public static final String BUILD_DATE = "July 2019";
+    public static final String BUILD_DATE = "August 2019";
 
     public static final boolean IS_BETA = true;
 
