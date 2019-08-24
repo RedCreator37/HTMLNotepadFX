@@ -16,8 +16,7 @@ public class Print {
     public static void printText(String text) {
         try {   // use system look and feel
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException
-                | IllegalAccessException e) {
+        } catch (Exception e) {
             // look and feel not supported, load the default one
         }
 

@@ -2,7 +2,8 @@ package util;
 
 /**
  * Main error handler for Notepad
- * Please put all error messages here and call them instead of putting them directly into other classes.
+ * Please store all error messages here and call them instead of
+ * hardcoding them directly into other classes.
  */
 class ErrorHandler {
 
@@ -29,5 +30,4 @@ class ErrorHandler {
                 "There was an error processing your request",
                 exception);
     }
-
-} // end class Utilities.ErrorHandler
+}

@@ -1,9 +1,9 @@
-import util.FileIO;
-import util.Print;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import util.FileIO;
+import util.Print;
 
 import java.io.File;
 
@@ -16,7 +16,9 @@ public class HTMLSource {
     public TextArea sourceText; // text area for source code
     static String HTMLSourceText;
 
-    /** Initialize the window, get the source code... */
+    /**
+     * Initialize the window, get the source code...
+     */
     @FXML
     protected void initialize() {   // fixme: it sometimes takes more time to update the source code
         sourceText.setText(HTMLSourceText);
@@ -52,7 +54,9 @@ public class HTMLSource {
         Print.printText(sourceText.getText());
     }
 
-    /** Close the HTML Source code window */
+    /**
+     * Close the HTML Source code window
+     */
     public void closeSource() {
         Stage stage = (Stage) sourceText.getScene().getWindow();
         stage.close();

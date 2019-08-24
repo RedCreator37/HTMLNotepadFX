@@ -18,34 +18,30 @@ public class FileIO {
      * Open a text file and return its content in form of a string
      */
     public static String openFile(File file) {
-        String filename = file.getAbsolutePath();   // get the filename
+        String filename = file.getAbsolutePath();
         StringBuilder sb = new StringBuilder();
 
         try {
             Scanner scan = new Scanner(new FileReader(filename));   // open the file
             while (scan.hasNext()) // while there's still something to read
-                sb.append(scan.nextLine()).append("\n");  // append text to a StringBuilder
-
+                sb.append(scan.nextLine()).append("\n");  // append the text to a StringBuilder
         } catch (FileNotFoundException e) {
             ErrorHandler.fileNotFound(filename);
         }
 
         return sb.toString();
-
     }
 
     /**
      * Save the given string to a text file
      */
     public static void saveFile(File file, String fileContent) {
-        try {
-            // create a buffered writer to write to a file
+        try {   // use a buffered writer to write to the file
             BufferedWriter out = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
-            out.write(fileContent); // write the contents of the TextArea to the file
+            out.write(fileContent);
             out.close();
         } catch (IOException e) {
             ErrorHandler.fileIOError(file.getAbsolutePath(), e);
         }
-
     }
 }

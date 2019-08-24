@@ -47,9 +47,8 @@ public class QuickCalcController {
      *                      one of the following:
      *                      0 - add, 1 - subtract, 2 - multiply,
      *                      3 - divide, 4 - exponent by two,
-     *                      5 - exponent by three. Throws new
-     *                      IllegalStateException if no valid option
-     *                      is passed.
+     *                      5 - exponent by three.
+     * @throws IllegalStateException if no valid option is specified.
      */
     private void calculate(String input1, String input2, int calculationID) {
         BigDecimal num1, num2;
