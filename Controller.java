@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.web.HTMLEditor;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -537,6 +539,9 @@ public class Controller extends Component {
             HTMLSource.HTMLSourceText = textEdit.getHtmlText();
 
             stage.setScene(new Scene(root, 822, 562));
+            stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                if (e.getCode() == KeyCode.ESCAPE) stage.close();
+            });
             stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {
@@ -619,6 +624,9 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("About Notepad");
             stage.setScene(new Scene(root, 638, 281));
+            stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+                if (e.getCode() == KeyCode.ESCAPE) stage.close();
+            });
             stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {

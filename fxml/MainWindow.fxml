@@ -37,8 +37,14 @@
                 </accelerator>
             </MenuItem>
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#downloadHTMLFile" text="Retrieve HTML file from the web..." />
-            <MenuItem mnemonicParsing="false" onAction="#exportSource" text="Export HTML source code..." />
+            <MenuItem mnemonicParsing="false" onAction="#downloadHTMLFile" text="Retrieve HTML file from the web...">
+            <accelerator>
+               <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#exportSource" text="Export HTML source code...">
+            <accelerator>
+               <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#print" text="Print...">
                 <accelerator>
@@ -59,32 +65,77 @@
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator>
-            <MenuItem mnemonicParsing="false" onAction="#insertImage" text="Image..." />
-            <MenuItem mnemonicParsing="false" onAction="#insertLink" text="Link..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertImage" text="Image...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="I" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertLink" text="Link...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="L" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
             <Menu mnemonicParsing="false" text="Script">
-                <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script..." />
-                <MenuItem mnemonicParsing="false" onAction="#insertScriptAltText" text="Script alternative text..." />
+                <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script...">
+               <accelerator>
+                  <KeyCodeCombination alt="DOWN" code="J" control="UP" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator></MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#insertScriptAltText" text="Script alternative text...">
+               <accelerator>
+                  <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
+               </accelerator></MenuItem>
             </Menu>
-            <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote..." />
-            <MenuItem mnemonicParsing="false" onAction="#insertScrollingText" text="Scrolling text..." />
-            <MenuItem mnemonicParsing="false" onAction="#insertSymbol" text="Symbol..." />
-            <MenuItem mnemonicParsing="false" onAction="#insertCode" text="Code..." />
-            <MenuItem mnemonicParsing="false" onAction="#insertEmbeddedWebsite" text="Embedded website..." />
-            <MenuItem mnemonicParsing="false" onAction="#insertHTMLTag" text="Custom HTML tag..." />
+            <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="Q" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertScrollingText" text="Scrolling text...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="T" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertSymbol" text="Symbol...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="Y" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertCode" text="Code...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertEmbeddedWebsite" text="Embedded website...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertHTMLTag" text="Custom HTML tag...">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Options">
-            <MenuItem mnemonicParsing="false" onAction="#openSource" text="HTML Source Code" />
-            <MenuItem mnemonicParsing="false" onAction="#openQuickCalculator" text="Quick Calculator" />
+            <MenuItem mnemonicParsing="false" onAction="#openSource" text="HTML Source Code">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#openQuickCalculator" text="Quick Calculator">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
             <SeparatorMenuItem />
-            <CheckMenuItem fx:id="checkboxSaveSettings" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings" />
+            <CheckMenuItem fx:id="checkboxSaveSettings" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+            </accelerator></CheckMenuItem>
             <MenuItem disable="true" mnemonicParsing="false" text="Opacity:" />
             <CustomMenuItem mnemonicParsing="false" text="Opacity">
                 <content>
                     <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
                 </content>
             </CustomMenuItem>
-            <CheckMenuItem fx:id="reloadLastFile" mnemonicParsing="false" selected="true" text="Reload last file" />
-            <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse" />
+            <CheckMenuItem fx:id="reloadLastFile" mnemonicParsing="false" selected="true" text="Reload last file">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+            </accelerator></CheckMenuItem>
+            <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse">
+            <accelerator>
+               <KeyCodeCombination alt="DOWN" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+            </accelerator></CheckMenuItem>
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="O" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator>
