@@ -129,7 +129,6 @@ public class Controller extends Component {
      */
     public void newFile() {
         boolean confirmedNewFile;
-
         if (modified) { // if the file has been modified
             confirmedNewFile = Dialogs.confirmationDialog(
                     "Notepad",
@@ -163,7 +162,6 @@ public class Controller extends Component {
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
         file = fileChooser.showOpenDialog(MainFX.currentStage);
-
         if (file != null) openFile(file);
     }
 
@@ -574,9 +572,8 @@ public class Controller extends Component {
      */
     public void toggleSaveSettings() {
         saveSettings = checkboxSaveSettings.isSelected();
-
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
-            boolean doDeleteFile = Dialogs.confirmationDialog( // display a confirmation dialog
+            boolean doDeleteFile = Dialogs.confirmationDialog(
                     "Notepad",
                     "Notepad",
                     "Would you also like to delete the settings file?"
@@ -630,7 +627,8 @@ public class Controller extends Component {
             stage.setAlwaysOnTop(true);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Failed loading about dialog: "
+                    + e.getMessage());
         }
     }
 
@@ -655,5 +653,4 @@ public class Controller extends Component {
             System.exit(0);
         }
     }
-
-} // end class Controller
+}
