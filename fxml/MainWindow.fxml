@@ -103,7 +103,7 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator></MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#insertHTMLTag" text="Custom HTML tag...">
+            <MenuItem mnemonicParsing="false" onAction="#insertHtmlTag" text="Custom HTML tag...">
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="H" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator></MenuItem>

@@ -1,10 +1,10 @@
-import util.Dialogs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import util.Dialogs;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -36,7 +36,7 @@ public class MainFX extends Application {
         Controller controllerObject = new Controller();
         controllerObject.loadSettings();
 
-        primaryStage.setOnCloseRequest(event -> {   // Ask for confirmation when closing the program
+        primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
             boolean confirmed = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
@@ -46,8 +46,8 @@ public class MainFX extends Application {
                 Controller controller = new Controller();
                 controller.saveSettings();
 
-                System.exit(0); // User selected OK, close the program
-            } else event.consume(); // User selected Cancel, don't close the program
+                System.exit(0); // user has selected OK, close the program
+            } else event.consume(); // user has selected Cancel, don't close the program
         });
 
         System.gc();

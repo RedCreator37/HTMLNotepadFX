@@ -129,21 +129,21 @@ public class Controller extends Component {
      */
     public void newFile() {
         boolean confirmedNewFile;
-        if (modified) { // if the file has been modified
+        if (modified) {
             confirmedNewFile = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 
-            if (confirmedNewFile) {     // User selected OK
+            if (confirmedNewFile) {
                 textEdit.setHtmlText("");
                 MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
                 modified = false; // the file hasn't been modified yet
 
-                file = null;    // initialize a new file
+                file = null;
             }
 
-        } else {    // the file hasn't been modified yet
+        } else {    // if the file hasn't been modified yet
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - Notepad", MainFX.currentStage);
             modified = false;
@@ -156,7 +156,7 @@ public class Controller extends Component {
      * Display a file chooser dialog and let the user choose a file
      */
     public void openFileDialog() {
-        FileChooser fileChooser = new FileChooser(); // Open a file chooser dialog
+        FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
@@ -170,7 +170,7 @@ public class Controller extends Component {
      */
     private void openFile(File file) {
         if (!modified) {    // if the file hasn't been modified yet
-            textEdit.setHtmlText(FileIO.openFile(file));    // open the file
+            textEdit.setHtmlText(FileIO.openFile(file));
 
             // Set the title bar text to match the file's name
             MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);
@@ -178,13 +178,13 @@ public class Controller extends Component {
 
         } else {    // if the file has been modified
             boolean confirmed;
-            confirmed = Dialogs.confirmationDialog( // Ask for confirmation
+            confirmed = Dialogs.confirmationDialog(
                     "Notepad",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 
-            if (confirmed) {    // user confirmed to discard the changes
-                textEdit.setHtmlText(FileIO.openFile(file));    // open the file
+            if (confirmed) {
+                textEdit.setHtmlText(FileIO.openFile(file));
 
                 MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);
                 modified = false;
@@ -198,7 +198,9 @@ public class Controller extends Component {
     public void saveFile() {
         if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
             FileIO.saveFile(file, textEdit.getHtmlText());
-            MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);    // remove the "modified" text
+
+            // remove the "modified" text from the title bar
+            MainFX.setTitle(file.getName() + " - Notepad", MainFX.currentStage);
             modified = false;
         } else saveAs();
     }
@@ -208,9 +210,8 @@ public class Controller extends Component {
      * and then write the text into specified file
      */
     public void saveAs() {
-        // Open a file chooser dialog
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(   // set file extensions filter
+        fileChooser.getExtensionFilters().addAll(   // set extensions filters
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
@@ -222,9 +223,9 @@ public class Controller extends Component {
      * Export the HTML source code of textEdit to a plain text file
      */
     public void exportSource() {
-        FileChooser fileChooser = new FileChooser();    // open a file chooser dialog
+        FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Export HTML source to a file");
-        fileChooser.getExtensionFilters().addAll(   // set the extension filter
+        fileChooser.getExtensionFilters().addAll(   // set extension filters
                 new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
         );
@@ -264,8 +265,7 @@ public class Controller extends Component {
                 "http://"
         );
 
-        // the user has clicked OK
-        if (url != null) try {
+        if (url != null) try {  // if the user has clicked ok
             Platform.runLater(() -> {   // set the waiting cursor
                 Stage stage = (Stage) textEdit.getScene().getWindow();
                 stage.getScene().setCursor(Cursor.WAIT);
@@ -366,7 +366,6 @@ public class Controller extends Component {
                 "Enter script code"
         );
 
-        // Check whether the user has clicked OK
         if (scriptText != null) {
             String compiledScriptText = "<script> " + scriptText + " </script>";
             appendHtmlText(textEdit, compiledScriptText);
@@ -388,7 +387,6 @@ public class Controller extends Component {
                         "JavaScript\"..."
         );
 
-        // Check whether the user has clicked OK
         if (scriptAltText != null) {
             String compiledScriptAltText = "<noscript> " + scriptAltText + " </noscript>";
             appendHtmlText(textEdit, compiledScriptAltText);
@@ -407,7 +405,6 @@ public class Controller extends Component {
                 "Enter a quote..."
         );
 
-        // Check whether the user has clicked OK
         if (quoteText != null) {
             String compiledHTMLQuote = "<q> " + quoteText + " </q>";
             appendHtmlText(textEdit, compiledHTMLQuote);
@@ -425,7 +422,6 @@ public class Controller extends Component {
                 "Text"
         );
 
-        // Check whether the user has clicked OK
         if (marqueeText != null) {
             String compiledHTMLMarquee = "<marquee> " + marqueeText + " </marquee>";
             appendHtmlText(textEdit, compiledHTMLMarquee);
@@ -444,7 +440,6 @@ public class Controller extends Component {
                 "&symbol;"
         );
 
-        // Check whether the user has clicked OK
         if (symbolCode != null)
             appendHtmlText(textEdit, symbolCode);
     }
@@ -461,7 +456,6 @@ public class Controller extends Component {
                 "Enter some code..."
         );
 
-        // Check whether the user has clicked OK
         if (code != null) {
             String codeText = "<code> " + code + " </code>";
             appendHtmlText(textEdit, codeText);
@@ -479,7 +473,6 @@ public class Controller extends Component {
                 "http://"
         );
 
-        // Check whether the user has clicked OK
         if (websiteAddress != null) {
             String IFrameTag = "<iframe src=\"" + websiteAddress + "\" height=\"300\" " +
                     "width=\"500\"></iframe>";
@@ -490,8 +483,8 @@ public class Controller extends Component {
     /**
      * Insert a custom HTML tag to textEdit
      */
-    public void insertHTMLTag() {
-        String HTMLTag = Dialogs.textAreaInputDialog(
+    public void insertHtmlTag() {
+        String htmlTag = Dialogs.textAreaInputDialog(
                 "Notepad",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
@@ -501,8 +494,7 @@ public class Controller extends Component {
                 "Enter something like \"<tag>text</tag>\""
         );
 
-        // Check whether the user has clicked OK
-        if (HTMLTag != null) appendHtmlText(textEdit, HTMLTag);
+        if (htmlTag != null) appendHtmlText(textEdit, htmlTag);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -529,12 +521,12 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("HTML Source Code");
 
-            // Get the filename if possible
+            // get the filename if possible
             if (file != null)
                 stage.setTitle("HTML Source Code - " + file.getName());
 
-            // Get the HTML Source
-            HTMLSource.HTMLSourceText = textEdit.getHtmlText();
+            // get the HTML source code
+            HTMLSource.htmlSourceText = textEdit.getHtmlText();
 
             stage.setScene(new Scene(root, 822, 562));
             stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -582,7 +574,6 @@ public class Controller extends Component {
             // the user has chosen to delete the file
             if (doDeleteFile) try {
                 File file = new File(VersionData.SETTINGS_LOCATION);
-
                 if (file.delete())
                     System.out.println("Removing settings file done.");
             } catch (Exception e) {
@@ -648,7 +639,7 @@ public class Controller extends Component {
                     "All unsaved changes will be lost! Continue?");
         } else confirmedClose = true;
 
-        if (confirmedClose) {     // User selected OK
+        if (confirmedClose) {
             saveSettings();
             System.exit(0);
         }

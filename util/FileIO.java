@@ -22,9 +22,9 @@ public class FileIO {
         StringBuilder sb = new StringBuilder();
 
         try {
-            Scanner scan = new Scanner(new FileReader(filename));   // open the file
-            while (scan.hasNext()) // while there's still something to read
-                sb.append(scan.nextLine()).append("\n");  // append the text to a StringBuilder
+            Scanner scan = new Scanner(new FileReader(filename));
+            while (scan.hasNext())
+                sb.append(scan.nextLine()).append("\n");
         } catch (FileNotFoundException e) {
             ErrorHandler.fileNotFound(filename);
         }

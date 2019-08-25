@@ -2,7 +2,6 @@ package util;
 
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.print.PrinterException;
 
 /**

@@ -12,27 +12,26 @@ import java.io.File;
  */
 public class HTMLSource {
 
-    /* Initialize controls */
-    public TextArea sourceText; // text area for source code
-    static String HTMLSourceText;
+    // initialize controls
+    public TextArea sourceText; // text area for the source code
+    static String htmlSourceText;
 
     /**
      * Initialize the window, get the source code...
      */
     @FXML
     protected void initialize() {   // fixme: it sometimes takes more time to update the source code
-        sourceText.setText(HTMLSourceText);
+        sourceText.setText(htmlSourceText);
     }
 
     /**
      * Save the HTML source code to a text file
      */
     public void saveToFile() {
-        // We don't want the window to stay above the Save As dialog
+        // don't stay on top while the save as dialog is displayed
         Stage stage = (Stage) sourceText.getScene().getWindow();
         stage.setAlwaysOnTop(false);
 
-        // Open a file chooser dialog
         File file;
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
@@ -43,7 +42,7 @@ public class HTMLSource {
         if (file != null)
             FileIO.saveFile(file, sourceText.getText());
 
-        // Now make the window always on top again
+        // now make the window always on top again
         stage.setAlwaysOnTop(true);
     }
 
