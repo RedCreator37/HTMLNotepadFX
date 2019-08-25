@@ -59,7 +59,7 @@ public class Controller extends Component {
             }
 
             reloadLastFile.setSelected(Boolean.parseBoolean(loadSettings.getProperty("last_file")));
-            configVersion = Integer.parseInt(loadSettings.getProperty("config_version"));
+            configVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
 
             if (configVersion != VersionData.CONFIG_VERSION) {
                 Dialogs.warningDialog(
