@@ -222,10 +222,9 @@ public class Controller extends Component {
      * Export the HTML source code of textEdit to a plain text file
      */
     public void exportSource() {
-        // Open a file chooser dialog
-        FileChooser fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();    // open a file chooser dialog
         fileChooser.setTitle("Export HTML source to a file");
-        fileChooser.getExtensionFilters().addAll(   // set file extensions filter
+        fileChooser.getExtensionFilters().addAll(   // set the extension filter
                 new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
         );
@@ -288,7 +287,8 @@ public class Controller extends Component {
             Dialogs.errorDialog(
                     "Notepad",
                     "Error retrieving HTML file",
-                    "An error has occurred while attempting to \nretrieve specified HTML file: \n" +
+                    "An error has occurred while attempting to \n" +
+                            "retrieve the specified HTML file:\n" +
                             e.getMessage()
             );
         } finally {
