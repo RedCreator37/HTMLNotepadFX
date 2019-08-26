@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * MainFX application class for Notepad
+ * MainFX application class for NotepadFX
  *
  * Copyright (c) 2019 Tobija Žuntar
  *
@@ -36,7 +36,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXML/MainWindow.fxml"));
-        primaryStage.setTitle("Untitled - Notepad");
+        primaryStage.setTitle("Untitled - NotepadFX");
         primaryStage.setScene(new Scene(root, 1135, 700));
         primaryStage.show();
 
@@ -48,7 +48,7 @@ public class MainFX extends Application {
 
         primaryStage.setOnCloseRequest(event -> {   // Ask for confirmation when closing the program
             boolean confirmed = Dialogs.confirmationDialog(
-                    "Notepad",
+                    "NotepadFX",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 

@@ -4,7 +4,7 @@ import javax.swing.JTextPane;
 import java.awt.print.PrinterException;
 
 /**
- * Print handler for Notepad
+ * Print handler for NotepadFX
  *
  * Copyright (c) 2019 Tobija Žuntar
  *

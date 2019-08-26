@@ -1,7 +1,7 @@
 package Utilities;
 
 /**
- * Version info class for Notepad
+ * Version info class for NotepadFX
  *
  * Copyright (c) 2019 Tobija Žuntar
  *
