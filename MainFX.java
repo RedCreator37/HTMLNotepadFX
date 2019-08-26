@@ -10,7 +10,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 /**
- * Main application class for Notepad
+ * Main application class for HTMLNotepadFX
  */
 public class MainFX extends Application {
 
@@ -19,7 +19,7 @@ public class MainFX extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/MainWindow.fxml"));
-        primaryStage.setTitle("Untitled - Notepad");
+        primaryStage.setTitle("Untitled - HTMLNotepadFX");
 
         // adjust the window size to make it work on smaller screens
         Pair<Double, Double> screenSize = getScreenSize();
@@ -38,7 +38,7 @@ public class MainFX extends Application {
 
         primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
             boolean confirmed = Dialogs.confirmationDialog(
-                    "Notepad",
+                    "HTMLNotepadFX",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 

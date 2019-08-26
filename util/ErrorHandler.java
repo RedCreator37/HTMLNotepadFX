@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Main error handler for Notepad
+ * Main error handler for HTMLNotepadFX
  * Please store all error messages here and call them instead of
  * hardcoding them directly into other classes.
  */

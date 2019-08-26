@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Version info class for Notepad
+ * Version info class for HTMLNotepadFX
  */
 public class VersionData {
 
@@ -18,15 +18,15 @@ public class VersionData {
     public static final double CONFIG_VERSION = 1;
 
     /**
-     * Get the location of Notepad config file
+     * Get the location of HTMLNotepadFX config file
      */
     private static String getConfigFileLocation() {
         String os = System.getProperty("os.name").toLowerCase();
 
         if (os.contains("win")) return System.getProperty("user.home")  // windows
-                + "\\notepad_settings.xml";
+                + "\\HTMLNotepadFX_settings.xml";
 
         else return System.getProperty("user.home") // everything else
-                + "/.notepad_settings.xml";
+                + "/.HTMLNotepadFX_settings.xml";
     }
 }

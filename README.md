@@ -1,6 +1,6 @@
-# Notepad ![][licenseBadge] ![][versionBadge]
+# HTMLNotepadFX ![][licenseBadge] ![][versionBadge]
 
-Notepad is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrapped in a nice window).
+HTMLNotepadFX is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrapped in a nice window).
 
 *This is the first program I put on GitHub.*
 *I hope that you understand that some things aren't done perfectly.*
@@ -33,7 +33,7 @@ Early development versions are in the *dev-html* branch.
 
 ## Requirements
 
-Notepad is built on Java 11 and JavaFX (actually open source version of both, i.e. OpenJDK and OpenJFX).
+HTMLNotepadFX is built on Java 11 and JavaFX (actually open source version of both, i.e. OpenJDK and OpenJFX).
 
 You'll have to manually install JavaFX since it's no longer bundled with JDK. 
 

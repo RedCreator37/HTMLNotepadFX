@@ -5,7 +5,7 @@ import javax.swing.UIManager;
 import java.awt.print.PrinterException;
 
 /**
- * Print handler for Notepad
+ * Print handler for HTMLNotepadFX
  */
 public class Print {
 

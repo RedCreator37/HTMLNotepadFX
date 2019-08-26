@@ -122,12 +122,17 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
             </accelerator></CheckMenuItem>
-            <MenuItem disable="true" mnemonicParsing="false" text="Opacity:" />
-            <CustomMenuItem mnemonicParsing="false" text="Opacity">
-                <content>
-                    <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
-                </content>
-            </CustomMenuItem>
+            <CheckMenuItem fx:id="checkboxExperimentalUI" mnemonicParsing="false" onAction="#toggleExperimentalInterface" text="Enable experimental UI">
+            <accelerator>
+                <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+            </accelerator></CheckMenuItem>
+            <Menu mnemonicParsing="false" text="Window opacity">
+                <CustomMenuItem mnemonicParsing="false" text="Opacity">
+                    <content>
+                        <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
+                    </content>
+                </CustomMenuItem>
+            </Menu>
             <CheckMenuItem fx:id="reloadLastFile" mnemonicParsing="false" selected="true" text="Reload last file">
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
