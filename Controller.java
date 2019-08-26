@@ -52,7 +52,7 @@ public class Controller extends Component {
     private boolean saveSettings = true;
     private float opacity = 1f;
 
-    private final String settingsLocation = ".NotepadFX_Settings.xml";
+    private final String settingsLocation = ".HTMLNotepadFX_Settings.xml";
 
     /**
      * Load settings from an XML file
@@ -115,13 +115,13 @@ public class Controller extends Component {
 
         if (modified) { // if the file has been modified
             confirmedNewFile = Dialogs.confirmationDialog(
-                    "NotepadFX",
+                    "HTMLNotepadFX",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 
             if (confirmedNewFile) {     // User selected OK
                 textEdit.setHtmlText("");
-                MainFX.setTitle("Untitled - NotepadFX", MainFX.currentStage);
+                MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
                 modified = false; // the file hasn't been modified yet
 
                 file = null;    // initialize a new file
@@ -129,7 +129,7 @@ public class Controller extends Component {
 
         } else {    // the file hasn't been modified yet
             textEdit.setHtmlText("");
-            MainFX.setTitle("Untitled - NotepadFX", MainFX.currentStage);
+            MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
 
             file = null;
@@ -160,20 +160,20 @@ public class Controller extends Component {
             textEdit.setHtmlText(FileIO.openFile(file));    // open the file
 
             // Set the title bar text to match the file's name
-            MainFX.setTitle(file.getName() + " - NotepadFX", MainFX.currentStage);
+            MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
 
         } else {    // if the file has been modified
             boolean confirmed;
             confirmed = Dialogs.confirmationDialog( // Ask for confirmation
-                    "NotepadFX",
+                    "HTMLNotepadFX",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 
             if (confirmed) {    // user confirmed to discard the changes
                 textEdit.setHtmlText(FileIO.openFile(file));    // open the file
 
-                MainFX.setTitle(file.getName() + " - NotepadFX", MainFX.currentStage);
+                MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
             }
         }
@@ -185,7 +185,7 @@ public class Controller extends Component {
     public void saveFile() {
         if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
             FileIO.saveFile(file, textEdit.getHtmlText());
-            MainFX.setTitle(file.getName() + " - NotepadFX", MainFX.currentStage);    // remove the "modified" text
+            MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);    // remove the "modified" text
             modified = false;
 
         } else {    // if this is a new file
@@ -250,7 +250,7 @@ public class Controller extends Component {
      */
     public void downloadHTMLFile() {
         String url = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Retrieve HTML file from web",
                 "Enter a valid web address of a HTML file to download and display.\n" +
                         "Embedded objects (such as images) won't be downloaded in the process.\n" +
@@ -271,7 +271,7 @@ public class Controller extends Component {
             Scanner scanner = new Scanner(inputStream);
 
             textEdit.setHtmlText(""); // clean the textEdit first
-            MainFX.setTitle("Untitled - NotepadFX", MainFX.currentStage);
+            MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false; // the file hasn't been modified yet
 
             file = null;    // initialize a new file
@@ -286,7 +286,7 @@ public class Controller extends Component {
             });
         } catch (IOException | IllegalArgumentException e) {
             Dialogs.errorDialog(
-                    "NotepadFX",
+                    "HTMLNotepadFX",
                     "Error retrieving HTML file",
                     "An error has occurred while attempting to \nretrieve specified HTML file: \n" +
                             e.getMessage()
@@ -301,7 +301,7 @@ public class Controller extends Component {
      */
     public void insertImage() {
         String imageAddress = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert an image",
                 "Enter the web address of the image you want to insert:",
                 "http://"
@@ -319,7 +319,7 @@ public class Controller extends Component {
      */
     public void insertLink() {
         String linkAddress = Dialogs.inputDialog(   // todo: find a better way to specify link text
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert a link",
                 "Enter a web address to insert as a link:",
                 "http://"
@@ -337,7 +337,7 @@ public class Controller extends Component {
      */
     public void insertScript() {
         String scriptText = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert a script",
                 "Warning!\n" +
                         "Scripts can be harmful and some browsers will block them!\n" +
@@ -358,7 +358,7 @@ public class Controller extends Component {
      */
     public void insertScriptAltText() {
         String scriptAltText = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert script alternative text",
                 "This text will be displayed instead of a script if\n" +
                         "the browser blocks / does not support JavaScript scripts.",
@@ -377,7 +377,7 @@ public class Controller extends Component {
      */
     public void insertQuote() {
         String quoteText = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert a quote",
                 "Enter a quote to insert:",
                 "Quote"
@@ -395,7 +395,7 @@ public class Controller extends Component {
      */
     public void insertScrollingText() {
         String marqueeText = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert scrolling text",
                 "Enter the text to insert:",
                 "Text"
@@ -413,7 +413,7 @@ public class Controller extends Component {
      */
     public void insertSymbol() {
         String symbolCode = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert a symbol",
                 "Enter a symbol code to insert:\n" +
                         "Symbol codes must end with a semicolon!",
@@ -431,7 +431,7 @@ public class Controller extends Component {
      */
     public void insertCode() {
         String code = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert source code",
                 "Enter source code to insert:",
                 "code"
@@ -449,7 +449,7 @@ public class Controller extends Component {
      */
     public void insertEmbeddedWebsite() {
         String websiteAddress = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Embed a website",
                 "Enter web address of the website to embed:",
                 "http://"
@@ -467,7 +467,7 @@ public class Controller extends Component {
      */
     public void insertHTMLTag() {
         String HTMLTag = Dialogs.inputDialog(
-                "NotepadFX",
+                "HTMLNotepadFX",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
                         "\nWarning!\n" +
@@ -524,8 +524,8 @@ public class Controller extends Component {
 
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
             boolean doDeleteFile = Dialogs.confirmationDialog( // display a confirmation dialog
-                    "NotepadFX",
-                    "NotepadFX",
+                    "HTMLNotepadFX",
+                    "HTMLNotepadFX",
                     "Would you like to also delete the settings file?"
             );
 
@@ -569,7 +569,7 @@ public class Controller extends Component {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("FXML/About.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("About NotepadFX");
+            stage.setTitle("About HTMLNotepadFX");
             stage.setScene(new Scene(root, 638, 281));
             stage.setAlwaysOnTop(true);
             stage.show();
@@ -588,7 +588,7 @@ public class Controller extends Component {
 
         if (modified) { // the file has been modified
             confirmedClose = Dialogs.confirmationDialog(
-                    "NotepadFX",
+                    "HTMLNotepadFX",
                     "Warning",
                     "All unsaved changes will be lost! Continue?");
 

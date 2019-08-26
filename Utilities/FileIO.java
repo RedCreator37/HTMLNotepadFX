@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Main File Input/Output class for NotepadFX
+ * Main File Input/Output class for HTMLNotepadFX
  * Please use this class for all file operations (opening, saving, etc.)
  *
  * Copyright (c) 2019 Tobija Žuntar

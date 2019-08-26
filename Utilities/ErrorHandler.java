@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * Main error handler for NotepadFXFXFXFXFXFXFX
+ * Main error handler for HTMLNotepadFX
  * Please put all error messages here and call them instead of putting them directly into other classes.
  *
  * Copyright (c) 2019 Tobija Žuntar
