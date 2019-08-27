@@ -207,6 +207,59 @@ public class Dialogs {
     }
 
     /**
+     * Display a text input dialog with a long text field (useful
+     * for entering long strings of data such as full web addresses)
+     *
+     * @param title      dialog title
+     * @param headerText dialog header text
+     * @param text1      text to be displayed above the text field
+     * @param text2      text to be displayed below the text field
+     * @param buttonText default button action text (ex. "Insert")
+     * @param defaultValue text field's pre-entered default text
+     * @return entered text (can be null!)
+     */
+    public static String longInputDialog(String title, String headerText, String text1,
+                                         String text2, String buttonText, String defaultValue) {
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle(title);
+        dialog.setHeaderText(headerText);
+
+        // set button types
+        ButtonType mainButtonType = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
+
+        // create the text area
+        GridPane pane = new GridPane();
+        Label label1 = new Label(text1 + "\n");
+        TextField textField = new TextField();
+        Label label2 = new Label(text2);
+
+        textField.setText(defaultValue);
+        pane.add(label1, 0, 0);
+        pane.add(textField, 0, 1);
+        pane.add(label2, 0, 2);
+
+        // disable the button until some text is entered
+        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
+        mainButton.setDisable(true);
+        textField.textProperty().addListener(((observableValue, oldValue, newValue)
+                -> mainButton.setDisable(false)));
+
+        dialog.getDialogPane().setContent(pane);
+        Platform.runLater(textField::requestFocus);
+
+        // convert the result
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == mainButtonType)
+                return textField.getText();
+            return null;
+        });
+
+        dialog.showAndWait();
+        return dialog.getResult();
+    }
+
+    /**
      * Display a generic error dialog with a details sub pane containing
      * exception stacktrace.
      */

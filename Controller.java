@@ -257,13 +257,13 @@ public class Controller extends Component {
      * Retrieve a HTML file from the internet and load it in textEdit
      */
     public void downloadHTMLFile() {
-        String url = Dialogs.inputDialog(
+        String url = Dialogs.longInputDialog(
                 "HTMLNotepadFX",
-                "Retrieve HTML file from web",
+                "Retrieve HTML file from the web",
                 "Enter a valid web address of a HTML file to download and display.\n" +
-                        "Embedded objects (such as images) won't be downloaded in the process.\n" +
-                        "\nWarning!\n" +
-                        "Any unsaved changes in the current file will be lost!",
+                "Embedded objects (such as images) won't be downloaded in the process.\n\n",
+                "\nWarning!\nAny unsaved changes in the current file will be lost!",
+                "Retrieve",
                 "http://"
         );
 
