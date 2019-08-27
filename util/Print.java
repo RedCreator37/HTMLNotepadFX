@@ -19,13 +19,16 @@ public class Print {
             // look and feel not supported, load the default one
         }
 
-        JTextPane textPane = new JTextPane();   // fixme: not working on macOS
-        textPane.setText(text);
+        Thread printThread = new Thread(() -> {
+            JTextPane textPane = new JTextPane();
+            textPane.setText(text);
 
-        try {
-            textPane.print();
-        } catch (PrinterException e) {
-            ErrorHandler.printError(e);
-        }
+            try {
+                textPane.print();
+            } catch (PrinterException e) {
+                ErrorHandler.printError(e);
+            }
+        });
+        printThread.start();
     }
 }

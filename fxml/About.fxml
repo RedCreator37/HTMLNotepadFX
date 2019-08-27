@@ -52,22 +52,22 @@
             <Font name="System Bold" size="14.0" />
         </font>
     </Label>
-    <Label fx:id="versionLabel" layoutX="140.0" layoutY="55.0" text="version" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="55.0">
+    <Label fx:id="versionLabel" layoutX="140.0" layoutY="54.0" text="version" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="54.0">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <Label fx:id="buildLabel" layoutX="140.0" layoutY="80.0" text="build" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="80.0">
+    <Label fx:id="buildLabel" layoutX="140.0" layoutY="79.0" text="build" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="79.0">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <Label fx:id="buildDateLabel" layoutX="141.0" layoutY="107.0" text="buildDate" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="107.0">
+    <Label fx:id="buildDateLabel" layoutX="140.0" layoutY="106.0" text="buildDate" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="106.0">
         <font>
             <Font size="14.0" />
         </font>
     </Label>
-    <Label fx:id="betaLabel" layoutX="140.0" layoutY="135.0" text="isBeta" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="135.0">
+    <Label fx:id="betaLabel" layoutX="140.0" layoutY="134.0" text="isBeta" AnchorPane.leftAnchor="140.0" AnchorPane.topAnchor="134.0">
         <font>
             <Font size="14.0" />
         </font>

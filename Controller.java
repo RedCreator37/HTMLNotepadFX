@@ -631,7 +631,12 @@ public class Controller extends Component {
             Parent root = FXMLLoader.load(getClass().getResource("fxml/About.fxml"));
             Stage stage = new Stage();
             stage.setTitle("About HTMLNotepadFX");
-            stage.setScene(new Scene(root, 638, 281));
+
+            Scene scene = new Scene(root, 638, 281);
+            if (experimentalUI)
+                scene.getStylesheets().add("fxml/Styles.css");
+            stage.setScene(scene);
+
             stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                 if (e.getCode() == KeyCode.ESCAPE) stage.close();
             });

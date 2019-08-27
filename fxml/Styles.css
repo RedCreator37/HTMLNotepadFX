@@ -32,16 +32,16 @@
     -fx-border-radius: 0;
 }
 
-.button:hover {
+.button:hover, .button:default:hover {
     -fx-background-color: #e9f3fb;
 }
 
-.button:pressed, .button:default {
+.button:pressed, .button:default, button:default:pressed {
     -fx-background-color: #d4e7f7;
 }
 
 /* text field */
-.text-field {
+.text-field, .text-field .scroll-pane .viewport .content {
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
@@ -51,24 +51,29 @@
 .text-field:focused, .text-field:hover {
     -fx-border-color: rgb(59, 146, 219);
     -fx-border-width: 1;
-    -fx-background: none;
 }
 
-/* text area */ /* FIXME: breaks layout
+/* text area */
 .text-area {
     -fx-border-color: #cccccc;
-    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-border-width: 1;
     -fx-background-radius: 0;
 }
 
 .text-area:focused {
     -fx-border-color: rgb(59, 146, 219);
-    -fx-background: none;
-}*/
+}
 
 /* editor toolbars */
 .html-editor .grid .top-toolbar, .html-editor .grid .bottom-toolbar {
     -fx-background-color: #ffffff;
+}
+
+/* draw a thin grey line above the editor pane */
+.html-editor .grid .bottom-toolbar {
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
 }
 
 /* toolbar buttons */
