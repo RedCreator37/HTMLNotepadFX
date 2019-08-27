@@ -1,5 +1,6 @@
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.print.PrinterJob;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,7 +15,6 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import util.Dialogs;
 import util.FileIO;
-import util.Print;
 import util.VersionData;
 
 import java.awt.Component;
@@ -39,7 +39,7 @@ public class Controller extends Component {
     // general settings
     private boolean saveSettings = true;
     private double configVersion = VersionData.CONFIG_VERSION;
-    static boolean experimentalUI = false;
+    private static boolean experimentalUI = false;
     private float opacity = 1f;
 
     /**
@@ -504,10 +504,14 @@ public class Controller extends Component {
     /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Call the printing method in Print class
+     * Print the content of the editor
      */
     public void print() {
-        Print.printText(textEdit.getHtmlText());
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job.showPrintDialog(textEdit.getScene().getWindow())) {
+            textEdit.print(job);
+            job.endJob();
+        }
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
