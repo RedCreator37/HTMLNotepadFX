@@ -39,6 +39,7 @@ public class Controller extends Component {
     // general settings
     private boolean saveSettings = true;
     private double configVersion = VersionData.CONFIG_VERSION;
+    static boolean experimentalUI = false;
     private float opacity = 1f;
 
     /**
@@ -528,8 +529,13 @@ public class Controller extends Component {
 
             // get the HTML source code
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
+            Scene scene = new Scene(root, 822, 562);
 
-            stage.setScene(new Scene(root, 822, 562));
+            // use experimental UI if enabled
+            if (experimentalUI)
+                scene.getStylesheets().add("fxml/Styles.css");
+
+            stage.setScene(scene);
             stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
                 if (e.getCode() == KeyCode.ESCAPE) stage.close();
             });
@@ -550,7 +556,11 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
 
-            stage.setScene(new Scene(root, 449, 110));
+            Scene scene = new Scene(root, 449, 110);
+            if (experimentalUI)
+                scene.getStylesheets().add("fxml/Styles.css");
+            stage.setScene(scene);
+
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
             stage.show();
@@ -564,7 +574,8 @@ public class Controller extends Component {
      * Toggle experimental user interface (custom control styling)
      */
     public void toggleExperimentalInterface() {
-        if (checkboxExperimentalUI.isSelected())
+        experimentalUI = checkboxExperimentalUI.isSelected();
+        if (experimentalUI)
             MainFX.currentStage.getScene().getStylesheets().add("fxml/Styles.css");
         else
             MainFX.currentStage.getScene().getStylesheets().clear();

@@ -24,6 +24,48 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
 }
 
+/* buttons */
+.button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+}
+
+.button:hover {
+    -fx-background-color: #e9f3fb;
+}
+
+.button:pressed, .button:default {
+    -fx-background-color: #d4e7f7;
+}
+
+/* text field */
+.text-field {
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+.text-field:focused, .text-field:hover {
+    -fx-border-color: rgb(59, 146, 219);
+    -fx-border-width: 1;
+    -fx-background: none;
+}
+
+/* text area */ /* FIXME: breaks layout
+.text-area {
+    -fx-border-color: #cccccc;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+.text-area:focused {
+    -fx-border-color: rgb(59, 146, 219);
+    -fx-background: none;
+}*/
+
 /* editor toolbars */
 .html-editor .grid .top-toolbar, .html-editor .grid .bottom-toolbar {
     -fx-background-color: #ffffff;
@@ -56,11 +98,35 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
 }
 
-.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:hover {
+.bottom-toolbar .container .font-menu-button .arrow-button:hover {
+    -fx-background-color: #e9f3fb;
+}
+
+.bottom-toolbar .container .font-menu-button .arrow-button:pressed,
+.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:hover,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb,
+.web-view .scroll-bar .thumb {
     -fx-background-color: #d4e7f7;
 }
 
-.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected {
+.bottom-toolbar .container .font-menu-button .list-cell,
+.bottom-toolbar .container .font-menu-button .list-cell:disabled {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f8f8f8);
+    -fx-border-radius: 0;
+}
+
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar,
+.web-view .scroll-bar {
+    -fx-background-color: #f8f8f8;
+}
+
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .list-cell {
+    -fx-background-color: #ffffff;
+}
+
+.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:hover,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:pressed {
     -fx-background-color: rgb(59, 146, 219);
 }
 
