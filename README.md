@@ -1,4 +1,4 @@
-# HTMLNotepadFX ![][licenseBadge] ![][versionBadge]
+# HTMLNotepadFX ![][versionBadge] ![][licenseBadge]
 
 HTMLNotepadFX is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrapped in a nice window).
 
@@ -51,6 +51,6 @@ java --module-path="path_to_your_openjfx_sdk" \
 
 This is a temporary solution until the new version of Java Packager arrives.
 
-[licenseBadge]: https://img.shields.io/badge/license-MIT-blue.svg
-[versionBadge]: https://img.shields.io/badge/version-0.4-brightgreen.svg
+[licenseBadge]: https://img.shields.io/badge/license-MIT-brightgreen.svg
+[versionBadge]: https://img.shields.io/badge/version-0.4-ee912e.svg
 [openJFX]: https://openjfx.io/
