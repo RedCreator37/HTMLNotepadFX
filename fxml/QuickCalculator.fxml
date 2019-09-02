@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="110.0" prefWidth="449.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="QuickCalcController">
+    <Label layoutX="6.0" layoutY="6.0" text="Enter two numbers:" />
+    <TextField fx:id="field1" layoutX="6.0" layoutY="23.0" prefHeight="27.0" prefWidth="97.0" promptText="first number" />
+    <TextField fx:id="field2" layoutX="110.0" layoutY="23.0" prefHeight="27.0" prefWidth="97.0" promptText="second number" />
+    <TextField fx:id="resultField" editable="false" layoutX="6.0" layoutY="74.0" prefHeight="27.0" prefWidth="294.0" promptText="result" />
+    <Label layoutX="6.0" layoutY="57.0" text="Press a button to see the result:" />
+    <Button fx:id="btnPlus" layoutX="214.0" layoutY="23.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" text="+" />
+    <Button fx:id="btnMinus" layoutX="253.0" layoutY="23.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" text="-" />
+    <Button fx:id="btnAsterisk" layoutX="292.0" layoutY="23.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" text="×" />
+    <Button fx:id="btnSlash" layoutX="332.0" layoutY="23.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" text="÷" />
+    <Button fx:id="btn2" layoutX="371.0" layoutY="23.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" text="^2" />
+    <Button fx:id="btn3" layoutX="410.0" layoutY="23.0" mnemonicParsing="false" text="^3" />
+    <Button defaultButton="true" layoutX="308.0" layoutY="74.0" mnemonicParsing="false" onAction="#copyResult" prefHeight="27.0" prefWidth="65.0" text="Copy" />
+    <Button cancelButton="true" layoutX="378.0" layoutY="74.0" mnemonicParsing="false" onAction="#close" prefHeight="27.0" prefWidth="65.0" text="Close" />
+</AnchorPane>

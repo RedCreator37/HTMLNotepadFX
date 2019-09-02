@@ -1,0 +1,141 @@
+/* Main HTMLNotepadFX Style Sheet
+   --------------------------------------
+   This is an experimental version of the new user interface theme
+   for the HTMLNotepadFX. Many things are not done yet and most of
+   the more complicated UI components are broken.
+*/
+.root {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
+    -fx-border-radius: 0;
+}
+
+/* menus */
+.menu-bar {
+    -fx-background-color: #ffffff;
+}
+
+.menu-button:hover, .menu-button:showing, .menu-item:focused {
+    -fx-background-color: rgb(59, 146, 219);
+}
+
+.context-menu {
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
+}
+
+/* buttons */
+.button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+}
+
+.button:hover, .button:default:hover {
+    -fx-background-color: #e9f3fb;
+}
+
+.button:pressed, .button:default, button:default:pressed {
+    -fx-background-color: #d4e7f7;
+}
+
+/* text field */
+.text-field, .text-field .scroll-pane .viewport .content {
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+    -fx-background-radius: 0;
+}
+
+.text-field:focused, .text-field:hover {
+    -fx-border-color: rgb(59, 146, 219);
+    -fx-border-width: 1;
+}
+
+/* text area */
+.text-area {
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-background-radius: 0;
+}
+
+.text-area:focused {
+    -fx-border-color: rgb(59, 146, 219);
+}
+
+/* editor toolbars */
+.html-editor .grid .top-toolbar, .html-editor .grid .bottom-toolbar {
+    -fx-background-color: #ffffff;
+}
+
+/* draw a thin grey line above the editor pane */
+.html-editor .grid .bottom-toolbar {
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+}
+
+/* toolbar buttons */
+.html-editor .toggle-button, .html-editor .button,
+.html-editor .color-picker, .html-editor .bottom-toolbar .combo-box .list-cell,
+.html-editor .bottom-toolbar .combo-box-base .arrow-button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+}
+
+.html-editor .toggle-button:hover, .html-editor .button:hover,
+.html-editor .toggle-button:selected:hover, .html-editor .color-picker:hover {
+    -fx-background-color: #e9f3fb;
+    -fx-background-radius: 0;
+}
+
+.html-editor .toggle-button:selected, .html-editor .button:pressed,
+.html-editor .color-picker:pressed {
+    -fx-background-color: #d4e7f7;
+    -fx-background-radius: 0;
+}
+
+/* font combo boxes */
+.combo-box-popup .list-view {
+    -fx-background-color: transparent;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
+}
+
+.bottom-toolbar .container .font-menu-button .arrow-button:hover {
+    -fx-background-color: #e9f3fb;
+}
+
+.bottom-toolbar .container .font-menu-button .arrow-button:pressed,
+.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:hover,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb,
+.web-view .scroll-bar .thumb {
+    -fx-background-color: #d4e7f7;
+}
+
+.bottom-toolbar .container .font-menu-button .list-cell,
+.bottom-toolbar .container .font-menu-button .list-cell:disabled {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f8f8f8);
+    -fx-border-radius: 0;
+}
+
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar,
+.web-view .scroll-bar {
+    -fx-background-color: #f8f8f8;
+}
+
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .list-cell {
+    -fx-background-color: #ffffff;
+}
+
+.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:hover,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:pressed {
+    -fx-background-color: rgb(59, 146, 219);
+}
+
+/* used to get rid of the blue line at the top */
+.html-editor {
+    -fx-background-color: transparent;
+}

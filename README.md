@@ -1,10 +1,10 @@
-# HTMLNotepadFX ![][licenseBadge] ![][versionBadge]
+# HTMLNotepadFX ![][versionBadge] ![][licenseBadge]
 
 HTMLNotepadFX is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrapped in a nice window).
 
 *This is the first program I put on GitHub.*
 *I hope that you understand that some things aren't done perfectly.*
-*PRs are welcome :D*
+*Contributions are welcome :D*
 
 ## Features
 
@@ -23,22 +23,34 @@ Things that don't work as expected (yet). I'll try to fix them as soon as possib
 
 ## To Do
 
-Features to include in later releases and things that should be improved:
+Features to be included in later releases and things that should be improved:
 
-- A simple way to deploy HTML pages to a server
-- Improved UI (it currently looks pretty boring...)
-- Make use of resource bundles or something else that'll allow the UI to be translated to other languages
+- A simple way to deploy HTML pages to a web server
+- Improved the UI (it currently looks really boring...)
+- Make use of resource bundles or something else that'll allow the UI to be translated to other languages easily
+
+Early development versions are in the *dev-html* branch.
 
 ## Requirements
 
-HTMLNotepadFX is built on Java 11 and JavaFX (actually open source version of both, ie. OpenJDK and OpenJFX).
+HTMLNotepadFX is built on Java 11 and JavaFX (actually open source version of both, i.e. OpenJDK and OpenJFX).
 
-You'll have to manually install JavaFX since it's no longer bundled with JDK.
-Also, if you'd like to make an executable you'll have to either do a "fat jar" (a jar with all dependencies included)
-or convert this into a modular project.
+You'll have to manually install JavaFX since it's no longer bundled with JDK. 
 
-I usually use a "fat jar" in combination with a simple script to load dependencies with the app itself.
-This is a temporary solution until the new version of Java Packager arrives. 
+## Usage
 
-[licenseBadge]: https://img.shields.io/badge/license-MIT-blue.svg
-[versionBadge]: https://img.shields.io/badge/version-0.3-brightgreen.svg
+As said before, you need OpenJDK 11 and [OpenJFX SDK 11][openJFX] (older versions may work but
+aren't tested). Compile the source code and compress
+it into a .jar then run
+
+```bash
+java --module-path="path_to_your_openjfx_sdk" \
+    --add-modules=javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.web,javafx.swing \
+    -jar your_jar_file.jar
+```
+
+This is a temporary solution until the new version of Java Packager arrives.
+
+[licenseBadge]: https://img.shields.io/badge/license-MIT-brightgreen.svg
+[versionBadge]: https://img.shields.io/badge/version-0.4-ee912e.svg
+[openJFX]: https://openjfx.io/

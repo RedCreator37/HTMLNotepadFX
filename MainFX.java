@@ -1,43 +1,33 @@
-import Utilities.Dialogs;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Pair;
+import util.Dialogs;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
- * MainFX application class for HTMLNotepadFX
- *
- * Copyright (c) 2019 Tobija Žuntar
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * Main application class for HTMLNotepadFX
  */
-
 public class MainFX extends Application {
 
     static Stage currentStage;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXML/MainWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/MainWindow.fxml"));
         primaryStage.setTitle("Untitled - HTMLNotepadFX");
-        primaryStage.setScene(new Scene(root, 1135, 700));
+
+        // adjust the window size to make it work on smaller screens
+        Pair<Double, Double> screenSize = getScreenSize();
+        double width = 1135, height = 700;
+        if (screenSize.getKey() < width) width = screenSize.getValue();
+        if (screenSize.getValue() < height) height = screenSize.getKey();
+
+        primaryStage.setScene(new Scene(root, width, height));
         primaryStage.show();
 
         currentStage = primaryStage;
@@ -46,7 +36,7 @@ public class MainFX extends Application {
         Controller controllerObject = new Controller();
         controllerObject.loadSettings();
 
-        primaryStage.setOnCloseRequest(event -> {   // Ask for confirmation when closing the program
+        primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
             boolean confirmed = Dialogs.confirmationDialog(
                     "HTMLNotepadFX",
                     "Warning",
@@ -56,10 +46,8 @@ public class MainFX extends Application {
                 Controller controller = new Controller();
                 controller.saveSettings();
 
-                System.exit(0); // User selected OK, close the program
-            } else {
-                event.consume(); // User selected Cancel, don't close the program
-            }
+                System.exit(0); // user has selected OK, close the program
+            } else event.consume(); // user has selected Cancel, don't close the program
         });
 
         System.gc();
@@ -77,6 +65,17 @@ public class MainFX extends Application {
      */
     static void setTitle(String newTitle, Stage stage) {
         stage.setTitle(newTitle);
+    }
+
+    /**
+     * Get the screen size and return it in favor of a key - value
+     * pair (key is screen wight, value is screen height)
+     */
+    private static Pair<Double, Double> getScreenSize() {
+        Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+        double width = size.getWidth(), height = size.getHeight();
+
+        return new Pair<>(width, height);
     }
 
 }
