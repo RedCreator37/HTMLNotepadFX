@@ -62,14 +62,13 @@ public class Controller extends Component {
             reloadLastFile.setSelected(lastFileName != null);
             configVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
 
-            if (configVersion != VersionData.CONFIG_VERSION) {
+            if (configVersion != VersionData.CONFIG_VERSION)
                 Dialogs.warningDialog(
                         "HTMLNotepadFX",
                         "Invalid config file version",
                         "Loaded config file reports version " + configVersion +
                                 " while this program is using version " + VersionData.CONFIG_VERSION +
                                 "\nKeep in mind that some settings probably haven't been loaded.");
-            }
         } catch (IOException | NumberFormatException e) {
             System.out.println("Loading settings failed, continuing...");
         }
@@ -261,7 +260,7 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Retrieve HTML file from the web",
                 "Enter a valid web address of a HTML file to download and display.\n" +
-                "Embedded objects (such as images) won't be downloaded in the process.\n\n",
+                        "Embedded objects (such as images) won't be downloaded in the process.\n\n",
                 "\nWarning!\nAny unsaved changes in the current file will be lost!",
                 "Retrieve",
                 "http://"
@@ -317,7 +316,7 @@ public class Controller extends Component {
      * Insert a web image to textEdit
      */
     public void insertImage() {
-        Optional<Pair<String, String>> result =
+        Optional<Pair<String, String>> input =
                 Dialogs.doubleInputDialog(
                         "HTMLNotepadFX",
                         "Insert an image",
@@ -327,7 +326,7 @@ public class Controller extends Component {
                         "Enter image alternative text",
                         "Address:", "Alt Text:");
 
-        result.ifPresent(bothFields -> {
+        input.ifPresent(bothFields -> {
             String compiledImageAddress = "<img src=\"" + bothFields.getKey() + "\" alt=\""
                     + bothFields.getValue() + "\" />";
             appendHtmlText(textEdit, compiledImageAddress);
@@ -338,7 +337,7 @@ public class Controller extends Component {
      * Insert a hyperlink to textEdit
      */
     public void insertLink() {
-        Optional<Pair<String, String>> result =
+        Optional<Pair<String, String>> input =
                 Dialogs.doubleInputDialog(
                         "HTMLNotepadFX",
                         "Insert hyperlink",
@@ -348,7 +347,7 @@ public class Controller extends Component {
                         "Enter link text",
                         "Address:", "Text:");
 
-        result.ifPresent(bothFields -> {
+        input.ifPresent(bothFields -> {
             String compiledAddress = "<a href=\"" + bothFields.getKey() + "\">"
                     + bothFields.getValue() + "</a>";
             appendHtmlText(textEdit, compiledAddress);
