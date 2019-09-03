@@ -8,12 +8,12 @@
 
 <AnchorPane prefHeight="562.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="HTMLSource">
     <ScrollPane fitToHeight="true" fitToWidth="true" layoutY="33.0" prefHeight="355.0" prefWidth="726.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="-1.0">
-        <TextArea id="sourceText" fx:id="sourceText" editable="false" layoutX="-1.0" layoutY="-1.0" onMouseEntered="#initialize" prefHeight="676.0" prefWidth="1135.0" wrapText="true" />
+        <TextArea id="sourceText" fx:id="sourceText" editable="false" layoutX="-1.0" layoutY="-1.0" onMouseEntered="#refreshHTML" prefHeight="676.0" prefWidth="1135.0" wrapText="true" />
     </ScrollPane>
     <Pane layoutX="-2.0" layoutY="582.0" prefHeight="36.0" prefWidth="824.0" style="-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #dfe1ff, #7681ff);" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.0">
-        <Button layoutX="5.0" layoutY="5.0" mnemonicParsing="false" onAction="#closeSource" prefHeight="25.0" prefWidth="67.0" text="Close" />
-        <Button layoutX="731.0" layoutY="5.0" mnemonicParsing="false" onAction="#saveToFile" text="Save to file" />
-        <Button layoutX="657.0" layoutY="5.0" mnemonicParsing="false" onAction="#printSource" prefHeight="25.0" prefWidth="67.0" text="Print" />
+        <Button layoutX="5.0" layoutY="4.0" mnemonicParsing="false" onAction="#closeSource" prefHeight="25.0" prefWidth="72.0" text="Close" />
+        <Button layoutX="731.0" layoutY="4.0" mnemonicParsing="false" onAction="#saveToFile" text="Save to file" />
+        <Button layoutX="652.0" layoutY="4.0" mnemonicParsing="false" onAction="#printSource" prefHeight="25.0" prefWidth="72.0" text="Print" />
+        <Button fx:id="refreshHTML" layoutX="573.0" layoutY="4.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Refresh" />
     </Pane>
-
 </AnchorPane>

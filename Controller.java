@@ -27,6 +27,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Scanner;
@@ -461,6 +463,15 @@ public class Controller extends Component {
             String codeText = "<code> " + code + " </code>";
             appendHtmlText(textEdit, codeText);
         }
+    }
+
+    /**
+     * Insert the current system date and time
+     */
+    public void insertDateTime() {
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                .format(Calendar.getInstance().getTime());
+        appendHtmlText(textEdit, dateTime);
     }
 
     /**

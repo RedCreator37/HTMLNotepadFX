@@ -99,6 +99,10 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="C" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#insertDateTime" text="Date and time">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="D" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                </accelerator></MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#insertEmbeddedWebsite" text="Embedded website...">
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="E" control="UP" meta="UP" shift="UP" shortcut="UP" />

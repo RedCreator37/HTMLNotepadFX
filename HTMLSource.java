@@ -20,8 +20,8 @@ public class HTMLSource {
      * Initialize the window, get the source code...
      */
     @FXML
-    protected void initialize() {   // fixme: it sometimes takes more time to update the source code
-        sourceText.setText(htmlSourceText);
+    protected void initialize() {
+        refreshHTML();
     }
 
     /**
@@ -44,6 +44,11 @@ public class HTMLSource {
 
         // now make the window always on top again
         stage.setAlwaysOnTop(true);
+    }
+
+    /** Reload the HTML source code (if not already) */
+    public void refreshHTML() {
+        sourceText.setText(htmlSourceText);
     }
 
     /**
