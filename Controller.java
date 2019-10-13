@@ -38,7 +38,7 @@ import java.util.Scanner;
  */
 public class Controller extends Component {
 
-    // general settings
+    // initialize default settings
     private boolean saveSettings = true;
     private double configVersion = VersionData.CONFIG_VERSION;
     private static boolean experimentalUI = false;
@@ -70,13 +70,12 @@ public class Controller extends Component {
                         "Invalid config file version",
                         "Loaded config file reports version " + configVersion +
                                 " while this program is using version " + VersionData.CONFIG_VERSION +
-                                "\nKeep in mind that some settings probably haven't been loaded.");
+                                "\nSome settings probably haven't been loaded.");
         } catch (IOException | NumberFormatException e) {
             System.out.println("Loading settings failed, continuing...");
         }
 
-        if (opacity < 0.1f)
-            opacity = 0.1f;
+        if (opacity < 0.1f) opacity = 0.1f;
     }
 
     /**
@@ -611,6 +610,20 @@ public class Controller extends Component {
         MainFX.currentStage.setOpacity(opacity);
     }
 
+    /**
+     * Toggles the new experimental UI style
+     */
+    private void ToggleExperimentalUI(Stage stage, Scene scene) {
+        if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
+        stage.setScene(scene);
+
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ESCAPE) stage.close();
+        });
+        stage.setAlwaysOnTop(true);
+        stage.show();
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////
     //   I N F O   M E N U
     /////////////////////////////////////////////////////////////////////////////////////
@@ -631,20 +644,6 @@ public class Controller extends Component {
         }
     }
 
-    /**
-     * Toggles the new experimental UI style
-     */
-    private void ToggleExperimentalUI(Stage stage, Scene scene) {
-        if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
-        stage.setScene(scene);
-
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode() == KeyCode.ESCAPE) stage.close();
-        });
-        stage.setAlwaysOnTop(true);
-        stage.show();
-    }
-
     /////////////////////////////////////////////////////////////////////////////////////
     //   C L O S I N G   A N D   E X I T I N G   T H E   P R O G R A M
     /////////////////////////////////////////////////////////////////////////////////////
@@ -654,12 +653,11 @@ public class Controller extends Component {
      */
     public void close() {
         boolean confirmedClose;
-        if (modified) {
-            confirmedClose = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "Warning",
-                    "All unsaved changes will be lost! Continue?");
-        } else confirmedClose = true;
+        if (modified) confirmedClose = Dialogs.confirmationDialog(
+                "HTMLNotepadFX",
+                "Warning",
+                "All unsaved changes will be lost! Continue?");
+        else confirmedClose = true;
 
         if (confirmedClose) {
             saveSettings();
