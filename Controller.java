@@ -115,7 +115,7 @@ public class Controller extends Component {
     //   F I L E   M A N A G E M E N T
     /////////////////////////////////////////////////////////////////////////////////////
 
-    /* Initialize controls */
+    // Initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
     public MenuBar mainMenuBar = new MenuBar();
@@ -546,15 +546,7 @@ public class Controller extends Component {
             Scene scene = new Scene(root, 822, 562);
 
             // use experimental UI if enabled
-            if (experimentalUI)
-                scene.getStylesheets().add("fxml/Styles.css");
-
-            stage.setScene(scene);
-            stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.getCode() == KeyCode.ESCAPE) stage.close();
-            });
-            stage.setAlwaysOnTop(true);
-            stage.show();
+            ToggleExperimentalUI(stage, scene);
         } catch (IOException e) {
             System.err.println("Failed loading HTML source code window: "
                     + e.getMessage());
@@ -647,19 +639,26 @@ public class Controller extends Component {
             stage.setTitle("About HTMLNotepadFX");
 
             Scene scene = new Scene(root, 638, 281);
-            if (experimentalUI)
-                scene.getStylesheets().add("fxml/Styles.css");
-            stage.setScene(scene);
-
-            stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-                if (e.getCode() == KeyCode.ESCAPE) stage.close();
-            });
-            stage.setAlwaysOnTop(true);
-            stage.show();
+            ToggleExperimentalUI(stage, scene);
         } catch (IOException e) {
             System.err.println("Failed loading about dialog: "
                     + e.getMessage());
         }
+    }
+
+    /**
+     * Toggles the new experimental UI style
+     */
+    private void ToggleExperimentalUI(Stage stage, Scene scene) {
+        if (experimentalUI)
+            scene.getStylesheets().add("fxml/Styles.css");
+        stage.setScene(scene);
+
+        stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode() == KeyCode.ESCAPE) stage.close();
+        });
+        stage.setAlwaysOnTop(true);
+        stage.show();
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
