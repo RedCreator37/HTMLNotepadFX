@@ -12,7 +12,7 @@ import java.io.File;
  */
 public class AboutController {
 
-    /* Initialize the controls */
+    // initialize controls
     public Button closeButton;
     public Label versionLabel;
     public Label buildLabel;
