@@ -20,7 +20,6 @@ public class VersionData {
 
         if (os.contains("win")) return System.getProperty("user.home")  // windows
                 + "\\HTMLNotepadFX_settings.xml";
-
         else return System.getProperty("user.home") // everything else
                 + "/.HTMLNotepadFX_settings.xml";
     }
