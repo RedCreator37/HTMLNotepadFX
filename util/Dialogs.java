@@ -197,8 +197,7 @@ public class Dialogs {
 
         // convert the result
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == mainButtonType)
-                return area.getText();
+            if (dialogButton == mainButtonType) return area.getText();
             return null;
         });
 
@@ -250,8 +249,7 @@ public class Dialogs {
 
         // convert the result
         dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == mainButtonType)
-                return textField.getText();
+            if (dialogButton == mainButtonType) return textField.getText();
             return null;
         });
 

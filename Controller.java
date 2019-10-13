@@ -50,7 +50,7 @@ public class Controller extends Component {
     void loadSettings() {
         Properties loadSettings = new Properties();
         try {
-            loadSettings.loadFromXML(new FileInputStream(VersionData.SETTINGS_LOCATION));
+            loadSettings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
             textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
 
@@ -94,7 +94,7 @@ public class Controller extends Component {
 
             saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
-                File file = new File(VersionData.SETTINGS_LOCATION);
+                File file = new File(VersionData.CONFIG_LOCATION);
                 FileOutputStream fileOut = new FileOutputStream(file);
                 saveSettings.storeToXML(fileOut, "");
                 fileOut.close();
@@ -588,7 +588,7 @@ public class Controller extends Component {
 
             // the user has chosen to delete the file
             if (doDeleteFile) {
-                File file = new File(VersionData.SETTINGS_LOCATION);
+                File file = new File(VersionData.CONFIG_LOCATION);
                 if (file.delete()) System.out.println("Removing settings file done.");
             }
         }
