@@ -8,26 +8,26 @@ HTMLNotepadFX is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrappe
 
 ## Features
 
-A simple program to edit HTML pages:
+A simple program for editing HTML pages:
 
-- Apply HTML Text Formatting, insert an image, insert hyperlinks...
-- View, export and print HTML source code
+- Apply basic HTML and CSS formatting, insert an image, hyperlinks...
+- View, export and print the HTML page and its source code
 - WYSIWYG formatting
 - Some fancy extras (make the window semi-transparent...)
 
 ## Known Bugs
 
-Things that don't work as expected (yet). I'll try to fix them as soon as possible.
+Things that don't work as expected (yet). These should get fixed soon.
 
-- Printing on macOS (it fails to open the print dialog for some reason)
+- Printing on macOS (fails to open the print dialog for some reason)
 
 ## To Do
 
-Features to be included in later releases and things that should be improved:
+Stuff that could have added / been done better:
 
 - A simple way to deploy HTML pages to a web server
-- Improved the UI (it currently looks really boring...)
-- Make use of resource bundles or something else that'll allow the UI to be translated to other languages easily
+- Improved UI (some progress has been made with "experimental UI" but it's still way from looking great)
+- Use of resource bundles or something else that'll allow the UI to be translated to other languages easily
 
 Early development versions are in the *dev-html* branch.
 
@@ -35,13 +35,13 @@ Early development versions are in the *dev-html* branch.
 
 HTMLNotepadFX is built on Java 11 and JavaFX (actually open source version of both, i.e. OpenJDK and OpenJFX).
 
-You'll have to manually install JavaFX since it's no longer bundled with JDK. 
+You'll have to manually install JavaFX since it's no longer bundled with the JDK. 
 
 ## Usage
 
 As said before, you need OpenJDK 11 and [OpenJFX SDK 11][openJFX] (older versions may work but
-aren't tested). Compile the source code and compress
-it into a .jar then run
+haven't been tested). Compile the source code and compress
+the output into a .jar then run
 
 ```bash
 java --module-path="path_to_your_openjfx_sdk" \
