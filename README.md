@@ -23,7 +23,7 @@ Things that don't work as expected (yet). These should get fixed soon.
 
 ## To Do
 
-Stuff that could have added / been done better:
+Stuff that could have been added / done better:
 
 - A simple way to deploy HTML pages to a web server
 - Improved UI (some progress has been made with "experimental UI" but it's still way from looking great)
