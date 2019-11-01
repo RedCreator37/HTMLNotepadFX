@@ -112,6 +112,7 @@
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb,
 .web-view .scroll-bar .thumb {
     -fx-background-color: #d4e7f7;
+    -fx-background-radius: 0;
 }
 
 .bottom-toolbar .container .font-menu-button .list-cell,

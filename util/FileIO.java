@@ -23,8 +23,7 @@ public class FileIO {
 
         try {
             Scanner scan = new Scanner(new FileReader(filename));
-            while (scan.hasNext())
-                sb.append(scan.nextLine()).append("\n");
+            while (scan.hasNext()) sb.append(scan.nextLine()).append("\n");
         } catch (FileNotFoundException e) {
             ErrorHandler.fileNotFound(filename);
         }
