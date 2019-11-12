@@ -1,8 +1,8 @@
 /* Main HTMLNotepadFX Style Sheet
    --------------------------------------
    This is an experimental version of the new user interface theme
-   for the HTMLNotepadFX. Many things are not done yet and most of
-   the more complicated UI components are broken.
+   for HTMLNotepadFX. Many things are not done yet and most of the
+   more advanced UI components are broken.
 */
 .root {
     -fx-background-color: #ffffff;
@@ -107,6 +107,18 @@
     -fx-background-color: #e9f3fb;
 }
 
+/* font combo boxes --> list component */
+.bottom-toolbar .container .font-menu-button .list-cell,
+.bottom-toolbar .container .font-menu-button .list-cell:disabled {
+    -fx-background-color: linear-gradient(to bottom, #ffffff, #f8f8f8);
+    -fx-border-radius: 0;
+}
+
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .list-cell {
+    -fx-background-color: #ffffff;
+}
+
+/* font combo boxes --> scrollbars */
 .bottom-toolbar .container .font-menu-button .arrow-button:pressed,
 .combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:hover,
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb,
@@ -115,19 +127,9 @@
     -fx-background-radius: 0;
 }
 
-.bottom-toolbar .container .font-menu-button .list-cell,
-.bottom-toolbar .container .font-menu-button .list-cell:disabled {
-    -fx-background-color: linear-gradient(to bottom, #ffffff, #f8f8f8);
-    -fx-border-radius: 0;
-}
-
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar,
 .web-view .scroll-bar {
     -fx-background-color: #f8f8f8;
-}
-
-.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .list-cell {
-    -fx-background-color: #ffffff;
 }
 
 .combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected,
@@ -136,7 +138,7 @@
     -fx-background-color: rgb(59, 146, 219);
 }
 
-/* used to get rid of the blue line at the top */
+/* get rid of the weird blue line at the top */
 .html-editor {
     -fx-background-color: transparent;
 }
