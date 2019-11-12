@@ -374,8 +374,8 @@ public class Controller extends Component {
         String scriptAltText = Dialogs.textAreaInputDialog(
                 "HTMLNotepadFX",
                 "Insert script alternative text",
-                "This text will be displayed instead of script result\n" +
-                        "if the browser blocks / doesn't support JavaScript scripts.",
+                "This text will be displayed instead of script result " +
+                        "if the browser blocks / doesn't support\nJavaScript scripts.",
                 "Insert",
                 "Enter something like \"Your browser does not support" +
                         "JavaScript\"..."
