@@ -14,15 +14,8 @@ import java.math.BigDecimal;
  * two numbers.
  */
 public class QuickCalcController {
-    public TextField field1;
-    public TextField field2;
-    public TextField resultField;
-    public Button btnPlus;
-    public Button btnMinus;
-    public Button btnAsterisk;
-    public Button btnSlash;
-    public Button btn2;
-    public Button btn3;
+    public TextField field1, field2, resultField;
+    public Button btnPlus, btnMinus, btnAsterisk, btnSlash, btn2, btn3;
 
     /**
      * Perform some initialization when the window is loaded

@@ -74,7 +74,6 @@ public class MainFX extends Application {
     private static Pair<Double, Double> getScreenSize() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double width = size.getWidth(), height = size.getHeight();
-
         return new Pair<>(width, height);
     }
 

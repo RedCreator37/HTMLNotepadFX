@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,17 +55,13 @@ public class Controller extends Component {
 
             // attempt to reload the last used file
             String lastFileName = loadSettings.getProperty("last_file");
-            if (lastFileName != null) {
-                file = new File(lastFileName);
-                openFile(file);
-            }
+            if (lastFileName != null) openFile(new File(lastFileName));
 
             reloadLastFile.setSelected(lastFileName != null);
             configVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
 
             if (configVersion != VersionData.CONFIG_VERSION)
-                Dialogs.warningDialog(
-                        "HTMLNotepadFX",
+                Dialogs.warningDialog("HTMLNotepadFX",
                         "Invalid config file version",
                         "Loaded config file reports version " + configVersion +
                                 " while this program is using version " + VersionData.CONFIG_VERSION +
@@ -93,14 +88,12 @@ public class Controller extends Component {
 
             saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
-                File file = new File(VersionData.CONFIG_LOCATION);
-                FileOutputStream fileOut = new FileOutputStream(file);
+                var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
                 saveSettings.storeToXML(fileOut, "");
                 fileOut.close();
 
-                // attempt to make the settings file hidden
-                String os = System.getProperty("os.name").toLowerCase();
-                if (os.contains("win")) {
+                // manually hide the properties file on windows
+                if (System.getProperty("os.name").toLowerCase().contains("win")) {
                     Path path = Paths.get(file.getAbsolutePath());
                     Files.setAttribute(path, "dos:hidden", true);
                 }
@@ -140,7 +133,7 @@ public class Controller extends Component {
             if (confirmedNewFile) {
                 textEdit.setHtmlText("");
                 MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-                modified = false; // the file hasn't been modified yet
+                modified = false;
 
                 file = null;
             }
@@ -186,7 +179,6 @@ public class Controller extends Component {
 
             if (confirmed) {
                 textEdit.setHtmlText(FileIO.openFile(file));
-
                 MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
             }
@@ -269,21 +261,18 @@ public class Controller extends Component {
                 stage.getScene().setCursor(Cursor.WAIT);
             });
 
-            URL fileURL = new URL(url); // get the URL
-            InputStream inputStream = fileURL.openStream();
-            Scanner scanner = new Scanner(inputStream);
+            // get the URL
+            Scanner scanner = new Scanner(new URL(url).openStream());
 
-            textEdit.setHtmlText(""); // clean the textEdit first
+            textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false; // the file hasn't been modified yet
-
-            file = null;
+            file     = null;
 
             while (scanner.hasNextLine()) // get the text and append it to textEdit
                 appendHtmlText(textEdit, scanner.nextLine());
         } catch (IOException | IllegalArgumentException e) {
-            Dialogs.errorDialog(
-                    "HTMLNotepadFX",
+            Dialogs.errorDialog("HTMLNotepadFX",
                     "Error retrieving HTML file",
                     "An error has occurred while attempting to \n" +
                             "retrieve the specified HTML file:\n" + e.getMessage());
@@ -532,10 +521,9 @@ public class Controller extends Component {
 
             // get the HTML source code
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
-            Scene scene = new Scene(root, 822, 562);
 
             // use experimental UI if enabled
-            ToggleExperimentalUI(stage, scene);
+            ToggleExperimentalUI(stage, new Scene(root, 822, 562));
         } catch (IOException e) {
             System.err.println("Failed loading HTML source code window: " + e.getMessage());
         }
@@ -605,8 +593,7 @@ public class Controller extends Component {
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
-        if (opacity < 0.01f) // do not make the window invisible
-            opacity = 0.01f;
+        if (opacity < 0.01f) opacity = 0.01f; // do not make the window invisible
         MainFX.currentStage.setOpacity(opacity);
     }
 
@@ -636,9 +623,7 @@ public class Controller extends Component {
             Parent root = FXMLLoader.load(getClass().getResource("fxml/About.fxml"));
             Stage stage = new Stage();
             stage.setTitle("About HTMLNotepadFX");
-
-            Scene scene = new Scene(root, 638, 281);
-            ToggleExperimentalUI(stage, scene);
+            ToggleExperimentalUI(stage, new Scene(root, 638, 281));
         } catch (IOException e) {
             System.err.println("Failed loading about dialog: " + e.getMessage());
         }
