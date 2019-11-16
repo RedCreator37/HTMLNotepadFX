@@ -55,7 +55,7 @@ public class AboutController {
                 "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n" +
                 "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" +
                 "SOFTWARE.\n" +
-                "\nSource code is available on GitHub: www.github.com/RedCreator37/HTMLNotepadFX";
+                "\nSource code: www.github.com/RedCreator37/HTMLNotepadFX";
         licenseTextArea.setText(licenseText);
     }
 
