@@ -5,7 +5,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -110,11 +109,10 @@ public class Controller extends Component {
     // initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
-    public MenuBar mainMenuBar = new MenuBar();
     public CheckMenuItem disableMouse = new CheckMenuItem();
     public CheckMenuItem reloadLastFile = new CheckMenuItem();
-    public CheckMenuItem checkboxSaveSettings = new CheckMenuItem();
-    public CheckMenuItem checkboxExperimentalUI = new CheckMenuItem();
+    public CheckMenuItem saveSettingsCB = new CheckMenuItem();
+    public CheckMenuItem experimentalUICB = new CheckMenuItem();
 
     private File file;
     private boolean modified;
@@ -134,16 +132,14 @@ public class Controller extends Component {
                 textEdit.setHtmlText("");
                 MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
-
-                file = null;
+                file     = null;
             }
 
         } else {    // if the file hasn't been modified yet
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
-
-            file = null;
+            file     = null;
         }
     }
 
@@ -448,9 +444,8 @@ public class Controller extends Component {
      * Insert the current system date and time
      */
     public void insertDateTime() {
-        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                .format(Calendar.getInstance().getTime());
-        appendHtmlText(textEdit, dateTime);
+        appendHtmlText(textEdit, new SimpleDateFormat(("yyyy-MM-dd HH:mm:ss"))
+                .format(Calendar.getInstance().getTime()));
     }
 
     /**
@@ -541,7 +536,6 @@ public class Controller extends Component {
             Scene scene = new Scene(root, 449, 110);
             if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
             stage.setScene(scene);
-
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
             stage.show();
@@ -554,7 +548,7 @@ public class Controller extends Component {
      * Toggle experimental user interface (custom control styling)
      */
     public void toggleExperimentalInterface() {
-        experimentalUI = checkboxExperimentalUI.isSelected();
+        experimentalUI = experimentalUICB.isSelected();
         if (experimentalUI)
             MainFX.currentStage.getScene().getStylesheets().add("fxml/Styles.css");
         else
@@ -565,7 +559,7 @@ public class Controller extends Component {
      * Set saving settings on or off
      */
     public void toggleSaveSettings() {
-        saveSettings = checkboxSaveSettings.isSelected();
+        saveSettings = saveSettingsCB.isSelected();
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
             boolean doDeleteFile = Dialogs.confirmationDialog(
                     "HTMLNotepadFX",
