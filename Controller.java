@@ -339,8 +339,7 @@ public class Controller extends Component {
         String scriptText = Dialogs.textAreaInputDialog(
                 "HTMLNotepadFX",
                 "Insert a script",
-                "Warning!\n" +
-                        "Scripts can be harmful and some browsers will block them!\n",
+                "Warning!\nScripts can be harmful and some browsers will block them!\n",
                 "Insert",
                 "Enter script code"
         );
@@ -360,10 +359,9 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Insert script alternative text",
                 "This text will be displayed instead of script result " +
-                        "if the browser blocks / doesn't support\nJavaScript scripts.",
+                "if the browser blocks / doesn't support\nJavaScript scripts.",
                 "Insert",
-                "Enter something like \"Your browser does not support" +
-                        "JavaScript\"..."
+                "Enter something like \"Your browser does not support JavaScript\"..."
         );
 
         if (scriptAltText != null) {
@@ -474,8 +472,7 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
-                        "\nWarning!\n" +
-                        "Some browsers may block certain tags for security reasons.",
+                "\nWarning!\n", "Some browsers may block certain tags for security reasons.",
                 "Insert",
                 "Enter something like \"<tag>text</tag>\""
         );
@@ -562,8 +559,7 @@ public class Controller extends Component {
         saveSettings = saveSettingsCB.isSelected();
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
             boolean doDeleteFile = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "HTMLNotepadFX",
+                    "HTMLNotepadFX", "Confirmation",
                     "Would you also like to delete the settings file?"
             );
 
@@ -633,8 +629,7 @@ public class Controller extends Component {
     public void close() {
         boolean confirmedClose;
         if (modified) confirmedClose = Dialogs.confirmationDialog(
-                "HTMLNotepadFX",
-                "Warning",
+                "HTMLNotepadFX", "Warning",
                 "All unsaved changes will be lost! Continue?");
         else confirmedClose = true;
 
