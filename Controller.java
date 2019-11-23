@@ -472,7 +472,7 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
-                "\nWarning!\n", "Some browsers may block certain tags for security reasons.",
+                "\nWarning!\nSome browsers may block certain tags for security reasons.",
                 "Insert",
                 "Enter something like \"<tag>text</tag>\""
         );
