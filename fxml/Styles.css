@@ -32,7 +32,7 @@
 .slider .track {
     -fx-background-color: #ffffff;
     -fx-background-radius: 0;
-    -fx-border-color: rgb(59, 146, 219);
+    -fx-border-color: #cccccc;
 }
 
 /* buttons */
