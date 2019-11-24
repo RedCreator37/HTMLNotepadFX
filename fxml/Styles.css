@@ -114,8 +114,10 @@
     -fx-border-radius: 0;
 }
 
-.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .list-cell {
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .list-cell,
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .clipped-container {
     -fx-background-color: #ffffff;
+    -fx-border-color: #ffffff;
 }
 
 /* font combo boxes --> scrollbars */
