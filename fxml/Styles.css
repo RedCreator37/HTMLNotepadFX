@@ -24,6 +24,17 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 15, 0, 0, 0);
 }
 
+/* opacity slider */
+.slider .thumb {
+    -fx-background-color: rgb(59, 146, 219);
+}
+
+.slider .track {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 0;
+    -fx-border-color: rgb(59, 146, 219);
+}
+
 /* buttons */
 .button {
     -fx-background-color: #ffffff;
@@ -105,6 +116,12 @@
 
 .bottom-toolbar .container .font-menu-button .arrow-button:hover {
     -fx-background-color: #e9f3fb;
+}
+
+/* font combo boxes --> get rid of duplicated border */
+.bottom-toolbar .container .font-menu-button .list-cell:selected {
+    -fx-border-style: solid hidden solid solid;
+    -fx-border-color: #cccccc;
 }
 
 /* font combo boxes --> list component */
