@@ -29,24 +29,17 @@ public class MainFX extends Application {
 
         primaryStage.setScene(new Scene(root, width, height));
         primaryStage.show();
-
         currentStage = primaryStage;
 
-        // load settings
-        Controller controllerObject = new Controller();
-        controllerObject.loadSettings();
+        new Controller().loadSettings();    // load settings
 
         primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
             boolean confirmed = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "Warning",
+                    "HTMLNotepadFX", "Warning",
                     "All unsaved changes will be lost! Continue?");
-
             if (confirmed) {
-                Controller controller = new Controller();
-                controller.saveSettings();
-
-                System.exit(0); // user has selected OK, close the program
+                new Controller().saveSettings();
+                System.exit(0);
             } else event.consume(); // user has selected Cancel, don't close the program
         });
 
