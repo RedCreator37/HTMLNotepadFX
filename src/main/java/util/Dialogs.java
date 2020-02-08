@@ -31,12 +31,11 @@ public class Dialogs {
     /**
      * Display a warning dialog with an OK button
      */
-    public static void warningDialog(String title, String headerText, String content) {
+    public static void warningDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
-        alert.setHeaderText(headerText);
+        alert.setHeaderText(header);
         alert.setContentText(content);
-
         alert.showAndWait();
     }
 
@@ -45,14 +44,13 @@ public class Dialogs {
      *
      * @return true if the user selected OK or false if the user selected Cancel
      */
-    public static boolean confirmationDialog(String title, String headerText, String content) {
+    public static boolean confirmationDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
-        alert.setHeaderText(headerText);
+        alert.setHeaderText(header);
         alert.setContentText(content);
 
         Optional<ButtonType> result = alert.showAndWait();
-
         return (result.isPresent() && result.get() == ButtonType.OK);
     }
 
@@ -62,22 +60,21 @@ public class Dialogs {
      * Please use ErrorHandler to set the dialog content.
      * Also use ErrorHandler to create more advanced/custom error dialogs
      */
-    public static void errorDialog(String title, String headerText, String content) {
+    public static void errorDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
-        alert.setHeaderText(headerText);
+        alert.setHeaderText(header);
         alert.setContentText(content);
-
         alert.showAndWait();
     }
 
     /**
      * Display a text input dialog with the default value in the input field
      */
-    public static String inputDialog(String title, String headerText, String content, String defaultValue) {
-        TextInputDialog inputDialog = new TextInputDialog(defaultValue);
+    public static String inputDialog(String title, String header, String content, String defaultVal) {
+        TextInputDialog inputDialog = new TextInputDialog(defaultVal);
         inputDialog.setTitle(title);
-        inputDialog.setHeaderText(headerText);
+        inputDialog.setHeaderText(header);
         inputDialog.setContentText(content);
 
         inputDialog.showAndWait(); // wait for input
@@ -89,27 +86,27 @@ public class Dialogs {
      * second field will be updated when the text in the first one is
      * changed.
      *
-     * @param title       dialog title
-     * @param headerText  the header text to be displayed in the dialog
-     * @param buttonText  default button action text (ex. "Insert")
-     * @param content     the text that'll be displayed above input fields
-     * @param promptText1 first text field's prompt text
-     * @param promptText2 second text field's prompt text
-     * @param label1      text to be displayed before the first text field
-     * @param label2      the same as label1, this time for the second field
+     * @param title   dialog title
+     * @param header  the header text to be displayed in the dialog
+     * @param button  default button action text (ex. "Insert")
+     * @param content the text that'll be displayed above input fields
+     * @param prompt1 first text field's prompt text
+     * @param prompt2 second text field's prompt text
+     * @param label1  text to be displayed before the first text field
+     * @param label2  the same as label1, this time for the second field
      * @return an Optional String Pair (both Key and Value contain a
      * string, first one is the first field's text, second one is the
      * second field's text).
      */
-    public static Optional<Pair<String, String>> doubleInputDialog(String title, String headerText, String content,
-                                                                   String buttonText, String promptText1,
-                                                                   String promptText2, String label1, String label2) {
+    public static Optional<Pair<String, String>> doubleInputDialog(String title, String header, String content,
+                                                                   String button, String prompt1, String prompt2,
+                                                                   String label1, String label2) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle(title);
-        dialog.setHeaderText(headerText);
+        dialog.setHeaderText(header);
 
         // set button types
-        ButtonType mainButtonType = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+        ButtonType mainButtonType = new ButtonType(button, ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
 
         // create other controls
@@ -122,8 +119,8 @@ public class Dialogs {
         controlPane.setVgap(10);
         controlPane.setPadding(new Insets(10, 10, 0, 0));
 
-        field1.setPromptText(promptText1);
-        field2.setPromptText(promptText2);
+        field1.setPromptText(prompt1);
+        field2.setPromptText(prompt2);
 
         textPane.add(new Label(content), 0, 0);
         controlPane.add(new Label(label1), 0, 0);
@@ -159,22 +156,22 @@ public class Dialogs {
      * Display a text input dialog with a Text Area instead of a Text
      * Field.
      *
-     * @param title      dialog title
-     * @param headerText dialog header text
-     * @param content    dialog content text (will be displayed in a Label
-     *                   above the Text Area)
-     * @param buttonText default button action text (ex. "Insert")
-     * @param promptText Text Area's prompt text
+     * @param title   dialog title
+     * @param header  dialog header text
+     * @param content dialog content text (will be displayed in a Label
+     *                above the Text Area)
+     * @param button  default button action text (ex. "Insert")
+     * @param prompt  Text Area's prompt text
      * @return entered text (can be null!)
      */
-    public static String textAreaInputDialog(String title, String headerText, String content,
-                                             String buttonText, String promptText) {
+    public static String textAreaInputDialog(String title, String header, String content,
+                                             String button, String prompt) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle(title);
-        dialog.setHeaderText(headerText);
+        dialog.setHeaderText(header);
 
         // set button types
-        ButtonType mainButtonType = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+        ButtonType mainButtonType = new ButtonType(button, ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
 
         // create the text area
@@ -182,7 +179,7 @@ public class Dialogs {
         Label contentText = new Label(content + "\n");
         TextArea area = new TextArea();
 
-        area.setPromptText(promptText);
+        area.setPromptText(prompt);
         pane.add(contentText, 0, 0);
         pane.add(area, 0, 1);
 
@@ -210,21 +207,21 @@ public class Dialogs {
      * for entering long strings of data such as full web addresses)
      *
      * @param title      dialog title
-     * @param headerText dialog header text
+     * @param header     dialog header text
      * @param text1      text to be displayed above the text field
      * @param text2      text to be displayed below the text field
-     * @param buttonText default button action text (ex. "Insert")
-     * @param defaultValue text field's pre-entered default text
+     * @param button     default button action text (ex. "Insert")
+     * @param defaultVal text field's pre-entered default text
      * @return entered text (can be null!)
      */
-    public static String longInputDialog(String title, String headerText, String text1,
-                                         String text2, String buttonText, String defaultValue) {
+    public static String longInputDialog(String title, String header, String text1, String text2,
+                                         String button, String defaultVal) {
         Dialog<String> dialog = new Dialog<>();
         dialog.setTitle(title);
-        dialog.setHeaderText(headerText);
+        dialog.setHeaderText(header);
 
         // set button types
-        ButtonType mainButtonType = new ButtonType(buttonText, ButtonBar.ButtonData.OK_DONE);
+        ButtonType mainButtonType = new ButtonType(button, ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
 
         // create the text area
@@ -233,7 +230,7 @@ public class Dialogs {
         TextField textField = new TextField();
         Label label2 = new Label(text2);
 
-        textField.setText(defaultValue);
+        textField.setText(defaultVal);
         pane.add(label1, 0, 0);
         pane.add(textField, 0, 1);
         pane.add(label2, 0, 2);
@@ -261,33 +258,31 @@ public class Dialogs {
      * Display a generic error dialog with a details sub pane containing
      * exception stacktrace.
      */
-    static void detailedExceptionDialog(String title, String headerText, String text, Exception e) {
+    static void detailedExceptionDialog(String title, String header, String text, Exception e) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
-        alert.setHeaderText(headerText);
+        alert.setHeaderText(header);
         alert.setContentText(text);
 
-        // Create expandable Exception.
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        e.printStackTrace(printWriter);
-        String exceptionText = stringWriter.toString();
+        // get the exception text
+        StringWriter writer = new StringWriter();
+        e.printStackTrace(new PrintWriter(writer));
 
         Label label = new Label("Details:");
-        TextArea textArea = new TextArea(exceptionText);
-        textArea.setEditable(false);
+        TextArea area = new TextArea(writer.toString());
+        area.setEditable(false);
 
-        textArea.setMaxWidth(Double.MAX_VALUE);
-        textArea.setMaxHeight(Double.MAX_VALUE);
-        GridPane.setVgrow(textArea, Priority.ALWAYS);
-        GridPane.setHgrow(textArea, Priority.ALWAYS);
+        area.setMaxWidth(Double.MAX_VALUE);
+        area.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(area, Priority.ALWAYS);
+        GridPane.setHgrow(area, Priority.ALWAYS);
 
         GridPane expContent = new GridPane();
         expContent.setMaxWidth(Double.MAX_VALUE);
         expContent.add(label, 0, 0);
-        expContent.add(textArea, 0, 1);
+        expContent.add(area, 0, 1);
 
-        // Set expandable Exception into the dialog pane.
+        // put the controls into a dialog pane
         alert.getDialogPane().setExpandableContent(expContent);
         alert.showAndWait();
     }

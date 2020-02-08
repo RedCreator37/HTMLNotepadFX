@@ -32,13 +32,12 @@ public class HTMLSource {
         Stage stage = (Stage) sourceText.getScene().getWindow();
         stage.setAlwaysOnTop(false);
 
-        File file;
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        file = fileChooser.showSaveDialog(MainFX.currentStage);
+        File file = fileChooser.showSaveDialog(MainFX.currentStage);
         if (file != null) FileIO.saveFile(file, sourceText.getText());
 
         // now make the window always on top again

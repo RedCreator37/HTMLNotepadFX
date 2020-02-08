@@ -18,7 +18,7 @@ public class MainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/MainWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
         primaryStage.setTitle("Untitled - HTMLNotepadFX");
 
         // adjust the window size to make it work on smaller screens
@@ -29,24 +29,17 @@ public class MainFX extends Application {
 
         primaryStage.setScene(new Scene(root, width, height));
         primaryStage.show();
-
         currentStage = primaryStage;
 
-        // load settings
-        Controller controllerObject = new Controller();
-        controllerObject.loadSettings();
+        new Controller().loadSettings();    // load settings
 
         primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
             boolean confirmed = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "Warning",
+                    "HTMLNotepadFX", "Warning",
                     "All unsaved changes will be lost! Continue?");
-
             if (confirmed) {
-                Controller controller = new Controller();
-                controller.saveSettings();
-
-                System.exit(0); // user has selected OK, close the program
+                new Controller().saveSettings();
+                System.exit(0);
             } else event.consume(); // user has selected Cancel, don't close the program
         });
 
@@ -74,7 +67,6 @@ public class MainFX extends Application {
     private static Pair<Double, Double> getScreenSize() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         double width = size.getWidth(), height = size.getHeight();
-
         return new Pair<>(width, height);
     }
 

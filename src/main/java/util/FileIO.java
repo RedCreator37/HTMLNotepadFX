@@ -18,14 +18,13 @@ public class FileIO {
      * Open a text file and return its content in form of a string
      */
     public static String openFile(File file) {
-        String filename = file.getAbsolutePath();
         StringBuilder sb = new StringBuilder();
 
         try {
-            Scanner scan = new Scanner(new FileReader(filename));
+            Scanner scan = new Scanner(new FileReader(file.getAbsolutePath()));
             while (scan.hasNext()) sb.append(scan.nextLine()).append("\n");
         } catch (FileNotFoundException e) {
-            ErrorHandler.fileNotFound(filename);
+            ErrorHandler.fileNotFound(file.getAbsolutePath());
         }
 
         return sb.toString();

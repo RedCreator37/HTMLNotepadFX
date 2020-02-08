@@ -5,7 +5,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -22,7 +21,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,17 +54,13 @@ public class Controller extends Component {
 
             // attempt to reload the last used file
             String lastFileName = loadSettings.getProperty("last_file");
-            if (lastFileName != null) {
-                file = new File(lastFileName);
-                openFile(file);
-            }
+            if (lastFileName != null) openFile(new File(lastFileName));
 
             reloadLastFile.setSelected(lastFileName != null);
             configVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
 
             if (configVersion != VersionData.CONFIG_VERSION)
-                Dialogs.warningDialog(
-                        "HTMLNotepadFX",
+                Dialogs.warningDialog("HTMLNotepadFX",
                         "Invalid config file version",
                         "Loaded config file reports version " + configVersion +
                                 " while this program is using version " + VersionData.CONFIG_VERSION +
@@ -93,14 +87,12 @@ public class Controller extends Component {
 
             saveSettings.setProperty("config_version", String.valueOf(configVersion));
             try {
-                File file = new File(VersionData.CONFIG_LOCATION);
-                FileOutputStream fileOut = new FileOutputStream(file);
+                var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
                 saveSettings.storeToXML(fileOut, "");
                 fileOut.close();
 
-                // attempt to make the settings file hidden
-                String os = System.getProperty("os.name").toLowerCase();
-                if (os.contains("win")) {
+                // manually hide the properties file on windows
+                if (System.getProperty("os.name").toLowerCase().contains("win")) {
                     Path path = Paths.get(file.getAbsolutePath());
                     Files.setAttribute(path, "dos:hidden", true);
                 }
@@ -117,11 +109,10 @@ public class Controller extends Component {
     // initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
-    public MenuBar mainMenuBar = new MenuBar();
     public CheckMenuItem disableMouse = new CheckMenuItem();
     public CheckMenuItem reloadLastFile = new CheckMenuItem();
-    public CheckMenuItem checkboxSaveSettings = new CheckMenuItem();
-    public CheckMenuItem checkboxExperimentalUI = new CheckMenuItem();
+    public CheckMenuItem saveSettingsCB = new CheckMenuItem();
+    public CheckMenuItem experimentalUICB = new CheckMenuItem();
 
     private File file;
     private boolean modified;
@@ -140,8 +131,7 @@ public class Controller extends Component {
             if (confirmedNewFile) {
                 textEdit.setHtmlText("");
                 MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-                modified = false; // the file hasn't been modified yet
-
+                modified = false;
                 file = null;
             }
 
@@ -149,7 +139,6 @@ public class Controller extends Component {
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
-
             file = null;
         }
     }
@@ -186,7 +175,6 @@ public class Controller extends Component {
 
             if (confirmed) {
                 textEdit.setHtmlText(FileIO.openFile(file));
-
                 MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
             }
@@ -269,21 +257,18 @@ public class Controller extends Component {
                 stage.getScene().setCursor(Cursor.WAIT);
             });
 
-            URL fileURL = new URL(url); // get the URL
-            InputStream inputStream = fileURL.openStream();
-            Scanner scanner = new Scanner(inputStream);
+            // get the URL
+            Scanner scanner = new Scanner(new URL(url).openStream());
 
-            textEdit.setHtmlText(""); // clean the textEdit first
+            textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false; // the file hasn't been modified yet
-
             file = null;
 
-            while (scanner.hasNextLine()) // get the text and append it to textEdit
+            while (scanner.hasNextLine())
                 appendHtmlText(textEdit, scanner.nextLine());
         } catch (IOException | IllegalArgumentException e) {
-            Dialogs.errorDialog(
-                    "HTMLNotepadFX",
+            Dialogs.errorDialog("HTMLNotepadFX",
                     "Error retrieving HTML file",
                     "An error has occurred while attempting to \n" +
                             "retrieve the specified HTML file:\n" + e.getMessage());
@@ -354,8 +339,7 @@ public class Controller extends Component {
         String scriptText = Dialogs.textAreaInputDialog(
                 "HTMLNotepadFX",
                 "Insert a script",
-                "Warning!\n" +
-                        "Scripts can be harmful and some browsers will block them!\n",
+                "Warning!\nScripts can be harmful and some browsers will block them!\n",
                 "Insert",
                 "Enter script code"
         );
@@ -374,11 +358,10 @@ public class Controller extends Component {
         String scriptAltText = Dialogs.textAreaInputDialog(
                 "HTMLNotepadFX",
                 "Insert script alternative text",
-                "This text will be displayed instead of script result\n" +
-                        "if the browser blocks / doesn't support JavaScript scripts.",
+                "This text will be displayed instead of script result " +
+                        "if the browser blocks / doesn't support\nJavaScript scripts.",
                 "Insert",
-                "Enter something like \"Your browser does not support" +
-                        "JavaScript\"..."
+                "Enter something like \"Your browser does not support JavaScript\"..."
         );
 
         if (scriptAltText != null) {
@@ -459,9 +442,8 @@ public class Controller extends Component {
      * Insert the current system date and time
      */
     public void insertDateTime() {
-        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-                .format(Calendar.getInstance().getTime());
-        appendHtmlText(textEdit, dateTime);
+        appendHtmlText(textEdit, new SimpleDateFormat(("yyyy-MM-dd HH:mm:ss"))
+                .format(Calendar.getInstance().getTime()));
     }
 
     /**
@@ -490,8 +472,7 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
-                        "\nWarning!\n" +
-                        "Some browsers may block certain tags for security reasons.",
+                        "\nWarning!\nSome browsers may block certain tags for security reasons.",
                 "Insert",
                 "Enter something like \"<tag>text</tag>\""
         );
@@ -523,19 +504,17 @@ public class Controller extends Component {
      */
     public void openSource() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/HTMLSource.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("HTMLSource.fxml"));
             Stage stage = new Stage();
             stage.setTitle("HTML Source Code");
 
             // get the filename if possible
             if (file != null) stage.setTitle("HTML Source Code - " + file.getName());
 
-            // get the HTML source code
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
-            Scene scene = new Scene(root, 822, 562);
 
             // use experimental UI if enabled
-            ToggleExperimentalUI(stage, scene);
+            ToggleExperimentalUI(stage, new Scene(root, 822, 562));
         } catch (IOException e) {
             System.err.println("Failed loading HTML source code window: " + e.getMessage());
         }
@@ -546,14 +525,13 @@ public class Controller extends Component {
      */
     public void openQuickCalculator() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/QuickCalculator.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("QuickCalculator.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
 
             Scene scene = new Scene(root, 449, 110);
-            if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
+            if (experimentalUI) scene.getStylesheets().add("Styles.css");
             stage.setScene(scene);
-
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
             stage.show();
@@ -566,9 +544,9 @@ public class Controller extends Component {
      * Toggle experimental user interface (custom control styling)
      */
     public void toggleExperimentalInterface() {
-        experimentalUI = checkboxExperimentalUI.isSelected();
+        experimentalUI = experimentalUICB.isSelected();
         if (experimentalUI)
-            MainFX.currentStage.getScene().getStylesheets().add("fxml/Styles.css");
+            MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
         else
             MainFX.currentStage.getScene().getStylesheets().clear();
     }
@@ -577,11 +555,10 @@ public class Controller extends Component {
      * Set saving settings on or off
      */
     public void toggleSaveSettings() {
-        saveSettings = checkboxSaveSettings.isSelected();
+        saveSettings = saveSettingsCB.isSelected();
         if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
             boolean doDeleteFile = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "HTMLNotepadFX",
+                    "HTMLNotepadFX", "Confirmation",
                     "Would you also like to delete the settings file?"
             );
 
@@ -605,8 +582,7 @@ public class Controller extends Component {
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
-        if (opacity < 0.01f) // do not make the window invisible
-            opacity = 0.01f;
+        if (opacity < 0.01f) opacity = 0.01f; // do not make the window invisible
         MainFX.currentStage.setOpacity(opacity);
     }
 
@@ -614,7 +590,7 @@ public class Controller extends Component {
      * Toggles the new experimental UI style
      */
     private void ToggleExperimentalUI(Stage stage, Scene scene) {
-        if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
+        if (experimentalUI) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -633,12 +609,10 @@ public class Controller extends Component {
      */
     public void showAboutDialog() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/About.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("About.fxml"));
             Stage stage = new Stage();
             stage.setTitle("About HTMLNotepadFX");
-
-            Scene scene = new Scene(root, 638, 281);
-            ToggleExperimentalUI(stage, scene);
+            ToggleExperimentalUI(stage, new Scene(root, 638, 281));
         } catch (IOException e) {
             System.err.println("Failed loading about dialog: " + e.getMessage());
         }
@@ -654,13 +628,12 @@ public class Controller extends Component {
     public void close() {
         boolean confirmedClose;
         if (modified) confirmedClose = Dialogs.confirmationDialog(
-                "HTMLNotepadFX",
-                "Warning",
+                "HTMLNotepadFX", "Warning",
                 "All unsaved changes will be lost! Continue?");
         else confirmedClose = true;
 
         if (confirmedClose) {
-            saveSettings();
+            //saveSettings();   // FIXME: NullPointerException
             System.exit(0);
         }
     }

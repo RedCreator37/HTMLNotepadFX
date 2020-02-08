@@ -13,7 +13,7 @@
 <?import javafx.scene.web.HTMLEditor?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
-    <MenuBar fx:id="mainMenuBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#newFile" text="New">
                 <accelerator>
@@ -122,11 +122,11 @@
                <KeyCodeCombination alt="DOWN" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
             </accelerator></MenuItem>
             <SeparatorMenuItem />
-            <CheckMenuItem fx:id="checkboxSaveSettings" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings">
+            <CheckMenuItem fx:id="saveSettingsCB" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings">
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
             </accelerator></CheckMenuItem>
-            <CheckMenuItem fx:id="checkboxExperimentalUI" mnemonicParsing="false" onAction="#toggleExperimentalInterface" text="Enable experimental UI">
+            <CheckMenuItem fx:id="experimentalUICB" mnemonicParsing="false" onAction="#toggleExperimentalInterface" text="Enable experimental UI">
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
             </accelerator></CheckMenuItem>

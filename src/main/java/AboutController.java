@@ -1,9 +1,9 @@
-import util.VersionData;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import util.VersionData;
 
 import java.io.File;
 
@@ -14,12 +14,7 @@ public class AboutController {
 
     // initialize controls
     public Button closeButton;
-    public Label versionLabel;
-    public Label buildLabel;
-    public Label buildDateLabel;
-    public Label betaLabel;
-    public Label ramLabel;
-    public Label diskLabel;
+    public Label versionLabel, buildLabel, buildDateLabel, betaLabel, ramLabel, diskLabel;
     public TextArea licenseTextArea;
 
     /**
@@ -32,13 +27,11 @@ public class AboutController {
         buildDateLabel.setText(VersionData.BUILD_DATE);
         betaLabel.setText(String.valueOf(VersionData.IS_BETA));
 
-        // get the amount of ram that's available to Java
-        long ramAmount = Runtime.getRuntime().maxMemory();
-        ramLabel.setText(ramAmount / 1048576 + " MB");
+        // get the amount of ram available to the program
+        ramLabel.setText(Runtime.getRuntime().maxMemory() / 1048576 + " MB");
 
         // get available disk space
-        long diskSpace = new File("/").getTotalSpace();
-        diskLabel.setText(diskSpace / 1073741824 + " GB");
+        diskLabel.setText(new File("/").getTotalSpace() / 1073741824 + " GB");
 
         // display the license
         String licenseText = "MIT License\n" +
@@ -62,7 +55,7 @@ public class AboutController {
                 "LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\n" +
                 "OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\n" +
                 "SOFTWARE.\n" +
-                "\nSource code is available on GitHub: www.github.com/RedCreator37/HTMLNotepadFX";
+                "\nSource code: www.github.com/RedCreator37/HTMLNotepadFX";
         licenseTextArea.setText(licenseText);
     }
 
