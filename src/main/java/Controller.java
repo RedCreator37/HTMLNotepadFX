@@ -132,14 +132,14 @@ public class Controller extends Component {
                 textEdit.setHtmlText("");
                 MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
-                file     = null;
+                file = null;
             }
 
         } else {    // if the file hasn't been modified yet
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
-            file     = null;
+            file = null;
         }
     }
 
@@ -263,9 +263,9 @@ public class Controller extends Component {
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false; // the file hasn't been modified yet
-            file     = null;
+            file = null;
 
-            while (scanner.hasNextLine()) // get the text and append it to textEdit
+            while (scanner.hasNextLine())
                 appendHtmlText(textEdit, scanner.nextLine());
         } catch (IOException | IllegalArgumentException e) {
             Dialogs.errorDialog("HTMLNotepadFX",
@@ -359,7 +359,7 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Insert script alternative text",
                 "This text will be displayed instead of script result " +
-                "if the browser blocks / doesn't support\nJavaScript scripts.",
+                        "if the browser blocks / doesn't support\nJavaScript scripts.",
                 "Insert",
                 "Enter something like \"Your browser does not support JavaScript\"..."
         );
@@ -472,7 +472,7 @@ public class Controller extends Component {
                 "HTMLNotepadFX",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
-                "\nWarning!\nSome browsers may block certain tags for security reasons.",
+                        "\nWarning!\nSome browsers may block certain tags for security reasons.",
                 "Insert",
                 "Enter something like \"<tag>text</tag>\""
         );
@@ -504,14 +504,13 @@ public class Controller extends Component {
      */
     public void openSource() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/HTMLSource.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("HTMLSource.fxml"));
             Stage stage = new Stage();
             stage.setTitle("HTML Source Code");
 
             // get the filename if possible
             if (file != null) stage.setTitle("HTML Source Code - " + file.getName());
 
-            // get the HTML source code
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
 
             // use experimental UI if enabled
@@ -526,12 +525,12 @@ public class Controller extends Component {
      */
     public void openQuickCalculator() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/QuickCalculator.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("QuickCalculator.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
 
             Scene scene = new Scene(root, 449, 110);
-            if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
+            if (experimentalUI) scene.getStylesheets().add("Styles.css");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
@@ -547,7 +546,7 @@ public class Controller extends Component {
     public void toggleExperimentalInterface() {
         experimentalUI = experimentalUICB.isSelected();
         if (experimentalUI)
-            MainFX.currentStage.getScene().getStylesheets().add("fxml/Styles.css");
+            MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
         else
             MainFX.currentStage.getScene().getStylesheets().clear();
     }
@@ -591,7 +590,7 @@ public class Controller extends Component {
      * Toggles the new experimental UI style
      */
     private void ToggleExperimentalUI(Stage stage, Scene scene) {
-        if (experimentalUI) scene.getStylesheets().add("fxml/Styles.css");
+        if (experimentalUI) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
 
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -610,7 +609,7 @@ public class Controller extends Component {
      */
     public void showAboutDialog() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/About.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("About.fxml"));
             Stage stage = new Stage();
             stage.setTitle("About HTMLNotepadFX");
             ToggleExperimentalUI(stage, new Scene(root, 638, 281));
@@ -634,7 +633,7 @@ public class Controller extends Component {
         else confirmedClose = true;
 
         if (confirmedClose) {
-            saveSettings();
+            //saveSettings();   // FIXME: NullPointerException
             System.exit(0);
         }
     }
