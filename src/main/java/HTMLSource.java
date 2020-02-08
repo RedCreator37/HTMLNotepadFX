@@ -36,7 +36,6 @@ public class HTMLSource {
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-
         File file = fileChooser.showSaveDialog(MainFX.currentStage);
         if (file != null) FileIO.saveFile(file, sourceText.getText());
 

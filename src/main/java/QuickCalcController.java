@@ -5,7 +5,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.math.BigDecimal;
 
@@ -80,10 +79,8 @@ public class QuickCalcController {
      * Copy the result from the result field
      */
     public void copyResult() {
-        String text = resultField.getText();
-        StringSelection selection = new StringSelection(text);
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        clipboard.setContents(selection, null);
+        Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(new StringSelection(resultField.getText()), null);
     }
 
     /**

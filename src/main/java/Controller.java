@@ -51,6 +51,8 @@ public class Controller extends Component {
             loadSettings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
             textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
+            experimentalUICB.setSelected(Boolean.parseBoolean(loadSettings.getProperty("experimental_ui")));
+            toggleExperimentalInterface();
 
             // attempt to reload the last used file
             String lastFileName = loadSettings.getProperty("last_file");
@@ -80,6 +82,7 @@ public class Controller extends Component {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
+            saveSettings.setProperty("experimental_ui", String.valueOf(experimentalUI));
 
             // save the current file name
             if (file != null && reloadLastFile.isSelected())
@@ -102,17 +105,15 @@ public class Controller extends Component {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //   F I L E   M A N A G E M E N T
-    /////////////////////////////////////////////////////////////////////////////////////
+    /// FILE MANAGEMENT /////////////////////////////////////////////////////////////////
 
     // initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
-    public CheckMenuItem disableMouse = new CheckMenuItem();
-    public CheckMenuItem reloadLastFile = new CheckMenuItem();
-    public CheckMenuItem saveSettingsCB = new CheckMenuItem();
-    public CheckMenuItem experimentalUICB = new CheckMenuItem();
+    public CheckMenuItem disableMouse = new CheckMenuItem(),
+            reloadLastFile = new CheckMenuItem(),
+            saveSettingsCB = new CheckMenuItem(),
+            experimentalUICB = new CheckMenuItem();
 
     private File file;
     private boolean modified;
@@ -121,20 +122,16 @@ public class Controller extends Component {
      * Create a blank file by deleting the contents of textEdit
      */
     public void newFile() {
-        boolean confirmedNewFile;
         if (modified) {
-            confirmedNewFile = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "Warning",
+            boolean confirmedNewFile = Dialogs.confirmationDialog(
+                    "Confirmation", "Warning",
                     "All unsaved changes will be lost! Continue?");
-
             if (confirmedNewFile) {
                 textEdit.setHtmlText("");
                 MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
                 file = null;
             }
-
         } else {    // if the file hasn't been modified yet
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
@@ -151,7 +148,6 @@ public class Controller extends Component {
         fileChooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-
         file = fileChooser.showOpenDialog(MainFX.currentStage);
         if (file != null) openFile(file);
     }
@@ -160,21 +156,16 @@ public class Controller extends Component {
      * Open a file and render its content in textEdit
      */
     private void openFile(File file) {
-        if (!modified) {    // if the file hasn't been modified yet
-            textEdit.setHtmlText(FileIO.openFile(file));
-
-            // Set the title bar text to match the file's name
+        if (!modified) {
+            textEdit.setHtmlText(FileIO.loadFile(file));
             MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
         } else {    // if the file has been modified
-            boolean confirmed;
-            confirmed = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX",
-                    "Warning",
+            boolean confirmed = Dialogs.confirmationDialog(
+                    "Confirmation", "Warning",
                     "All unsaved changes will be lost! Continue?");
-
             if (confirmed) {
-                textEdit.setHtmlText(FileIO.openFile(file));
+                textEdit.setHtmlText(FileIO.loadFile(file));
                 MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
                 modified = false;
             }
@@ -187,7 +178,6 @@ public class Controller extends Component {
     public void saveFile() {
         if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
             FileIO.saveFile(file, textEdit.getHtmlText());
-
             // remove the "modified" text from the title bar
             MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
@@ -203,7 +193,6 @@ public class Controller extends Component {
         fileChooser.getExtensionFilters().addAll(   // set extensions filters
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-
         file = fileChooser.showSaveDialog(MainFX.currentStage);
         if (file != null) saveFile();
     }
@@ -221,8 +210,7 @@ public class Controller extends Component {
         if (file != null) // set the initial filename to the HTML file's name + .txt if possible
             fileChooser.setInitialFileName(file.getName() + ".txt");
 
-        File sourceFile;
-        sourceFile = fileChooser.showSaveDialog(MainFX.currentStage);
+        File sourceFile = fileChooser.showSaveDialog(MainFX.currentStage);
         if (sourceFile != null) FileIO.saveFile(sourceFile, textEdit.getHtmlText());
     }
 
@@ -230,7 +218,7 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        if (!modified) {    // if the text isn't already in the title bar
+        if (!modified) {    // if the text isn't there already
             String currentTitle = MainFX.currentStage.getTitle();
             MainFX.setTitle(currentTitle + " (Modified)", MainFX.currentStage);
             modified = true;
@@ -257,19 +245,14 @@ public class Controller extends Component {
                 stage.getScene().setCursor(Cursor.WAIT);
             });
 
-            // get the URL
             Scanner scanner = new Scanner(new URL(url).openStream());
-
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-            modified = false; // the file hasn't been modified yet
+            modified = false;
             file = null;
-
-            while (scanner.hasNextLine())
-                appendHtmlText(textEdit, scanner.nextLine());
+            while (scanner.hasNextLine()) appendHtmlText(textEdit, scanner.nextLine());
         } catch (IOException | IllegalArgumentException e) {
-            Dialogs.errorDialog("HTMLNotepadFX",
-                    "Error retrieving HTML file",
+            Dialogs.errorDialog("Error", "Error retrieving HTML file",
                     "An error has occurred while attempting to \n" +
                             "retrieve the specified HTML file:\n" + e.getMessage());
         } finally {
@@ -280,9 +263,7 @@ public class Controller extends Component {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //   E D I T I N G   A N D   O B J E C T   I N S E R T I O N
-    /////////////////////////////////////////////////////////////////////////////////////
+    /// EDITING AND INSERTING OBJECTS ///////////////////////////////////////////////////
 
     /**
      * Append text to the HTML code of a HTMLEditor control
@@ -480,9 +461,7 @@ public class Controller extends Component {
         if (htmlTag != null) appendHtmlText(textEdit, htmlTag);
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //   P R I N T I N G
-    /////////////////////////////////////////////////////////////////////////////////////
+    /// PRINTING ////////////////////////////////////////////////////////////////////////
 
     /**
      * Print the content of the editor
@@ -495,9 +474,7 @@ public class Controller extends Component {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //   O P T I O N S   M E N U
-    /////////////////////////////////////////////////////////////////////////////////////
+    /// OPTIONS MENU ////////////////////////////////////////////////////////////////////
 
     /**
      * Open a window with HTML source of the text in textEdit
@@ -510,7 +487,6 @@ public class Controller extends Component {
 
             // get the filename if possible
             if (file != null) stage.setTitle("HTML Source Code - " + file.getName());
-
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
 
             // use experimental UI if enabled
@@ -528,7 +504,6 @@ public class Controller extends Component {
             Parent root = FXMLLoader.load(getClass().getResource("QuickCalculator.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
-
             Scene scene = new Scene(root, 449, 110);
             if (experimentalUI) scene.getStylesheets().add("Styles.css");
             stage.setScene(scene);
@@ -592,7 +567,6 @@ public class Controller extends Component {
     private void ToggleExperimentalUI(Stage stage, Scene scene) {
         if (experimentalUI) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
-
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ESCAPE) stage.close();
         });
@@ -600,9 +574,7 @@ public class Controller extends Component {
         stage.show();
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //   I N F O   M E N U
-    /////////////////////////////////////////////////////////////////////////////////////
+    /// INFO MENU ///////////////////////////////////////////////////////////////////////
 
     /**
      * Show an About dialog with info about the program
@@ -618,9 +590,7 @@ public class Controller extends Component {
         }
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////
-    //   C L O S I N G   A N D   E X I T I N G   T H E   P R O G R A M
-    /////////////////////////////////////////////////////////////////////////////////////
+    /// CLOSING AND EXITING THE PROGRAM /////////////////////////////////////////////////
 
     /**
      * Close the program
@@ -628,7 +598,7 @@ public class Controller extends Component {
     public void close() {
         boolean confirmedClose;
         if (modified) confirmedClose = Dialogs.confirmationDialog(
-                "HTMLNotepadFX", "Warning",
+                "Confirmation", "Warning",
                 "All unsaved changes will be lost! Continue?");
         else confirmedClose = true;
 

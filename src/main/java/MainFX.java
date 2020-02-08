@@ -31,8 +31,8 @@ public class MainFX extends Application {
         primaryStage.show();
         currentStage = primaryStage;
 
-        new Controller().loadSettings();    // load settings
-
+        // fixme: not working as it creates a new instance every time!
+        new Controller().loadSettings();
         primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
             boolean confirmed = Dialogs.confirmationDialog(
                     "HTMLNotepadFX", "Warning",
@@ -66,8 +66,7 @@ public class MainFX extends Application {
      */
     private static Pair<Double, Double> getScreenSize() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        double width = size.getWidth(), height = size.getHeight();
-        return new Pair<>(width, height);
+        return new Pair<>(size.getWidth(), size.getHeight());
     }
 
 }

@@ -49,7 +49,6 @@ public class Dialogs {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
-
         Optional<ButtonType> result = alert.showAndWait();
         return (result.isPresent() && result.get() == ButtonType.OK);
     }
@@ -76,7 +75,6 @@ public class Dialogs {
         inputDialog.setTitle(title);
         inputDialog.setHeaderText(header);
         inputDialog.setContentText(content);
-
         inputDialog.showAndWait(); // wait for input
         return inputDialog.getResult();
     }
@@ -271,12 +269,10 @@ public class Dialogs {
         Label label = new Label("Details:");
         TextArea area = new TextArea(writer.toString());
         area.setEditable(false);
-
         area.setMaxWidth(Double.MAX_VALUE);
         area.setMaxHeight(Double.MAX_VALUE);
         GridPane.setVgrow(area, Priority.ALWAYS);
         GridPane.setHgrow(area, Priority.ALWAYS);
-
         GridPane expContent = new GridPane();
         expContent.setMaxWidth(Double.MAX_VALUE);
         expContent.add(label, 0, 0);

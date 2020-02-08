@@ -8,8 +8,7 @@ package util;
 class ErrorHandler {
 
     static void fileNotFound(String filename) {
-        Dialogs.errorDialog("File not found",
-                "File not found",
+        Dialogs.errorDialog("Error", "File not found",
                 "The specified file '" + filename + "' was not found." +
                         "\nPlease include full path to the file.");
     }

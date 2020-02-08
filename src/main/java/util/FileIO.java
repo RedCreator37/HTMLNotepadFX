@@ -17,7 +17,7 @@ public class FileIO {
     /**
      * Open a text file and return its content in form of a string
      */
-    public static String openFile(File file) {
+    public static String loadFile(File file) {
         StringBuilder sb = new StringBuilder();
 
         try {
