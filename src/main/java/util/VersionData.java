@@ -17,10 +17,7 @@ public class VersionData {
      */
     private static String getConfigFileLocation() {
         String os = System.getProperty("os.name").toLowerCase();
-
-        if (os.contains("win")) return System.getProperty("user.home")  // windows
-                + "\\HTMLNotepadFX_settings.xml";
-        else return System.getProperty("user.home") // everything else
-                + "/.HTMLNotepadFX_settings.xml";
+        return System.getProperty("user.home") + (os.contains("win")
+                ? "\\HTMLNotepadFX_settings.xml" : "/.HTMLNotepadFX_settings.xml");
     }
 }

@@ -13,11 +13,9 @@ public class Print {
      * Display a print dialog and send the text to printer when settings are accepted
      */
     public static void printText(String text) {
-        try {   // use system look and feel
+        try {   // use system LaF
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            // look and feel not supported, load the default one
-        }
+        } catch (Exception ignored) { } // not supported, load the default one
 
         Thread printThread = new Thread(() -> {
             JTextPane textPane = new JTextPane();
