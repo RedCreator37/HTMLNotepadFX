@@ -31,26 +31,6 @@ Stuff that could have been added / done better:
 
 Early development versions are in the *dev-html* branch.
 
-## Requirements
-
-HTMLNotepadFX is built on Java 11 and JavaFX (actually open source version of both, i.e. OpenJDK and OpenJFX).
-
-You'll have to manually install JavaFX since it's no longer bundled with the JDK. 
-
-## Usage
-
-As said before, you need OpenJDK 11 and [OpenJFX SDK 11][openJFX] (older versions may work but
-haven't been tested). Compile the source code and compress
-the output into a .jar then run
-
-```bash
-java --module-path="path_to_your_openjfx_sdk" \
-    --add-modules=javafx.controls,javafx.base,javafx.fxml,javafx.graphics,javafx.web,javafx.swing \
-    -jar your_jar_file.jar
-```
-
-This is a temporary solution until the new version of Java Packager arrives.
-
 [licenseBadge]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 [versionBadge]: https://img.shields.io/badge/version-0.4-ee912e.svg
 [openJFX]: https://openjfx.io/
