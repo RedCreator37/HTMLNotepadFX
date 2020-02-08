@@ -93,7 +93,7 @@ public class Controller extends Component {
 
                 // manually hide the properties file on windows
                 if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                    Path path = Paths.get(file.getAbsolutePath());
+                    Path path = Paths.get(VersionData.CONFIG_LOCATION);
                     Files.setAttribute(path, "dos:hidden", true);
                 }
             } catch (IOException e) {
@@ -633,7 +633,7 @@ public class Controller extends Component {
         else confirmedClose = true;
 
         if (confirmedClose) {
-            //saveSettings();   // FIXME: NullPointerException
+            saveSettings();
             System.exit(0);
         }
     }
