@@ -36,9 +36,9 @@ import java.util.Scanner;
  */
 public class Controller extends Component {
 
-    // initialize default settings
+    // default settings
     private boolean saveSettings = true;
-    private double configVersion = VersionData.CONFIG_VERSION;
+    private double confVersion = VersionData.CONFIG_VERSION;
     private static boolean oldUi = false;
     private float opacity = 1f;
 
@@ -49,28 +49,28 @@ public class Controller extends Component {
         Properties loadSettings = new Properties();
         try {
             loadSettings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
+            confVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
+            if (confVersion > VersionData.CONFIG_VERSION) {
+                Dialogs.errorDialog("Error", "Config file version mismatch",
+                        "The config file reports the version " + confVersion +
+                                " while this program is still using " +
+                                VersionData.CONFIG_VERSION +
+                                "\nSettings will not be loaded.");
+                return;
+            }
+
             textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
-            oldUiCheckBox.setSelected(Boolean.parseBoolean(loadSettings.getProperty("old_ui")));
+            oldUiCB.setSelected(Boolean.parseBoolean(loadSettings.getProperty("old_ui")));
             toggleOldUi();
 
             // attempt to reload the last used file
             String lastFileName = loadSettings.getProperty("last_file");
             if (lastFileName != null) openFile(new File(lastFileName));
-
-            reloadLastFile.setSelected(lastFileName != null);
-            configVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
-
-            if (configVersion != VersionData.CONFIG_VERSION)
-                Dialogs.warningDialog("HTMLNotepadFX",
-                        "Invalid config file version",
-                        "Loaded config file reports version " + configVersion +
-                                " while this program is using version " + VersionData.CONFIG_VERSION +
-                                "\nSome settings probably haven't been loaded.");
+            reloadLastCB.setSelected(lastFileName != null);
         } catch (IOException | NumberFormatException e) {
-            System.out.println("Loading settings failed, continuing...");
+            System.err.println("Loading settings failed: " + e.getMessage());
         }
-
         if (opacity < 0.1f) opacity = 0.1f;
     }
 
@@ -78,30 +78,29 @@ public class Controller extends Component {
      * Save settings to an XML file
      */
     void saveSettings() {
-        if (saveSettings) {
-            Properties saveSettings = new Properties();
-            saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
-            saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
-            saveSettings.setProperty("experimental_ui", String.valueOf(oldUi));
+        if (!saveSettings) return;
+        Properties saveSettings = new Properties();
+        saveSettings.setProperty("config_version", String.valueOf(confVersion));
+        saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
+        saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
+        saveSettings.setProperty("experimental_ui", String.valueOf(oldUi));
 
-            // save the current file name
-            if (file != null && reloadLastFile.isSelected())
-                saveSettings.setProperty("last_file", file.getAbsolutePath());
+        // save the current file name
+        if (file != null && reloadLastCB.isSelected())
+            saveSettings.setProperty("last_file", file.getAbsolutePath());
 
-            saveSettings.setProperty("config_version", String.valueOf(configVersion));
-            try {
-                var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
-                saveSettings.storeToXML(fileOut, "");
-                fileOut.close();
+        try {
+            var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
+            saveSettings.storeToXML(fileOut, "");
+            fileOut.close();
 
-                // manually hide the properties file on windows
-                if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                    Path path = Paths.get(VersionData.CONFIG_LOCATION);
-                    Files.setAttribute(path, "dos:hidden", true);
-                }
-            } catch (IOException e) {
-                System.out.println("Saving settings failed, continuing...");
+            // manually hide the properties file on windows
+            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                Path path = Paths.get(VersionData.CONFIG_LOCATION);
+                Files.setAttribute(path, "dos:hidden", true);
             }
+        } catch (IOException e) {
+            System.err.println("Saving settings failed: " + e.getMessage());
         }
     }
 
@@ -110,10 +109,10 @@ public class Controller extends Component {
     // initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
-    public CheckMenuItem disableMouse = new CheckMenuItem(),
-            reloadLastFile = new CheckMenuItem(),
+    public CheckMenuItem disableMouseCB = new CheckMenuItem(),
+            reloadLastCB = new CheckMenuItem(),
             saveSettingsCB = new CheckMenuItem(),
-            oldUiCheckBox = new CheckMenuItem();
+            oldUiCB = new CheckMenuItem();
 
     private File file;
     private boolean modified;
@@ -218,11 +217,10 @@ public class Controller extends Component {
      * Display "(Modified)" text in the title bar when the file was modified
      */
     public void fileModified() {
-        if (!modified) {    // if the text isn't there already
-            String currentTitle = MainFX.currentStage.getTitle();
-            MainFX.setTitle(currentTitle + " (Modified)", MainFX.currentStage);
-            modified = true;
-        }
+        if (modified) return;   // as the text is already there
+        String currentTitle = MainFX.currentStage.getTitle();
+        MainFX.setTitle(currentTitle + " (Modified)", MainFX.currentStage);
+        modified = true;
     }
 
     /**
@@ -278,7 +276,7 @@ public class Controller extends Component {
      */
     public void insertImage() {
         Optional<Pair<String, String>> input = Dialogs.doubleInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert an image",
                 "Insert an image into the document",
                 "Insert",
@@ -298,7 +296,7 @@ public class Controller extends Component {
      */
     public void insertLink() {
         Optional<Pair<String, String>> input = Dialogs.doubleInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert hyperlink",
                 "Insert a hyperlink into the document",
                 "Insert",
@@ -318,7 +316,7 @@ public class Controller extends Component {
      */
     public void insertScript() {
         String scriptText = Dialogs.textAreaInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert a script",
                 "Warning!\nScripts can be harmful and some browsers will block them!\n",
                 "Insert",
@@ -337,7 +335,7 @@ public class Controller extends Component {
      */
     public void insertScriptAltText() {
         String scriptAltText = Dialogs.textAreaInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert script alternative text",
                 "This text will be displayed instead of script result " +
                         "if the browser blocks / doesn't support\nJavaScript scripts.",
@@ -356,7 +354,7 @@ public class Controller extends Component {
      */
     public void insertQuote() {
         String quoteText = Dialogs.textAreaInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert a quote",
                 "Enter a quote to insert:",
                 "Insert",
@@ -374,7 +372,7 @@ public class Controller extends Component {
      */
     public void insertScrollingText() {
         String marqueeText = Dialogs.inputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert scrolling text",
                 "Enter the text to insert:",
                 "Text"
@@ -391,7 +389,7 @@ public class Controller extends Component {
      */
     public void insertSymbol() {
         String symbolCode = Dialogs.inputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert a symbol",
                 "Enter a symbol code to insert:\n" +
                         "Symbol codes must end with a semicolon!",
@@ -406,7 +404,7 @@ public class Controller extends Component {
      */
     public void insertCode() {
         String code = Dialogs.textAreaInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert source code",
                 "Insert some text to be displayed in the <code> tag:",
                 "Insert",
@@ -432,7 +430,7 @@ public class Controller extends Component {
      */
     public void insertEmbeddedWebsite() {
         String websiteAddress = Dialogs.inputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Embed a website",
                 "Enter web address of the website to embed:",
                 "http://"
@@ -450,7 +448,7 @@ public class Controller extends Component {
      */
     public void insertHtmlTag() {
         String htmlTag = Dialogs.textAreaInputDialog(
-                "HTMLNotepadFX",
+                "Insert",
                 "Insert a custom HTML tag",
                 "Refer to HTML documentation for valid values.\n" +
                         "\nWarning!\nSome browsers may block certain tags for security reasons.",
@@ -519,7 +517,7 @@ public class Controller extends Component {
      * Toggle the default non-styled UI
      */
     public void toggleOldUi() {
-        if (oldUiCheckBox.isSelected())
+        if (oldUiCB.isSelected())
             MainFX.currentStage.getScene().getStylesheets().clear();
         else MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
     }
@@ -529,17 +527,16 @@ public class Controller extends Component {
      */
     public void toggleSaveSettings() {
         saveSettings = saveSettingsCB.isSelected();
-        if (!saveSettings) {    // try deleting the settings file if user selected to not save the settings
-            boolean doDeleteFile = Dialogs.confirmationDialog(
-                    "HTMLNotepadFX", "Confirmation",
-                    "Would you also like to delete the settings file?"
-            );
+        if (saveSettings) return;   // ask to delete the settings file when saving is disabled
+        boolean doDeleteFile = Dialogs.confirmationDialog(
+                "Confirmation", "Confirmation",
+                "Would you also like to delete the settings file?"
+        );
 
-            // the user has chosen to delete the file
-            if (doDeleteFile) {
-                File file = new File(VersionData.CONFIG_LOCATION);
-                if (file.delete()) System.out.println("Removing settings file done.");
-            }
+        // the user has chosen to delete the file
+        if (doDeleteFile) {
+            File file = new File(VersionData.CONFIG_LOCATION);
+            if (file.delete()) System.out.println("Removing settings file done.");
         }
     }
 
@@ -547,7 +544,7 @@ public class Controller extends Component {
      * Disable mouse interaction with textEdit
      */
     public void disableMouse() {
-        textEdit.setMouseTransparent(disableMouse.isSelected());
+        textEdit.setMouseTransparent(disableMouseCB.isSelected());
     }
 
     /**

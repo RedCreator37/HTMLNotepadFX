@@ -3,7 +3,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.FileIO;
-import util.Print;
+import util.Printing;
 
 import java.io.File;
 
@@ -52,7 +52,7 @@ public class HTMLSource {
      * Print the HTML source code
      */
     public void printSource() {
-        Print.printText(sourceText.getText());
+        Printing.printText(sourceText.getText());
     }
 
     /**

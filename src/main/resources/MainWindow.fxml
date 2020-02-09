@@ -118,7 +118,7 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
             </accelerator></CheckMenuItem>
-            <CheckMenuItem fx:id="oldUiCheckBox" mnemonicParsing="false" onAction="#toggleOldUi"
+            <CheckMenuItem fx:id="oldUiCB" mnemonicParsing="false" onAction="#toggleOldUi"
                            text="Use old non-styled UI">
                 <accelerator>
                     <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
@@ -131,14 +131,16 @@
                     </content>
                 </CustomMenuItem>
             </Menu>
-            <CheckMenuItem fx:id="reloadLastFile" mnemonicParsing="false" selected="true" text="Reload last file">
-            <accelerator>
-               <KeyCodeCombination alt="DOWN" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-            </accelerator></CheckMenuItem>
-            <CheckMenuItem fx:id="disableMouse" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse">
-            <accelerator>
-               <KeyCodeCombination alt="DOWN" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-            </accelerator></CheckMenuItem>
+            <CheckMenuItem fx:id="reloadLastCB" mnemonicParsing="false" selected="true" text="Reload last file">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
+                </accelerator>
+            </CheckMenuItem>
+            <CheckMenuItem fx:id="disableMouseCB" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
+                </accelerator>
+            </CheckMenuItem>
             <accelerator>
                 <KeyCodeCombination alt="DOWN" code="O" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator>

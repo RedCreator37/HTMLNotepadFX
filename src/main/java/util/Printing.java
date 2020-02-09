@@ -5,12 +5,12 @@ import javax.swing.UIManager;
 import java.awt.print.PrinterException;
 
 /**
- * Print handler for HTMLNotepadFX
+ * Printing routines
  */
-public class Print {
+public class Printing {
 
     /**
-     * Display a print dialog and send the text to printer when settings are accepted
+     * Display a print dialog and send the text to printer
      */
     public static void printText(String text) {
         try {   // use system LaF

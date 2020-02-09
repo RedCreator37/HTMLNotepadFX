@@ -20,8 +20,7 @@ import java.io.StringWriter;
 import java.util.Optional;
 
 /**
- * This class is used as a general purpose dialog window creator.
- * You can use it to create dialogs in other classes.
+ * General purpose dialog window creator class
  *
  * Parts of the code from
  * <href a="https://code.makery.ch/blog/javafx-dialogs-official/"></href>
