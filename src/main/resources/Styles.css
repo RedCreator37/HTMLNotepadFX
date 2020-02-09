@@ -51,6 +51,22 @@
     -fx-background-color: #d4e7f7;
 }
 
+/* toggle buttons */
+.toggle-button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 0;
+}
+
+.toggle-button:hover {
+    -fx-background-color: #e9f3fb;
+}
+
+.toggle-button:pressed, .toggle-button:selected {
+    -fx-background-color: #d4e7f7;
+}
+
 /* text field */
 .text-field, .text-field .scroll-pane .viewport .content {
     -fx-border-color: #cccccc;
