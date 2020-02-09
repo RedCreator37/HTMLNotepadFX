@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckMenuItem?>
-<?import javafx.scene.control.CustomMenuItem?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.HTMLEditor?>
-
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <Menu mnemonicParsing="false" text="File">
@@ -126,10 +118,12 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
             </accelerator></CheckMenuItem>
-            <CheckMenuItem fx:id="experimentalUICB" mnemonicParsing="false" onAction="#toggleExperimentalInterface" text="Enable experimental UI">
-            <accelerator>
-                <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
-            </accelerator></CheckMenuItem>
+            <CheckMenuItem fx:id="oldUiCheckBox" mnemonicParsing="false" onAction="#toggleOldUi"
+                           text="Use old non-styled UI">
+                <accelerator>
+                    <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
+                </accelerator>
+            </CheckMenuItem>
             <Menu mnemonicParsing="false" text="Window opacity">
                 <CustomMenuItem mnemonicParsing="false" text="Opacity">
                     <content>

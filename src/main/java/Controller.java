@@ -39,7 +39,7 @@ public class Controller extends Component {
     // initialize default settings
     private boolean saveSettings = true;
     private double configVersion = VersionData.CONFIG_VERSION;
-    private static boolean experimentalUI = false;
+    private static boolean oldUi = false;
     private float opacity = 1f;
 
     /**
@@ -51,8 +51,8 @@ public class Controller extends Component {
             loadSettings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
             textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
             opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
-            experimentalUICB.setSelected(Boolean.parseBoolean(loadSettings.getProperty("experimental_ui")));
-            toggleExperimentalInterface();
+            oldUiCheckBox.setSelected(Boolean.parseBoolean(loadSettings.getProperty("old_ui")));
+            toggleOldUi();
 
             // attempt to reload the last used file
             String lastFileName = loadSettings.getProperty("last_file");
@@ -82,7 +82,7 @@ public class Controller extends Component {
             Properties saveSettings = new Properties();
             saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
             saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
-            saveSettings.setProperty("experimental_ui", String.valueOf(experimentalUI));
+            saveSettings.setProperty("experimental_ui", String.valueOf(oldUi));
 
             // save the current file name
             if (file != null && reloadLastFile.isSelected())
@@ -113,7 +113,7 @@ public class Controller extends Component {
     public CheckMenuItem disableMouse = new CheckMenuItem(),
             reloadLastFile = new CheckMenuItem(),
             saveSettingsCB = new CheckMenuItem(),
-            experimentalUICB = new CheckMenuItem();
+            oldUiCheckBox = new CheckMenuItem();
 
     private File file;
     private boolean modified;
@@ -505,7 +505,7 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
             Scene scene = new Scene(root, 449, 110);
-            if (experimentalUI) scene.getStylesheets().add("Styles.css");
+            if (!oldUi) scene.getStylesheets().add("Styles.css");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
@@ -516,14 +516,12 @@ public class Controller extends Component {
     }
 
     /**
-     * Toggle experimental user interface (custom control styling)
+     * Toggle the default non-styled UI
      */
-    public void toggleExperimentalInterface() {
-        experimentalUI = experimentalUICB.isSelected();
-        if (experimentalUI)
-            MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
-        else
+    public void toggleOldUi() {
+        if (oldUiCheckBox.isSelected())
             MainFX.currentStage.getScene().getStylesheets().clear();
+        else MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
     }
 
     /**
@@ -565,7 +563,7 @@ public class Controller extends Component {
      * Toggles the new experimental UI style
      */
     private void ToggleExperimentalUI(Stage stage, Scene scene) {
-        if (experimentalUI) scene.getStylesheets().add("Styles.css");
+        if (!oldUi) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ESCAPE) stage.close();

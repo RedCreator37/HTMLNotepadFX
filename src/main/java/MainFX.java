@@ -21,7 +21,7 @@ public class MainFX extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
         primaryStage.setTitle("Untitled - HTMLNotepadFX");
 
-        // adjust the window size to make it work on smaller screens
+        // adjust the window size to still make it visible on smaller screens
         Pair<Double, Double> screenSize = getScreenSize();
         double width = 1135, height = 700;
         if (screenSize.getKey() < width) width = screenSize.getValue();

@@ -26,7 +26,7 @@ Things that don't work as expected (yet). These should get fixed soon.
 Stuff that could have been added / done better:
 
 - A simple way to deploy HTML pages to a web server
-- Improved UI (some progress has been made with "experimental UI" but it's still way from looking great)
+- Improved UI (some progress has been made, but it's still way from looking great)
 - Use of resource bundles or something else that'll allow the UI to be translated to other languages easily
 
 Early development versions are in the *dev-html* branch.
