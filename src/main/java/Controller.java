@@ -125,18 +125,12 @@ public class Controller extends Component {
             boolean confirmedNewFile = Dialogs.confirmationDialog(
                     "Confirmation", "Warning",
                     "All unsaved changes will be lost! Continue?");
-            if (confirmedNewFile) {
-                textEdit.setHtmlText("");
-                MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-                modified = false;
-                file = null;
-            }
-        } else {    // if the file hasn't been modified yet
-            textEdit.setHtmlText("");
-            MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-            modified = false;
-            file = null;
+            if (!confirmedNewFile) return;
         }
+        textEdit.setHtmlText("");
+        MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
+        modified = false;
+        file = null;
     }
 
     /**
