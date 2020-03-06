@@ -237,12 +237,12 @@ public class Controller extends Component {
                 stage.getScene().setCursor(Cursor.WAIT);
             });
 
-            Scanner scanner = new Scanner(new URL(url).openStream());
+            Scanner sc = new Scanner(new URL(url).openStream());
             textEdit.setHtmlText("");
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
             file = null;
-            while (scanner.hasNextLine()) appendHtmlText(textEdit, scanner.nextLine());
+            while (sc.hasNextLine()) appendHtmlText(textEdit, sc.nextLine());
         } catch (IOException | IllegalArgumentException e) {
             Dialogs.errorDialog("Error", "Error retrieving HTML file",
                     "An error has occurred while attempting to \n" +
