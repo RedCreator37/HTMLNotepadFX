@@ -29,10 +29,11 @@
                 </accelerator>
             </MenuItem>
          <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#downloadHTMLFile" text="Retrieve HTML file from the web...">
-            <accelerator>
-               <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-            </accelerator></MenuItem>
+            <MenuItem mnemonicParsing="false" onAction="#loadWebPage" text="Load existing web page...">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="L" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                </accelerator>
+            </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#exportSource" text="Export HTML source code...">
             <accelerator>
                <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

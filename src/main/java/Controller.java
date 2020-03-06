@@ -9,6 +9,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.web.HTMLEditor;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -21,7 +22,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.Scanner;
 
 /**
  * Controller class for MainWindow.fxml
@@ -218,36 +217,32 @@ public class Controller extends Component {
     }
 
     /**
-     * Retrieve a HTML file from the internet and load it in textEdit
+     * Load an existing on the internet into textEdit
      */
-    public void downloadHTMLFile() {
+    public void loadWebPage() {
         String url = Dialogs.longInputDialog(
                 "HTMLNotepadFX",
-                "Retrieve HTML file from the web",
-                "Enter a valid web address of a HTML file to download and display.\n" +
-                        "Embedded objects (such as images) won't be downloaded in the process.\n\n",
+                "Load web page",
+                "Enter a valid address of an existing page on\n" +
+                        "the web to load into the editor for editing.",
                 "\nWarning!\nAny unsaved changes in the current file will be lost!",
-                "Retrieve",
+                "Load",
                 "http://"
         );
 
-        if (url != null) try {  // if the user has clicked ok
+        if (url != null) {    // if the user has clicked ok
             Platform.runLater(() -> {   // set the waiting cursor
                 Stage stage = (Stage) textEdit.getScene().getWindow();
                 stage.getScene().setCursor(Cursor.WAIT);
             });
 
-            Scanner sc = new Scanner(new URL(url).openStream());
-            textEdit.setHtmlText("");
+            WebView webView = (WebView) textEdit.lookup("WebView");
+            if (webView != null)
+                webView.getEngine().load(url);
+
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
             file = null;
-            while (sc.hasNextLine()) appendHtmlText(textEdit, sc.nextLine());
-        } catch (IOException | IllegalArgumentException e) {
-            Dialogs.errorDialog("Error", "Error retrieving HTML file",
-                    "An error has occurred while attempting to \n" +
-                            "retrieve the specified HTML file:\n" + e.getMessage());
-        } finally {
             Platform.runLater(() -> {   // revert to the default cursor
                 Stage stage = (Stage) textEdit.getScene().getWindow();
                 stage.getScene().setCursor(Cursor.DEFAULT);
