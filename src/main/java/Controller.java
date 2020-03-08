@@ -217,7 +217,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Load an existing on the internet into textEdit
+     * Load an existing web page from the Internet into textEdit
      */
     public void loadWebPage() {
         String url = Dialogs.longInputDialog(
@@ -237,12 +237,13 @@ public class Controller extends Component {
             });
 
             WebView webView = (WebView) textEdit.lookup("WebView");
-            if (webView != null)
+            if (webView != null) {
                 webView.getEngine().load(url);
+                MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
+                modified = false;
+                file = null;
+            }
 
-            MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-            modified = false;
-            file = null;
             Platform.runLater(() -> {   // revert to the default cursor
                 Stage stage = (Stage) textEdit.getScene().getWindow();
                 stage.getScene().setCursor(Cursor.DEFAULT);
