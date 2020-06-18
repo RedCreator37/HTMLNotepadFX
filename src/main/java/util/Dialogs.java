@@ -28,7 +28,7 @@ import java.util.Optional;
 public class Dialogs {
 
     /**
-     * Display a warning dialog with an OK button
+     * Displays a warning dialog with an OK button
      */
     public static void warningDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -39,7 +39,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a confirmation dialog and let the user select OK/Cancel
+     * Displays a confirmation dialog and let the user select OK/Cancel
      *
      * @return true if the user selected OK or false if the user selected Cancel
      */
@@ -53,7 +53,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a basic error dialog
+     * Displays a basic error dialog
      *
      * Please use ErrorHandler to set the dialog content.
      * Also use ErrorHandler to create more advanced/custom error dialogs
@@ -67,7 +67,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a text input dialog with the default value in the input field
+     * Displays a text input dialog with the default value in the input field
      */
     public static String inputDialog(String title, String header, String content, String defaultVal) {
         TextInputDialog inputDialog = new TextInputDialog(defaultVal);
@@ -79,7 +79,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a customizable text input dialog with two fields, the
+     * Displays a customizable text input dialog with two fields, the
      * second field will be updated when the text in the first one is
      * changed.
      *
@@ -150,7 +150,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a text input dialog with a Text Area instead of a Text
+     * Displays a text input dialog with a Text Area instead of a Text
      * Field.
      *
      * @param title   dialog title
@@ -200,7 +200,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a text input dialog with a long text field (useful
+     * Displays a text input dialog with a long text field (useful
      * for entering long strings of data such as full web addresses)
      *
      * @param title      dialog title
@@ -252,7 +252,7 @@ public class Dialogs {
     }
 
     /**
-     * Display a generic error dialog with a details sub pane containing
+     * Displays a generic error dialog with a details sub pane containing
      * exception stacktrace.
      */
     static void detailedExceptionDialog(String title, String header, String text, Exception e) {

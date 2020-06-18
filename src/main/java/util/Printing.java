@@ -10,7 +10,7 @@ import java.awt.print.PrinterException;
 public class Printing {
 
     /**
-     * Display a print dialog and send the text to printer
+     * Displays a print dialog and send the text to printer
      */
     public static void printText(String text) {
         try {   // use system LaF

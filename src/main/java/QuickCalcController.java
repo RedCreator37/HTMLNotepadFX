@@ -17,7 +17,7 @@ public class QuickCalcController {
     public Button btnPlus, btnMinus, btnAsterisk, btnSlash, btn2, btn3;
 
     /**
-     * Perform some initialization when the window is loaded
+     * Performs initialization
      */
     @FXML
     protected void initialize() {
@@ -31,7 +31,7 @@ public class QuickCalcController {
     }
 
     /**
-     * Perform the calculations
+     * Performs calculations
      *
      * @param input1        first number encapsulated in a string
      * @param input2        second number ...
@@ -76,7 +76,7 @@ public class QuickCalcController {
     }
 
     /**
-     * Copy the result from the result field
+     * Copies the result
      */
     public void copyResult() {
         Toolkit.getDefaultToolkit().getSystemClipboard()
@@ -84,7 +84,7 @@ public class QuickCalcController {
     }
 
     /**
-     * Try to convert input string to BigDecimal
+     * Converts the input string to BigDecimal
      *
      * @param string input string
      * @return result of the conversion or 0 if it fails
@@ -98,7 +98,7 @@ public class QuickCalcController {
     }
 
     /**
-     * Close the Quick Calculator window
+     * Closes the window
      */
     public void close() {
         Stage stage = (Stage) field1.getScene().getWindow();

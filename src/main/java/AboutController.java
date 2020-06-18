@@ -18,7 +18,7 @@ public class AboutController {
     public TextArea licenseTextArea;
 
     /**
-     * Set the values when the window is initialized
+     * Sets the values when the window is initialized
      */
     @FXML
     protected void initialize() {
@@ -35,7 +35,7 @@ public class AboutController {
     }
 
     /**
-     * Close the dialog box
+     * Closes the dialog box
      */
     public void closeAboutDialog() {
         Stage stage = (Stage) closeButton.getScene().getWindow();

@@ -17,7 +17,7 @@ public class HTMLSource {
     static String htmlSourceText;
 
     /**
-     * Initialize the window, get the source code...
+     * Performs initialization
      */
     @FXML
     protected void initialize() {
@@ -25,7 +25,7 @@ public class HTMLSource {
     }
 
     /**
-     * Save the HTML source code to a text file
+     * Saves the HTML source code to a text file
      */
     public void saveToFile() {
         // don't stay on top while the save as dialog is displayed
@@ -43,20 +43,22 @@ public class HTMLSource {
         stage.setAlwaysOnTop(true);
     }
 
-    /** Reload the HTML source code (if not already) */
+    /**
+     * Reloads the HTML source
+     */
     public void refreshHTML() {
         sourceText.setText(htmlSourceText);
     }
 
     /**
-     * Print the HTML source code
+     * Prints the HTML source
      */
     public void printSource() {
         Printing.printText(sourceText.getText());
     }
 
     /**
-     * Close the HTML Source code window
+     * Closes the window
      */
     public void closeSource() {
         Stage stage = (Stage) sourceText.getScene().getWindow();

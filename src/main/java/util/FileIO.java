@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class FileIO {
 
     /**
-     * Open a text file and return its content in form of a string
+     * Opens a text file and return its content in form of a string
      */
     public static String loadFile(File file) {
         StringBuilder sb = new StringBuilder();
@@ -30,7 +30,7 @@ public class FileIO {
     }
 
     /**
-     * Save the given string to a text file
+     * Saves the given string to a text file
      */
     public static void saveFile(File file, String fileContent) {
         try {   // use a buffered writer to write to the file

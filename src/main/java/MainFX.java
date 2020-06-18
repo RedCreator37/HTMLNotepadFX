@@ -51,7 +51,7 @@ public class MainFX extends Application {
     }
 
     /**
-     * Set the title bar text in specified window.
+     * Sets title bar caption for the specified window.
      *
      * @param newTitle new title bar text to display
      * @param stage    a window that will get the new title
@@ -61,8 +61,8 @@ public class MainFX extends Application {
     }
 
     /**
-     * Get the screen size and return it in favor of a key - value
-     * pair (key is screen wight, value is screen height)
+     * Returns screen size in a Key-Value pair
+     * (key is screen wight, value is screen height)
      */
     private static Pair<Double, Double> getScreenSize() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();

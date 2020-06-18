@@ -13,7 +13,7 @@ public class VersionData {
     public static final double CONFIG_VERSION = 1;
 
     /**
-     * Get the location of HTMLNotepadFX config file
+     * Returns the location of the config file
      */
     private static String getConfigFileLocation() {
         String os = System.getProperty("os.name").toLowerCase();

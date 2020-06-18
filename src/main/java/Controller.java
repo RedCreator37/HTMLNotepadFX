@@ -38,11 +38,11 @@ public class Controller extends Component {
     // default settings
     private boolean saveSettings = true;
     private double confVersion = VersionData.CONFIG_VERSION;
-    private static boolean oldUi = false;
+    private static boolean oldUI = false;
     private float opacity = 1f;
 
     /**
-     * Load settings from an XML file
+     * Loads settings from the config file
      */
     void loadSettings() {
         Properties loadSettings = new Properties();
@@ -74,7 +74,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Save settings to an XML file
+     * Saves settings to the config file
      */
     void saveSettings() {
         if (!saveSettings) return;
@@ -82,7 +82,7 @@ public class Controller extends Component {
         saveSettings.setProperty("config_version", String.valueOf(confVersion));
         saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
         saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
-        saveSettings.setProperty("experimental_ui", String.valueOf(oldUi));
+        saveSettings.setProperty("experimental_ui", String.valueOf(oldUI));
 
         // save the current file name
         if (file != null && reloadLastCB.isSelected())
@@ -117,7 +117,7 @@ public class Controller extends Component {
     private boolean modified;
 
     /**
-     * Create a blank file by deleting the contents of textEdit
+     * Creates a blank file by emptying textEdit
      */
     public void newFile() {
         if (modified) {
@@ -133,7 +133,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Display a file chooser dialog and let the user choose a file
+     * Displays a file chooser dialog
      */
     public void openFileDialog() {
         FileChooser fileChooser = new FileChooser();
@@ -145,7 +145,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Open a file and render its content in textEdit
+     * Opens a file and renders its content in textEdit
      */
     private void openFile(File file) {
         if (!modified) {
@@ -165,10 +165,10 @@ public class Controller extends Component {
     }
 
     /**
-     * Save changes to current file or go to saveAs if it's a new file
+     * Saves changes to the current file
      */
     public void saveFile() {
-        if (file != null) {  // if the text was already saved before or user selected it in saveAs dialog
+        if (file != null) {  // if not a new file
             FileIO.saveFile(file, textEdit.getHtmlText());
             // remove the "modified" text from the title bar
             MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
@@ -177,8 +177,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Display a file chooser and let the user select into which file to save the content of textEdit,
-     * and then write the text into specified file
+     * Displays a file chooser and saves the file
      */
     public void saveAs() {
         FileChooser fileChooser = new FileChooser();
@@ -190,7 +189,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Export the HTML source code of textEdit to a plain text file
+     * Exports the HTML code to a plain text file
      */
     public void exportSource() {
         FileChooser fileChooser = new FileChooser();
@@ -207,7 +206,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Display "(Modified)" text in the title bar when the file was modified
+     * Displays "(Modified)" in the title bar
      */
     public void fileModified() {
         if (modified) return;   // as the text is already there
@@ -217,7 +216,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Load an existing web page from the Internet into textEdit
+     * Loads an existing web page into textEdit
      */
     public void loadWebPage() {
         String url = Dialogs.longInputDialog(
@@ -254,7 +253,7 @@ public class Controller extends Component {
     /// EDITING AND INSERTING OBJECTS ///////////////////////////////////////////////////
 
     /**
-     * Append text to the HTML code of a HTMLEditor control
+     * Appends HTML text to the textEdit
      */
     private void appendHtmlText(HTMLEditor editor, String text) {
         editor.setHtmlText(editor.getHtmlText() + text);
@@ -262,7 +261,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a web image to textEdit
+     * Inserts a web image
      */
     public void insertImage() {
         Optional<Pair<String, String>> input = Dialogs.doubleInputDialog(
@@ -282,7 +281,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a hyperlink to textEdit
+     * Inserts a hyperlink
      */
     public void insertLink() {
         Optional<Pair<String, String>> input = Dialogs.doubleInputDialog(
@@ -302,7 +301,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a JavaScript script to textEdit
+     * Inserts a script
      */
     public void insertScript() {
         String scriptText = Dialogs.textAreaInputDialog(
@@ -320,8 +319,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a script alternative text that will be displayed if the browser
-     * blocks / does not support JavaScript scripts
+     * Inserts a script alternative text
      */
     public void insertScriptAltText() {
         String scriptAltText = Dialogs.textAreaInputDialog(
@@ -340,7 +338,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a HTML quote to textEdit
+     * Inserts a quote
      */
     public void insertQuote() {
         String quoteText = Dialogs.textAreaInputDialog(
@@ -358,7 +356,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert scrolling text (marquee tag) to textEdit
+     * Inserts scrolling text (marquee tag)
      */
     public void insertScrollingText() {
         String marqueeText = Dialogs.inputDialog(
@@ -375,7 +373,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a HTML symbol to textEdit
+     * Inserts an HTML symbol
      */
     public void insertSymbol() {
         String symbolCode = Dialogs.inputDialog(
@@ -416,7 +414,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert an embedded website to textEdit
+     * Inserts an embedded website (iframe)
      */
     public void insertEmbeddedWebsite() {
         String websiteAddress = Dialogs.inputDialog(
@@ -434,7 +432,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Insert a custom HTML tag to textEdit
+     * Inserts a custom HTML tag
      */
     public void insertHtmlTag() {
         String htmlTag = Dialogs.textAreaInputDialog(
@@ -452,7 +450,7 @@ public class Controller extends Component {
     /// PRINTING ////////////////////////////////////////////////////////////////////////
 
     /**
-     * Print the content of the editor
+     * Prints the current file
      */
     public void print() {
         PrinterJob job = PrinterJob.createPrinterJob();
@@ -465,7 +463,7 @@ public class Controller extends Component {
     /// OPTIONS MENU ////////////////////////////////////////////////////////////////////
 
     /**
-     * Open a window with HTML source of the text in textEdit
+     * Displays the HTML source code
      */
     public void openSource() {
         try {
@@ -485,7 +483,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Open a Quick Calculator window
+     * Opens a Quick Calculator window
      */
     public void openQuickCalculator() {
         try {
@@ -493,7 +491,7 @@ public class Controller extends Component {
             Stage stage = new Stage();
             stage.setTitle("Quick Calculator");
             Scene scene = new Scene(root, 449, 110);
-            if (!oldUi) scene.getStylesheets().add("Styles.css");
+            if (!oldUI) scene.getStylesheets().add("Styles.css");
             stage.setScene(scene);
             stage.setResizable(false);
             stage.setAlwaysOnTop(true);
@@ -504,7 +502,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Toggle the default non-styled UI
+     * Toggles the default non-styled UI
      */
     public void toggleOldUi() {
         if (oldUiCB.isSelected())
@@ -513,7 +511,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Set saving settings on or off
+     * Sets saving settings on or off
      */
     public void toggleSaveSettings() {
         saveSettings = saveSettingsCB.isSelected();
@@ -531,14 +529,14 @@ public class Controller extends Component {
     }
 
     /**
-     * Disable mouse interaction with textEdit
+     * Disables mouse interaction
      */
     public void disableMouse() {
         textEdit.setMouseTransparent(disableMouseCB.isSelected());
     }
 
     /**
-     * Change the opacity of MainWindow
+     * Changes the opacity of MainWindow
      */
     public void changeOpacity() {
         opacity = (float) opacitySlider.getValue() / 100;
@@ -550,7 +548,7 @@ public class Controller extends Component {
      * Toggles the new experimental UI style
      */
     private void ToggleExperimentalUI(Stage stage, Scene scene) {
-        if (!oldUi) scene.getStylesheets().add("Styles.css");
+        if (!oldUI) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ESCAPE) stage.close();
@@ -562,7 +560,7 @@ public class Controller extends Component {
     /// INFO MENU ///////////////////////////////////////////////////////////////////////
 
     /**
-     * Show an About dialog with info about the program
+     * Displays an About dialog
      */
     public void showAboutDialog() {
         try {
@@ -578,7 +576,7 @@ public class Controller extends Component {
     /// CLOSING AND EXITING THE PROGRAM /////////////////////////////////////////////////
 
     /**
-     * Close the program
+     * Closes the program
      */
     public void close() {
         boolean confirmedClose;
