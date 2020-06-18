@@ -1,36 +1,29 @@
 # HTMLNotepadFX ![][versionBadge] ![][licenseBadge]
 
-HTMLNotepadFX is a simple JavaFX-based HTML editor app (JavaFX HTMLEditor wrapped in a nice window).
-
-*This is the first program I put on GitHub.*
-*I hope that you understand that some things aren't done perfectly.*
-*Contributions are welcome :D*
+HTMLNotepadFX is an HTML editor app built on the [JavaFX framework](https://openjfx.io).
 
 ## Features
 
-A simple program for editing HTML pages:
+All basic things one would expect from an HTML editor:
 
-- Apply basic HTML and CSS formatting, insert an image, hyperlinks...
-- View, export and print the HTML page and its source code
+- Apply HTML and CSS formatting, insert an image, hyperlinks...
+- View, export and print HTML files and their source code
 - WYSIWYG formatting
-- Some fancy extras (make the window semi-transparent...)
+- Some fancy extras (make the window transparent, disable mouse cursor, ...)
 
 ## Known Bugs
 
-Things that don't work as expected (yet). These should get fixed soon.
+These are the things that don't work as expected (yet):
 
-- Printing on macOS (fails to open the print dialog for some reason)
+- Printing on macOS (fails to open the print dialog)
 
 ## To Do
 
-Stuff that could have been added / done better:
-
 - A simple way to deploy HTML pages to a web server
-- Improved UI (some progress has been made, but it's still way from looking great)
-- Use of resource bundles or something else that'll allow the UI to be translated to other languages easily
+- Revamped UI (some progress has been made, but it's still far from looking great)
+- Localization support (either with Resource Bundles or something else)
 
-Early development versions are in the *dev-html* branch.
+Development versions are in the *dev-html* branch.
 
 [licenseBadge]: https://img.shields.io/badge/license-MIT-brightgreen.svg
-[versionBadge]: https://img.shields.io/badge/version-0.4-ee912e.svg
-[openJFX]: https://openjfx.io/
+[versionBadge]: https://img.shields.io/badge/version-0.5-ee912e.svg
