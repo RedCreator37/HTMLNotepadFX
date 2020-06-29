@@ -1,9 +1,6 @@
 package util;
 
-/**
- * Version information for HTMLNotepadFX
- */
-public class VersionData {
+public final class VersionData {
 
     public static final String VERSION = "0.5";
     public static final String BUILD_DATE = "June 2020";

@@ -6,39 +6,35 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- * File input/output routines
- */
-public class FileIO {
+public final class FileIO {
 
     /**
      * Opens a text file and return its content in form of a string
      */
     public static String loadFile(File file) {
         StringBuilder sb = new StringBuilder();
-
         try {
-            Scanner scan = new Scanner(new FileReader(file.getAbsolutePath()));
-            while (scan.hasNext()) sb.append(scan.nextLine()).append("\n");
+            Scanner in = new Scanner(new FileReader(file.getAbsolutePath()));
+            while (in.hasNext()) sb.append(in.nextLine()).append("\n");
         } catch (FileNotFoundException e) {
             ErrorHandler.fileNotFound(file.getAbsolutePath());
         }
-
         return sb.toString();
     }
 
     /**
      * Saves the given string to a text file
      */
-    public static void saveFile(File file, String fileContent) {
-        try {   // use a buffered writer to write to the file
+    public static void saveFile(File file, String contents) {
+        try {
             BufferedWriter out = new BufferedWriter(new FileWriter(file.getAbsolutePath()));
-            out.write(fileContent);
+            out.write(contents);
             out.close();
         } catch (IOException e) {
-            ErrorHandler.fileIOError(file.getAbsolutePath(), e);
+            ErrorHandler.fileIOError(file.getAbsolutePath(), Arrays.toString(e.getStackTrace()));
         }
     }
 }

@@ -10,7 +10,7 @@
     <url>redcreator37.github.io</url>
 
     <properties>
-        <java.version>13</java.version>
+        <java.version>12</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -68,25 +68,25 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>11</version>
+            <version>12</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>11</version>
+            <version>12</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-web</artifactId>
-            <version>11</version>
+            <version>12</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
-            <artifactId>javafx-graphics </artifactId>
-            <version>11</version>
+            <artifactId>javafx-graphics</artifactId>
+            <version>12</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

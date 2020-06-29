@@ -15,8 +15,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.util.Pair;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Optional;
 
 /**
@@ -25,16 +23,13 @@ import java.util.Optional;
  * Parts of the code from
  * <href a="https://code.makery.ch/blog/javafx-dialogs-official/"></href>
  */
-public class Dialogs {
+public final class Dialogs {
 
-    /**
-     * Displays a warning dialog with an OK button
-     */
-    public static void warningDialog(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
+    public static void alert(String caption, String header, String body, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(caption);
         alert.setHeaderText(header);
-        alert.setContentText(content);
+        alert.setContentText(body);
         alert.showAndWait();
     }
 
@@ -53,29 +48,15 @@ public class Dialogs {
     }
 
     /**
-     * Displays a basic error dialog
-     *
-     * Please use ErrorHandler to set the dialog content.
-     * Also use ErrorHandler to create more advanced/custom error dialogs
-     */
-    public static void errorDialog(String title, String header, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    /**
      * Displays a text input dialog with the default value in the input field
      */
-    public static String inputDialog(String title, String header, String content, String defaultVal) {
-        TextInputDialog inputDialog = new TextInputDialog(defaultVal);
-        inputDialog.setTitle(title);
-        inputDialog.setHeaderText(header);
-        inputDialog.setContentText(content);
-        inputDialog.showAndWait(); // wait for input
-        return inputDialog.getResult();
+    public static String inputDialog(String title, String header, String content, String hint) {
+        TextInputDialog input = new TextInputDialog(hint);
+        input.setTitle(title);
+        input.setHeaderText(header);
+        input.setContentText(content);
+        input.showAndWait(); // wait for input
+        return input.getResult();
     }
 
     /**
@@ -255,18 +236,14 @@ public class Dialogs {
      * Displays a generic error dialog with a details sub pane containing
      * exception stacktrace.
      */
-    static void detailedExceptionDialog(String title, String header, String text, Exception e) {
+    static void detailedExceptionDialog(String title, String header, String text, String stacktrace) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(text);
 
-        // get the exception text
-        StringWriter writer = new StringWriter();
-        e.printStackTrace(new PrintWriter(writer));
-
         Label label = new Label("Details:");
-        TextArea area = new TextArea(writer.toString());
+        TextArea area = new TextArea(stacktrace);
         area.setEditable(false);
         area.setMaxWidth(Double.MAX_VALUE);
         area.setMaxHeight(Double.MAX_VALUE);
@@ -277,7 +254,6 @@ public class Dialogs {
         expContent.add(label, 0, 0);
         expContent.add(area, 0, 1);
 
-        // put the controls into a dialog pane
         alert.getDialogPane().setExpandableContent(expContent);
         alert.showAndWait();
     }

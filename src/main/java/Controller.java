@@ -4,6 +4,7 @@ import javafx.print.PrinterJob;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
@@ -46,11 +47,11 @@ public class Controller extends Component {
             settings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
             confVersion = Double.parseDouble(settings.getProperty("config_version"));
             if (confVersion > VersionData.CONFIG_VERSION) {
-                Dialogs.errorDialog("Error", "Config file version mismatch",
+                Dialogs.alert("Error", "Config file version mismatch",
                         "The config file reports the version " + confVersion +
                                 " while this program is still using " +
                                 VersionData.CONFIG_VERSION +
-                                "\nSettings will not be loaded.");
+                                "\nSettings will not be loaded.", Alert.AlertType.ERROR);
                 return;
             }
 

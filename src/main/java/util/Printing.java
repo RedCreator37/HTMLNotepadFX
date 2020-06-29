@@ -3,11 +3,9 @@ package util;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 import java.awt.print.PrinterException;
+import java.util.Arrays;
 
-/**
- * Printing routines
- */
-public class Printing {
+public final class Printing {
 
     /**
      * Displays a print dialog and send the text to printer
@@ -15,16 +13,15 @@ public class Printing {
     public static void printText(String text) {
         try {   // use system LaF
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) { } // not supported, load the default one
+        } catch (Exception ignored) { } // not supported, ignore
 
         Thread printThread = new Thread(() -> {
             JTextPane textPane = new JTextPane();
             textPane.setText(text);
-
             try {
                 textPane.print();
             } catch (PrinterException e) {
-                ErrorHandler.printError(e);
+                ErrorHandler.printError(Arrays.toString(e.getStackTrace()));
             }
         });
         printThread.start();
