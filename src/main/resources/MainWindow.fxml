@@ -110,16 +110,12 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="H" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
             </accelerator></MenuItem>
-            <MenuItem mnemonicParsing="false" onAction="#openQuickCalculator" text="Quick Calculator">
-            <accelerator>
-               <KeyCodeCombination alt="DOWN" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-            </accelerator></MenuItem>
             <SeparatorMenuItem />
-            <CheckMenuItem fx:id="saveSettingsCB" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings">
+            <CheckMenuItem fx:id="saveSettingsBox" mnemonicParsing="false" onAction="#toggleSaveSettings" selected="true" text="Save settings">
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
             </accelerator></CheckMenuItem>
-            <CheckMenuItem fx:id="oldUiCB" mnemonicParsing="false" onAction="#toggleOldUi"
+            <CheckMenuItem fx:id="oldUiBox" mnemonicParsing="false" onAction="#toggleOldUi"
                            text="Use old non-styled UI">
                 <accelerator>
                     <KeyCodeCombination alt="DOWN" code="E" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
@@ -132,12 +128,12 @@
                     </content>
                 </CustomMenuItem>
             </Menu>
-            <CheckMenuItem fx:id="reloadLastCB" mnemonicParsing="false" selected="true" text="Reload last file">
+            <CheckMenuItem fx:id="reloadLastBox" mnemonicParsing="false" selected="true" text="Reload last file">
                 <accelerator>
                     <KeyCodeCombination alt="DOWN" code="R" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
                 </accelerator>
             </CheckMenuItem>
-            <CheckMenuItem fx:id="disableMouseCB" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse">
+            <CheckMenuItem fx:id="disableMouseBox" mnemonicParsing="false" onAction="#disableMouse" text="Disable mouse">
                 <accelerator>
                     <KeyCodeCombination alt="DOWN" code="D" control="DOWN" meta="UP" shift="DOWN" shortcut="UP"/>
                 </accelerator>

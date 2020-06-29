@@ -35,20 +35,16 @@ import java.util.Properties;
  */
 public class Controller extends Component {
 
-    // default settings
-    private boolean saveSettings = true;
     private double confVersion = VersionData.CONFIG_VERSION;
-    private static boolean oldUI = false;
-    private float opacity = 1f;
 
     /**
      * Loads settings from the config file
      */
     void loadSettings() {
-        Properties loadSettings = new Properties();
+        Properties settings = new Properties();
         try {
-            loadSettings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
-            confVersion = Double.parseDouble(loadSettings.getProperty("config_version"));
+            settings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
+            confVersion = Double.parseDouble(settings.getProperty("config_version"));
             if (confVersion > VersionData.CONFIG_VERSION) {
                 Dialogs.errorDialog("Error", "Config file version mismatch",
                         "The config file reports the version " + confVersion +
@@ -58,39 +54,39 @@ public class Controller extends Component {
                 return;
             }
 
-            textEdit.setMouseTransparent(Boolean.parseBoolean(loadSettings.getProperty("mouse_disabled")));
-            opacitySlider.setValue(Float.parseFloat(loadSettings.getProperty("opacity")) * 100);
-            oldUiCB.setSelected(Boolean.parseBoolean(loadSettings.getProperty("old_ui")));
+            textEdit.setMouseTransparent(Boolean.parseBoolean(settings.getProperty("mouse_disabled")));
+            opacitySlider.setValue(Float.parseFloat(settings.getProperty("opacity")) * 100);
+            oldUiBox.setSelected(Boolean.parseBoolean(settings.getProperty("old_ui")));
             toggleOldUi();
 
             // attempt to reload the last used file
-            String lastFileName = loadSettings.getProperty("last_file");
+            String lastFileName = settings.getProperty("last_file");
             if (lastFileName != null) openFile(new File(lastFileName));
-            reloadLastCB.setSelected(lastFileName != null);
+            reloadLastBox.setSelected(lastFileName != null);
         } catch (IOException | NumberFormatException e) {
             System.err.println("Loading settings failed: " + e.getMessage());
         }
-        if (opacity < 0.1f) opacity = 0.1f;
+        if (opacitySlider.getValue() < 0.1f) opacitySlider.setValue(0.1f);
     }
 
     /**
      * Saves settings to the config file
      */
     void saveSettings() {
-        if (!saveSettings) return;
-        Properties saveSettings = new Properties();
-        saveSettings.setProperty("config_version", String.valueOf(confVersion));
-        saveSettings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
-        saveSettings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
-        saveSettings.setProperty("experimental_ui", String.valueOf(oldUI));
+        if (!saveSettingsBox.isSelected()) return;
+        Properties settings = new Properties();
+        settings.setProperty("config_version", String.valueOf(confVersion));
+        settings.setProperty("mouse_disabled", String.valueOf(textEdit.isMouseTransparent()));
+        settings.setProperty("opacity", String.valueOf(MainFX.currentStage.getOpacity()));
+        settings.setProperty("old_ui", String.valueOf(oldUiBox.isSelected()));
 
         // save the current file name
-        if (file != null && reloadLastCB.isSelected())
-            saveSettings.setProperty("last_file", file.getAbsolutePath());
+        if (file != null && reloadLastBox.isSelected())
+            settings.setProperty("last_file", file.getAbsolutePath());
 
         try {
             var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
-            saveSettings.storeToXML(fileOut, "");
+            settings.storeToXML(fileOut, "");
             fileOut.close();
 
             // manually hide the properties file on windows
@@ -108,10 +104,10 @@ public class Controller extends Component {
     // initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
     public Slider opacitySlider = new Slider();
-    public CheckMenuItem disableMouseCB = new CheckMenuItem(),
-            reloadLastCB = new CheckMenuItem(),
-            saveSettingsCB = new CheckMenuItem(),
-            oldUiCB = new CheckMenuItem();
+    public CheckMenuItem disableMouseBox = new CheckMenuItem(),
+            reloadLastBox = new CheckMenuItem(),
+            saveSettingsBox = new CheckMenuItem(),
+            oldUiBox = new CheckMenuItem();
 
     private File file;
     private boolean modified;
@@ -133,14 +129,14 @@ public class Controller extends Component {
     }
 
     /**
-     * Displays a file chooser dialog
+     * Displays a file open dialog
      */
     public void openFileDialog() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(   // set file extensions filter
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(   // set file extensions filter
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-        file = fileChooser.showOpenDialog(MainFX.currentStage);
+        file = chooser.showOpenDialog(MainFX.currentStage);
         if (file != null) openFile(file);
     }
 
@@ -165,53 +161,54 @@ public class Controller extends Component {
     }
 
     /**
-     * Saves changes to the current file
+     * Saves the current file
      */
     public void saveFile() {
-        if (file != null) {  // if not a new file
-            FileIO.saveFile(file, textEdit.getHtmlText());
-            // remove the "modified" text from the title bar
-            MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
-            modified = false;
-        } else saveAs();
+        if (file == null) {
+            saveAs();
+            return;
+        }
+        FileIO.saveFile(file, textEdit.getHtmlText());
+        // remove "modified" from the title bar
+        MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
+        modified = false;
     }
 
     /**
-     * Displays a file chooser and saves the file
+     * Displays a file chooser dialog
      */
     public void saveAs() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(   // set extensions filters
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(   // set extensions filters
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-        file = fileChooser.showSaveDialog(MainFX.currentStage);
+        file = chooser.showSaveDialog(MainFX.currentStage);
         if (file != null) saveFile();
     }
 
     /**
-     * Exports the HTML code to a plain text file
+     * Exports the HTML code into a plain text file
      */
     public void exportSource() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Export HTML source to a file");
-        fileChooser.getExtensionFilters().addAll(   // set extension filters
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Export HTML source to a file");
+        chooser.getExtensionFilters().addAll(   // set extension filters
                 new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
 
-        if (file != null) // set the initial filename to the HTML file's name + .txt if possible
-            fileChooser.setInitialFileName(file.getName() + ".txt");
+        if (file != null) // original filename + .txt
+            chooser.setInitialFileName(file.getName() + ".txt");
 
-        File sourceFile = fileChooser.showSaveDialog(MainFX.currentStage);
+        File sourceFile = chooser.showSaveDialog(MainFX.currentStage);
         if (sourceFile != null) FileIO.saveFile(sourceFile, textEdit.getHtmlText());
     }
 
     /**
-     * Displays "(Modified)" in the title bar
+     * Appends "(Modified)" to the title bar
      */
     public void fileModified() {
-        if (modified) return;   // as the text is already there
-        String currentTitle = MainFX.currentStage.getTitle();
-        MainFX.setTitle(currentTitle + " (Modified)", MainFX.currentStage);
+        if (modified) return;
+        MainFX.setTitle(MainFX.currentStage.getTitle() + " (Modified)", MainFX.currentStage);
         modified = true;
     }
 
@@ -226,28 +223,21 @@ public class Controller extends Component {
                         "the web to load into the editor for editing.",
                 "\nWarning!\nAny unsaved changes in the current file will be lost!",
                 "Load",
-                "http://"
-        );
+                "http://");
+        if (url == null) return;
+        Platform.runLater(() -> textEdit.getScene().getWindow().getScene()
+                .setCursor(Cursor.WAIT));
 
-        if (url != null) {    // if the user has clicked ok
-            Platform.runLater(() -> {   // set the waiting cursor
-                Stage stage = (Stage) textEdit.getScene().getWindow();
-                stage.getScene().setCursor(Cursor.WAIT);
-            });
-
-            WebView webView = (WebView) textEdit.lookup("WebView");
-            if (webView != null) {
-                webView.getEngine().load(url);
-                MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
-                modified = false;
-                file = null;
-            }
-
-            Platform.runLater(() -> {   // revert to the default cursor
-                Stage stage = (Stage) textEdit.getScene().getWindow();
-                stage.getScene().setCursor(Cursor.DEFAULT);
-            });
+        WebView webView = (WebView) textEdit.lookup("WebView");
+        if (webView != null) {
+            webView.getEngine().load(url);
+            MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
+            modified = false;
+            file = null;
         }
+
+        Platform.runLater(() -> textEdit.getScene().getWindow().getScene()
+                .setCursor(Cursor.DEFAULT));
     }
 
     /// EDITING AND INSERTING OBJECTS ///////////////////////////////////////////////////
@@ -272,12 +262,8 @@ public class Controller extends Component {
                 "Enter image address",
                 "Enter image alternative text",
                 "Address:", "Alt Text:");
-
-        input.ifPresent(bothFields -> {
-            String compiledImageAddress = "<img src=\"" + bothFields.getKey() + "\" alt=\""
-                    + bothFields.getValue() + "\" />";
-            appendHtmlText(textEdit, compiledImageAddress);
-        });
+        input.ifPresent(bothFields -> appendHtmlText(textEdit, "<img src=\""
+                + bothFields.getKey() + "\" alt=\"" + bothFields.getValue() + "\" />"));
     }
 
     /**
@@ -292,12 +278,8 @@ public class Controller extends Component {
                 "Enter link address",
                 "Enter link text",
                 "Address:", "Text:");
-
-        input.ifPresent(bothFields -> {
-            String compiledAddress = "<a href=\"" + bothFields.getKey() + "\">"
-                    + bothFields.getValue() + "</a>";
-            appendHtmlText(textEdit, compiledAddress);
-        });
+        input.ifPresent(bothFields -> appendHtmlText(textEdit, "<a href=\""
+                + bothFields.getKey() + "\">" + bothFields.getValue() + "</a>"));
     }
 
     /**
@@ -309,32 +291,24 @@ public class Controller extends Component {
                 "Insert a script",
                 "Warning!\nScripts can be harmful and some browsers will block them!\n",
                 "Insert",
-                "Enter script code"
-        );
-
-        if (scriptText != null) {
-            String compiledScriptText = "<script> " + scriptText + " </script>";
-            appendHtmlText(textEdit, compiledScriptText);
-        }
+                "Enter script code");
+        if (scriptText == null) return;
+        appendHtmlText(textEdit, "<script> " + scriptText + " </script>");
     }
 
     /**
      * Inserts a script alternative text
      */
     public void insertScriptAltText() {
-        String scriptAltText = Dialogs.textAreaInputDialog(
+        String altText = Dialogs.textAreaInputDialog(
                 "Insert",
                 "Insert script alternative text",
                 "This text will be displayed instead of script result " +
                         "if the browser blocks / doesn't support\nJavaScript scripts.",
                 "Insert",
-                "Enter something like \"Your browser does not support JavaScript\"..."
-        );
-
-        if (scriptAltText != null) {
-            String compiledScriptAltText = "<noscript> " + scriptAltText + " </noscript>";
-            appendHtmlText(textEdit, compiledScriptAltText);
-        }
+                "Enter something like \"Your browser does not support JavaScript\"...");
+        if (altText == null) return;
+        appendHtmlText(textEdit, "<noscript> " + altText + " </noscript>");
     }
 
     /**
@@ -346,13 +320,9 @@ public class Controller extends Component {
                 "Insert a quote",
                 "Enter a quote to insert:",
                 "Insert",
-                "Enter a quote..."
-        );
-
-        if (quoteText != null) {
-            String compiledHTMLQuote = "<q> " + quoteText + " </q>";
-            appendHtmlText(textEdit, compiledHTMLQuote);
-        }
+                "Enter a quote...");
+        if (quoteText == null) return;
+        appendHtmlText(textEdit, "<q> " + quoteText + " </q>");
     }
 
     /**
@@ -363,13 +333,9 @@ public class Controller extends Component {
                 "Insert",
                 "Insert scrolling text",
                 "Enter the text to insert:",
-                "Text"
-        );
-
-        if (marqueeText != null) {
-            String compiledHTMLMarquee = "<marquee> " + marqueeText + " </marquee>";
-            appendHtmlText(textEdit, compiledHTMLMarquee);
-        }
+                "Text");
+        if (marqueeText == null) return;
+        appendHtmlText(textEdit, "<marquee> " + marqueeText + " </marquee>");
     }
 
     /**
@@ -381,9 +347,7 @@ public class Controller extends Component {
                 "Insert a symbol",
                 "Enter a symbol code to insert:\n" +
                         "Symbol codes must end with a semicolon!",
-                "&symbol;"
-        );
-
+                "&symbol;");
         if (symbolCode != null) appendHtmlText(textEdit, symbolCode);
     }
 
@@ -396,13 +360,9 @@ public class Controller extends Component {
                 "Insert source code",
                 "Insert some text to be displayed in the <code> tag:",
                 "Insert",
-                "Enter some code..."
-        );
-
-        if (code != null) {
-            String codeText = "<code> " + code + " </code>";
-            appendHtmlText(textEdit, codeText);
-        }
+                "Enter some code...");
+        if (code == null) return;
+        appendHtmlText(textEdit, "<code> " + code + " </code>");
     }
 
     /**
@@ -421,14 +381,10 @@ public class Controller extends Component {
                 "Insert",
                 "Embed a website",
                 "Enter web address of the website to embed:",
-                "http://"
-        );
-
-        if (websiteAddress != null) {
-            String IFrameTag = "<iframe src=\"" + websiteAddress + "\" height=\"300\" " +
-                    "width=\"500\"></iframe>";
-            appendHtmlText(textEdit, IFrameTag);
-        }
+                "http://");
+        if (websiteAddress == null) return;
+        appendHtmlText(textEdit, "<iframe src=\"" + websiteAddress
+                + "\" height=\"300\" " + "width=\"500\"></iframe>");
     }
 
     /**
@@ -441,9 +397,7 @@ public class Controller extends Component {
                 "Refer to HTML documentation for valid values.\n" +
                         "\nWarning!\nSome browsers may block certain tags for security reasons.",
                 "Insert",
-                "Enter something like \"<tag>text</tag>\""
-        );
-
+                "Enter something like \"<tag>text</tag>\"");
         if (htmlTag != null) appendHtmlText(textEdit, htmlTag);
     }
 
@@ -470,12 +424,8 @@ public class Controller extends Component {
             Parent root = FXMLLoader.load(getClass().getResource("HTMLSource.fxml"));
             Stage stage = new Stage();
             stage.setTitle("HTML Source Code");
-
-            // get the filename if possible
             if (file != null) stage.setTitle("HTML Source Code - " + file.getName());
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
-
-            // use experimental UI if enabled
             ToggleExperimentalUI(stage, new Scene(root, 822, 562));
         } catch (IOException e) {
             System.err.println("Failed loading HTML source code window: " + e.getMessage());
@@ -483,29 +433,10 @@ public class Controller extends Component {
     }
 
     /**
-     * Opens a Quick Calculator window
-     */
-    public void openQuickCalculator() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("QuickCalculator.fxml"));
-            Stage stage = new Stage();
-            stage.setTitle("Quick Calculator");
-            Scene scene = new Scene(root, 449, 110);
-            if (!oldUI) scene.getStylesheets().add("Styles.css");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.setAlwaysOnTop(true);
-            stage.show();
-        } catch (IOException e) {
-            System.err.println("Failed loading Quick Calculator: " + e.getMessage());
-        }
-    }
-
-    /**
      * Toggles the default non-styled UI
      */
     public void toggleOldUi() {
-        if (oldUiCB.isSelected())
+        if (oldUiBox.isSelected())
             MainFX.currentStage.getScene().getStylesheets().clear();
         else MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
     }
@@ -514,32 +445,28 @@ public class Controller extends Component {
      * Sets saving settings on or off
      */
     public void toggleSaveSettings() {
-        saveSettings = saveSettingsCB.isSelected();
-        if (saveSettings) return;   // ask to delete the settings file when saving is disabled
+        if (!saveSettingsBox.isSelected()) return;
+        // ask to delete the settings file when saving is disabled
         boolean doDeleteFile = Dialogs.confirmationDialog(
                 "Confirmation", "Confirmation",
-                "Would you also like to delete the settings file?"
-        );
-
-        // the user has chosen to delete the file
-        if (doDeleteFile) {
-            File file = new File(VersionData.CONFIG_LOCATION);
-            if (file.delete()) System.out.println("Removing settings file done.");
-        }
+                "Would you also like to delete the settings file?");
+        if (!doDeleteFile) return;
+        if (new File(VersionData.CONFIG_LOCATION).delete())
+            System.out.println("Removing settings file done.");
     }
 
     /**
      * Disables mouse interaction
      */
     public void disableMouse() {
-        textEdit.setMouseTransparent(disableMouseCB.isSelected());
+        textEdit.setMouseTransparent(disableMouseBox.isSelected());
     }
 
     /**
      * Changes the opacity of MainWindow
      */
     public void changeOpacity() {
-        opacity = (float) opacitySlider.getValue() / 100;
+        float opacity = (float) opacitySlider.getValue() / 100;
         if (opacity < 0.01f) opacity = 0.01f; // do not make the window invisible
         MainFX.currentStage.setOpacity(opacity);
     }
@@ -548,7 +475,7 @@ public class Controller extends Component {
      * Toggles the new experimental UI style
      */
     private void ToggleExperimentalUI(Stage stage, Scene scene) {
-        if (!oldUI) scene.getStylesheets().add("Styles.css");
+        if (!oldUiBox.isSelected()) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.ESCAPE) stage.close();
@@ -579,15 +506,12 @@ public class Controller extends Component {
      * Closes the program
      */
     public void close() {
-        boolean confirmedClose;
+        boolean confirmedClose = true;
         if (modified) confirmedClose = Dialogs.confirmationDialog(
                 "Confirmation", "Warning",
                 "All unsaved changes will be lost! Continue?");
-        else confirmedClose = true;
-
-        if (confirmedClose) {
-            saveSettings();
-            System.exit(0);
-        }
+        if (!confirmedClose) return;
+        saveSettings();
+        System.exit(0);
     }
 }

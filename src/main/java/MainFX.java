@@ -33,14 +33,14 @@ public class MainFX extends Application {
 
         // fixme: not working as it creates a new instance every time!
         new Controller().loadSettings();
-        primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing the program
+        primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing
             boolean confirmed = Dialogs.confirmationDialog(
                     "HTMLNotepadFX", "Warning",
                     "All unsaved changes will be lost! Continue?");
             if (confirmed) {
                 new Controller().saveSettings();
                 System.exit(0);
-            } else event.consume(); // user has selected Cancel, don't close the program
+            } else event.consume(); // don't close the program on Cancel
         });
 
         System.gc();
