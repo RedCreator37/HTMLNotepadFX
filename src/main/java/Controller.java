@@ -446,7 +446,7 @@ public class Controller extends Component {
      * Sets saving settings on or off
      */
     public void toggleSaveSettings() {
-        if (!saveSettingsBox.isSelected()) return;
+        if (saveSettingsBox.isSelected()) return;
         // ask to delete the settings file when saving is disabled
         boolean doDeleteFile = Dialogs.confirmationDialog(
                 "Confirmation", "Confirmation",
