@@ -23,7 +23,7 @@ These are the things that don't work as expected (yet):
 - Revamped UI (some progress has been made, but it's still far from looking great)
 - Localization support (either with Resource Bundles or something else)
 
-Development versions are in the *dev-html* branch.
+Development versions are in the [*dev-html*](https://github.com/RedCreator37/HTMLNotepadFX/tree/dev-html) branch.
 
 [licenseBadge]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 [versionBadge]: https://img.shields.io/badge/version-0.5-ee912e.svg

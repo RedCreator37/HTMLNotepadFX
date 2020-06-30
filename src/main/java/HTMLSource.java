@@ -29,7 +29,8 @@ public class HTMLSource {
      */
     public void saveToFile() {
         // don't stay on top while the save as dialog is displayed
-        ((Stage) sourceText.getScene().getWindow()).setAlwaysOnTop(false);
+        Stage stage = (Stage) sourceText.getScene().getWindow();
+        stage.setAlwaysOnTop(false);
 
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().addAll(
@@ -38,7 +39,7 @@ public class HTMLSource {
         File file = chooser.showSaveDialog(MainFX.currentStage);
         if (file != null) FileIO.saveFile(file, sourceText.getText());
 
-        ((Stage) sourceText.getScene().getWindow()).setAlwaysOnTop(true);
+        stage.setAlwaysOnTop(true);
     }
 
     /**
