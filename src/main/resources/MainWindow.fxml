@@ -18,6 +18,10 @@
                     <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
+            <Menu mnemonicParsing="false" text="Open recent" fx:id="recentMenu" >
+                <MenuItem mnemonicParsing="false" onAction="#clearRecentMenu" text="Clear recent items" />
+                <SeparatorMenuItem mnemonicParsing="false" />
+            </Menu>
             <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save">
                 <accelerator>
                     <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

@@ -26,7 +26,10 @@
 
 /* opacity slider */
 .slider .thumb {
-    -fx-background-color: rgb(59, 146, 219);
+    -fx-background-color: #d4e7f7;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 50%;
+    -fx-border-width: 30%;
 }
 
 .slider .track {

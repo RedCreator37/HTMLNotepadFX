@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,7 +29,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -37,6 +42,7 @@ import java.util.Properties;
 public class Controller extends Component {
 
     private double confVersion = VersionData.CONFIG_VERSION;
+    private List<String> recentFiles = new ArrayList<>();
 
     /**
      * Loads settings from the config file
@@ -64,7 +70,20 @@ public class Controller extends Component {
             String lastFileName = settings.getProperty("last_file");
             if (lastFileName != null) openFile(new File(lastFileName));
             reloadLastBox.setSelected(lastFileName != null);
-        } catch (IOException | NumberFormatException e) {
+
+            String recent = settings.getProperty("recent_files");
+            recentFiles.addAll(Arrays.asList(recent.split(";")));
+
+            for (String s : recentFiles) {
+                MenuItem recentFile = new MenuItem(s);
+                recentFile.setOnAction(e -> {
+                    try {
+                        openFile(new File(recentFile.getText()));
+                    } catch (Exception ignored) { }
+                });
+                recentMenu.getItems().add(recentFile);
+            }
+        } catch (Exception e) {
             System.err.println("Loading settings failed: " + e.getMessage());
         }
         if (opacitySlider.getValue() < 0.1f) opacitySlider.setValue(0.1f);
@@ -85,6 +104,13 @@ public class Controller extends Component {
         if (file != null && reloadLastBox.isSelected())
             settings.setProperty("last_file", file.getAbsolutePath());
 
+        StringBuilder recent = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            if (i == recentFiles.size()) break;
+            recent.append(';').append(recentFiles.get(i));
+        }
+        settings.setProperty("recent_files", recent.toString());
+
         try {
             var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
             settings.storeToXML(fileOut, "");
@@ -104,6 +130,7 @@ public class Controller extends Component {
 
     // initialize controls
     public HTMLEditor textEdit = new HTMLEditor();
+    public Menu recentMenu = new Menu();
     public Slider opacitySlider = new Slider();
     public CheckMenuItem disableMouseBox = new CheckMenuItem(),
             reloadLastBox = new CheckMenuItem(),
@@ -173,6 +200,19 @@ public class Controller extends Component {
         // remove "modified" from the title bar
         MainFX.setTitle(file.getName() + " - HTMLNotepadFX", MainFX.currentStage);
         modified = false;
+
+        boolean recent = recentFiles.stream().anyMatch(s -> s.equals(file.getAbsolutePath()));
+        if (recent) return;
+
+        recentFiles.add(file.getAbsolutePath());
+        MenuItem recentFile = new MenuItem(file.getAbsolutePath()); // add the menu item
+        recentFile.setOnAction(e -> {
+            try {
+                openFile(new File(recentFile.getText()));
+            } catch (Exception ignored) { }
+        });
+        recentMenu.getItems().add(recentFile);
+
     }
 
     /**
@@ -211,6 +251,16 @@ public class Controller extends Component {
         if (modified) return;
         MainFX.setTitle(MainFX.currentStage.getTitle() + " (Modified)", MainFX.currentStage);
         modified = true;
+    }
+
+    /**
+     * Empties the Recent Files menu and recentFiles list
+     */
+    @SuppressWarnings("SuspiciousListRemoveInLoop")
+    public void clearRecentMenu() {
+        for (int i = 2; i < recentMenu.getItems().size(); i++)
+            recentMenu.getItems().remove(i);
+        recentFiles = new ArrayList<>();
     }
 
     /**
