@@ -5,15 +5,26 @@ import javax.swing.UIManager;
 import java.awt.print.PrinterException;
 import java.util.Arrays;
 
+/**
+ * Contains utility methods for printing
+ */
 public final class Printing {
 
     /**
-     * Displays a print dialog and send the text to printer
+     * Non-instantiable
+     */
+    private Printing() {
+    }
+
+    /**
+     * Displays a print dialog and prints this text
+     *
+     * @param text the text to be printed
      */
     public static void printText(String text) {
         try {   // use system LaF
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) { } // not supported, ignore
+        } catch (Exception ignored) { }
 
         Thread printThread = new Thread(() -> {
             JTextPane textPane = new JTextPane();

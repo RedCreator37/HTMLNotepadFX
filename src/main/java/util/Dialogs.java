@@ -18,13 +18,21 @@ import javafx.util.Pair;
 import java.util.Optional;
 
 /**
- * General purpose dialog window creator class
+ * Contains utility methods for displaying dialog boxes
  *
  * Parts of the code from
  * <href a="https://code.makery.ch/blog/javafx-dialogs-official/"></href>
  */
 public final class Dialogs {
 
+    /**
+     * Displays a generic alert box
+     *
+     * @param caption the title bar text
+     * @param header  the dialog box header text
+     * @param body    the dialog box body text / content
+     * @param type    the type of the dialog box to display
+     */
     public static void alert(String caption, String header, String body, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(caption);
@@ -34,57 +42,63 @@ public final class Dialogs {
     }
 
     /**
-     * Displays a confirmation dialog and let the user select OK/Cancel
+     * Displays a confirmation dialog with OK / Cancel buttons
      *
-     * @return true if the user selected OK or false if the user selected Cancel
+     * @param caption the title bar text
+     * @param header  the dialog box header text
+     * @param body    the dialog box body text / content
+     * @return true if OK was selected; false otherwise
      */
-    public static boolean confirmationDialog(String title, String header, String content) {
+    public static boolean confirmationDialog(String caption, String header, String body) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
+        alert.setTitle(caption);
         alert.setHeaderText(header);
-        alert.setContentText(content);
+        alert.setContentText(body);
         Optional<ButtonType> result = alert.showAndWait();
         return (result.isPresent() && result.get() == ButtonType.OK);
     }
 
     /**
-     * Displays a text input dialog with the default value in the input field
+     * Displays a text input dialog
+     *
+     * @param caption the title bar text
+     * @param header  the dialog box header text
+     * @param body    the dialog box body text / content
+     * @param hint    the default / hint value that'll be displayed in the input box
+     * @return the entered string
      */
-    public static String inputDialog(String title, String header, String content, String hint) {
+    public static String inputDialog(String caption, String header, String body, String hint) {
         TextInputDialog input = new TextInputDialog(hint);
-        input.setTitle(title);
+        input.setTitle(caption);
         input.setHeaderText(header);
-        input.setContentText(content);
-        input.showAndWait(); // wait for input
+        input.setContentText(body);
+        input.showAndWait();
         return input.getResult();
     }
 
     /**
-     * Displays a customizable text input dialog with two fields, the
-     * second field will be updated when the text in the first one is
-     * changed.
+     * Displays a customizable text input dialog with two fields. The
+     * second field will get updated when the first one changes.
      *
-     * @param title   dialog title
-     * @param header  the header text to be displayed in the dialog
-     * @param button  default button action text (ex. "Insert")
-     * @param content the text that'll be displayed above input fields
-     * @param prompt1 first text field's prompt text
-     * @param prompt2 second text field's prompt text
-     * @param label1  text to be displayed before the first text field
-     * @param label2  the same as label1, this time for the second field
-     * @return an Optional String Pair (both Key and Value contain a
-     * string, first one is the first field's text, second one is the
-     * second field's text).
+     * @param caption the title bar text
+     * @param header  the dialog box header text
+     * @param body    the dialog box body text / content
+     * @param action  default button action text (ex. "Insert")
+     * @param hint1   first text field's hint text
+     * @param hint2   second text field's hint text
+     * @param label1  text to be displayed above the first text field
+     * @param label2  text to be displayed above the second text field
+     * @return an optional string pair containing the values
      */
-    public static Optional<Pair<String, String>> doubleInputDialog(String title, String header, String content,
-                                                                   String button, String prompt1, String prompt2,
-                                                                   String label1, String label2) {
+    public static Optional<Pair<String, String>> twoFieldsInputDialog(String caption, String header, String body,
+                                                                      String action, String hint1, String hint2,
+                                                                      String label1, String label2) {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle(title);
+        dialog.setTitle(caption);
         dialog.setHeaderText(header);
 
         // set button types
-        ButtonType mainButtonType = new ButtonType(button, ButtonBar.ButtonData.OK_DONE);
+        ButtonType mainButtonType = new ButtonType(action, ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
 
         // create other controls
@@ -97,10 +111,10 @@ public final class Dialogs {
         controlPane.setVgap(10);
         controlPane.setPadding(new Insets(10, 10, 0, 0));
 
-        field1.setPromptText(prompt1);
-        field2.setPromptText(prompt2);
+        field1.setPromptText(hint1);
+        field2.setPromptText(hint2);
 
-        textPane.add(new Label(content), 0, 0);
+        textPane.add(new Label(body), 0, 0);
         controlPane.add(new Label(label1), 0, 0);
         controlPane.add(field1, 1, 0);
         controlPane.add(new Label(label2), 0, 1);
@@ -112,9 +126,9 @@ public final class Dialogs {
         // disable the main button until some text is entered into the fields
         Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
         mainButton.setDisable(true);
-        field1.textProperty().addListener((observable, oldValue, newValue) -> {
+        field1.textProperty().addListener((observable, oldVal, newVal) -> {
             field2.setText(field1.getText());
-            mainButton.setDisable(newValue.trim().isEmpty());
+            mainButton.setDisable(newVal.trim().isEmpty());
         });
 
         dialog.getDialogPane().setContent(pane);
@@ -126,53 +140,47 @@ public final class Dialogs {
                 return new Pair<>(field1.getText(), field2.getText());
             return null;
         });
-
         return dialog.showAndWait();
     }
 
     /**
-     * Displays a text input dialog with a Text Area instead of a Text
-     * Field.
+     * Displays a text input dialog with a text area
      *
-     * @param title   dialog title
-     * @param header  dialog header text
-     * @param content dialog content text (will be displayed in a Label
-     *                above the Text Area)
-     * @param button  default button action text (ex. "Insert")
-     * @param prompt  Text Area's prompt text
-     * @return entered text (can be null!)
+     * @param caption the title bar text
+     * @param header  the dialog box header text
+     * @param body    the dialog box body text / content
+     * @param action  default button action text (ex. "Insert")
+     * @param hint    text area's hint text
+     * @return the entered string (or null if cancelled)
      */
-    public static String textAreaInputDialog(String title, String header, String content,
-                                             String button, String prompt) {
+    public static String textAreaInputDialog(String caption, String header, String body,
+                                             String action, String hint) {
         Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle(title);
+        dialog.setTitle(caption);
         dialog.setHeaderText(header);
 
         // set button types
-        ButtonType mainButtonType = new ButtonType(button, ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
+        ButtonType buttonType = new ButtonType(action, ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(buttonType, ButtonType.CANCEL);
 
-        // create the text area
         GridPane pane = new GridPane();
-        Label contentText = new Label(content + "\n");
         TextArea area = new TextArea();
 
-        area.setPromptText(prompt);
-        pane.add(contentText, 0, 0);
+        area.setPromptText(hint);
+        pane.add(new Label(body + "\n"), 0, 0);
         pane.add(area, 0, 1);
 
-        // disable the button until some text is entered
-        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
+        // disable the default button until text is entered
+        Node mainButton = dialog.getDialogPane().lookupButton(buttonType);
         mainButton.setDisable(true);
-        area.textProperty().addListener(((observableValue, oldValue, newValue)
-                -> mainButton.setDisable(false)));
+        area.textProperty().addListener(newVal -> mainButton.setDisable(false));
 
         dialog.getDialogPane().setContent(pane);
         Platform.runLater(area::requestFocus);
 
         // convert the result
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == mainButtonType) return area.getText();
+        dialog.setResultConverter(btn -> {
+            if (btn == buttonType) return area.getText();
             return null;
         });
 
@@ -181,50 +189,46 @@ public final class Dialogs {
     }
 
     /**
-     * Displays a text input dialog with a long text field (useful
-     * for entering long strings of data such as full web addresses)
+     * Displays a text input dialog with a wide text field (for
+     * entering long strings of data, such as web addresses)
      *
-     * @param title      dialog title
-     * @param header     dialog header text
-     * @param text1      text to be displayed above the text field
-     * @param text2      text to be displayed below the text field
-     * @param button     default button action text (ex. "Insert")
-     * @param defaultVal text field's pre-entered default text
-     * @return entered text (can be null!)
+     * @param caption    the title bar text
+     * @param header     the dialog box header text
+     * @param text1      the text to be displayed above the first text field
+     * @param text2      the text to be displayed above the second text field
+     * @param action     default button action text (ex. "Insert")
+     * @param defaultVal the default value in the text field
+     * @return the entered string (or null if cancelled)
      */
-    public static String longInputDialog(String title, String header, String text1, String text2,
-                                         String button, String defaultVal) {
+    public static String wideInputDialog(String caption, String header, String text1, String text2,
+                                         String action, String defaultVal) {
         Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle(title);
+        dialog.setTitle(caption);
         dialog.setHeaderText(header);
 
         // set button types
-        ButtonType mainButtonType = new ButtonType(button, ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
+        ButtonType buttonType = new ButtonType(action, ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(buttonType, ButtonType.CANCEL);
 
-        // create the text area
         GridPane pane = new GridPane();
-        Label label1 = new Label(text1 + "\n");
-        TextField textField = new TextField();
-        Label label2 = new Label(text2);
+        TextField field = new TextField();
 
-        textField.setText(defaultVal);
-        pane.add(label1, 0, 0);
-        pane.add(textField, 0, 1);
-        pane.add(label2, 0, 2);
+        field.setText(defaultVal);
+        pane.add(new Label(text1 + "\n"), 0, 0);
+        pane.add(field, 0, 1);
+        pane.add(new Label(text2), 0, 2);
 
-        // disable the button until some text is entered
-        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
+        // disable the default button until text is entered
+        Node mainButton = dialog.getDialogPane().lookupButton(buttonType);
         mainButton.setDisable(true);
-        textField.textProperty().addListener(((observableValue, oldValue, newValue)
-                -> mainButton.setDisable(false)));
+        field.textProperty().addListener(newVal -> mainButton.setDisable(false));
 
         dialog.getDialogPane().setContent(pane);
-        Platform.runLater(textField::requestFocus);
+        Platform.runLater(field::requestFocus);
 
         // convert the result
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == mainButtonType) return textField.getText();
+        dialog.setResultConverter(btn -> {
+            if (btn == buttonType) return field.getText();
             return null;
         });
 
@@ -233,16 +237,20 @@ public final class Dialogs {
     }
 
     /**
-     * Displays a generic error dialog with a details sub pane containing
+     * Displays a generic error dialog with a Details sub pane containing
      * exception stacktrace.
+     *
+     * @param caption    the title bar text
+     * @param header     the dialog box header text
+     * @param body       the dialog box body text / content
+     * @param stacktrace the exception stacktrace
      */
-    static void detailedExceptionDialog(String title, String header, String text, String stacktrace) {
+    static void detailedExceptionDialog(String caption, String header, String body, String stacktrace) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
+        alert.setTitle(caption);
         alert.setHeaderText(header);
-        alert.setContentText(text);
+        alert.setContentText(body);
 
-        Label label = new Label("Details:");
         TextArea area = new TextArea(stacktrace);
         area.setEditable(false);
         area.setMaxWidth(Double.MAX_VALUE);
@@ -251,7 +259,7 @@ public final class Dialogs {
         GridPane.setHgrow(area, Priority.ALWAYS);
         GridPane expContent = new GridPane();
         expContent.setMaxWidth(Double.MAX_VALUE);
-        expContent.add(label, 0, 0);
+        expContent.add(new Label("Details:"), 0, 0);
         expContent.add(area, 0, 1);
 
         alert.getDialogPane().setExpandableContent(expContent);

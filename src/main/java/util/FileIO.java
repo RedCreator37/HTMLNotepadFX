@@ -9,10 +9,22 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Contains utility methods for opening and saving files
+ */
 public final class FileIO {
 
     /**
-     * Opens a text file and return its content in form of a string
+     * Non-instantiable
+     */
+    private FileIO() {
+    }
+
+    /**
+     * Opens this file and returns its content
+     *
+     * @param file the file to open
+     * @return the file content
      */
     public static String loadFile(File file) {
         StringBuilder sb = new StringBuilder();
@@ -26,7 +38,10 @@ public final class FileIO {
     }
 
     /**
-     * Saves the given string to a text file
+     * Saves this string to this file
+     *
+     * @param file     the file to save
+     * @param contents the text to save
      */
     public static void saveFile(File file, String contents) {
         try {

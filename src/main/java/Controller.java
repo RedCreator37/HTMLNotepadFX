@@ -274,7 +274,7 @@ public class Controller extends Component {
      * it in textEdit
      */
     public void loadWebPage() {
-        String url = Dialogs.longInputDialog(
+        String url = Dialogs.wideInputDialog(
                 "HTMLNotepadFX",
                 "Load web page",
                 "Enter a valid address of an existing page on\n" +
@@ -315,7 +315,7 @@ public class Controller extends Component {
      * Inserts a web image
      */
     public void insertImage() {
-        Optional<Pair<String, String>> input = Dialogs.doubleInputDialog(
+        Optional<Pair<String, String>> input = Dialogs.twoFieldsInputDialog(
                 "Insert",
                 "Insert an image",
                 "Insert an image into the document",
@@ -331,7 +331,7 @@ public class Controller extends Component {
      * Inserts a hyperlink
      */
     public void insertLink() {
-        Optional<Pair<String, String>> input = Dialogs.doubleInputDialog(
+        Optional<Pair<String, String>> input = Dialogs.twoFieldsInputDialog(
                 "Insert",
                 "Insert hyperlink",
                 "Insert a hyperlink into the document",

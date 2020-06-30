@@ -79,7 +79,9 @@ public class MainFX extends Application {
     }
 
     /**
-     * Returns the screen size in a Key-Value pair
+     * Gets the screen size
+     *
+     * @return the screen size in a Key-Value pair
      * (key is screen width, value is screen height)
      */
     private static Pair<Double, Double> getScreenSize() {
