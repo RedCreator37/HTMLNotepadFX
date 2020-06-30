@@ -14,8 +14,24 @@ import java.awt.Toolkit;
  */
 public class MainFX extends Application {
 
+    /**
+     * Stores the settings
+     */
+    private Controller controller;
+
+    /**
+     * Used for communication with the Controller class
+     *
+     * @see Controller
+     */
     static Stage currentStage;
 
+    /**
+     * Starts the UI
+     *
+     * @param primaryStage the main window
+     * @throws Exception on fatal errors
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("MainWindow.fxml"));
@@ -28,19 +44,21 @@ public class MainFX extends Application {
         if (screenSize.getValue() < height) height = screenSize.getKey();
 
         primaryStage.setScene(new Scene(root, width, height));
-        primaryStage.show();
         currentStage = primaryStage;
 
-        // fixme: not working as it creates a new instance every time!
-        new Controller().loadSettings();
+        controller = new Controller();
+        controller.loadSettings();
+        controller.toggleOldUi();   // otherwise the stylesheets don't get loaded
+        primaryStage.show();
+
         primaryStage.setOnCloseRequest(event -> {   // ask for confirmation before closing
             boolean confirmed = Dialogs.confirmationDialog(
                     "HTMLNotepadFX", "Warning",
                     "All unsaved changes will be lost! Continue?");
             if (confirmed) {
-                new Controller().saveSettings();
+                controller.saveSettings();
                 System.exit(0);
-            } else event.consume(); // don't close the program on Cancel
+            } else event.consume(); // don't close on Cancel
         });
 
         System.gc();
@@ -61,8 +79,8 @@ public class MainFX extends Application {
     }
 
     /**
-     * Returns screen size in a Key-Value pair
-     * (key is screen wight, value is screen height)
+     * Returns the screen size in a Key-Value pair
+     * (key is screen width, value is screen height)
      */
     private static Pair<Double, Double> getScreenSize() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();

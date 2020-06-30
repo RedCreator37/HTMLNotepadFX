@@ -25,33 +25,31 @@ public class HTMLSource {
     }
 
     /**
-     * Saves the HTML source code to a text file
+     * Saves the source code to a text file
      */
     public void saveToFile() {
         // don't stay on top while the save as dialog is displayed
-        Stage stage = (Stage) sourceText.getScene().getWindow();
-        stage.setAlwaysOnTop(false);
+        ((Stage) sourceText.getScene().getWindow()).setAlwaysOnTop(false);
 
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(   // set file extensions filter
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-        File file = fileChooser.showSaveDialog(MainFX.currentStage);
+        File file = chooser.showSaveDialog(MainFX.currentStage);
         if (file != null) FileIO.saveFile(file, sourceText.getText());
 
-        // now make the window always on top again
-        stage.setAlwaysOnTop(true);
+        ((Stage) sourceText.getScene().getWindow()).setAlwaysOnTop(true);
     }
 
     /**
-     * Reloads the HTML source
+     * Reloads the source code
      */
     public void refreshHTML() {
         sourceText.setText(htmlSourceText);
     }
 
     /**
-     * Prints the HTML source
+     * Prints the source code
      */
     public void printSource() {
         Printing.printText(sourceText.getText());
@@ -61,7 +59,6 @@ public class HTMLSource {
      * Closes the window
      */
     public void closeSource() {
-        Stage stage = (Stage) sourceText.getScene().getWindow();
-        stage.close();
+        ((Stage) sourceText.getScene().getWindow()).close();
     }
 }

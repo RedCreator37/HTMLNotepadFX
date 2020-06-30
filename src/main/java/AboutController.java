@@ -15,10 +15,10 @@ public class AboutController {
     // initialize controls
     public Button closeButton;
     public Label versionLabel, buildLabel, buildDateLabel, betaLabel, ramLabel, diskLabel;
-    public TextArea licenseTextArea;
+    public TextArea descTextBox;
 
     /**
-     * Sets the values when the window is initialized
+     * Sets the values on initialization
      */
     @FXML
     protected void initialize() {
@@ -27,18 +27,17 @@ public class AboutController {
         buildDateLabel.setText(VersionData.BUILD_DATE);
         betaLabel.setText(String.valueOf(VersionData.IS_BETA));
 
-        // get the amount of ram available to the program
+        // the amount of ram available to the program
         ramLabel.setText(Runtime.getRuntime().maxMemory() / 1048576 + " MB");
 
-        // get available disk space
+        // available disk space
         diskLabel.setText(new File("/").getTotalSpace() / 1073741824 + " GB");
     }
 
     /**
-     * Closes the dialog box
+     * Closes the about box
      */
     public void closeAboutDialog() {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+        ((Stage) closeButton.getScene().getWindow()).close();
     }
 }

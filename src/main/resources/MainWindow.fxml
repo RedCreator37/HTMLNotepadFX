@@ -128,7 +128,7 @@
             <Menu mnemonicParsing="false" text="Window opacity">
                 <CustomMenuItem mnemonicParsing="false" text="Opacity">
                     <content>
-                        <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#changeOpacity" onMouseClicked="#changeOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
+                        <Slider fx:id="opacitySlider" layoutX="14.0" layoutY="207.0" onDragDetected="#setOpacity" onMouseClicked="#setOpacity" prefHeight="21.0" prefWidth="150.0" value="100.0" />
                     </content>
                 </CustomMenuItem>
             </Menu>

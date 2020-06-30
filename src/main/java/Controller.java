@@ -41,11 +41,22 @@ import java.util.Properties;
  */
 public class Controller extends Component {
 
+    // initialize controls
+    public HTMLEditor textEdit = new HTMLEditor();
+    public Menu recentMenu = new Menu();
+    public Slider opacitySlider = new Slider();
+    public CheckMenuItem disableMouseBox = new CheckMenuItem(),
+            reloadLastBox = new CheckMenuItem(),
+            saveSettingsBox = new CheckMenuItem(),
+            oldUiBox = new CheckMenuItem();
+
     private double confVersion = VersionData.CONFIG_VERSION;
     private List<String> recentFiles = new ArrayList<>();
 
     /**
      * Loads settings from the config file
+     *
+     * @see VersionData#CONFIG_LOCATION
      */
     void loadSettings() {
         Properties settings = new Properties();
@@ -91,6 +102,8 @@ public class Controller extends Component {
 
     /**
      * Saves settings to the config file
+     *
+     * @see VersionData#CONFIG_LOCATION
      */
     void saveSettings() {
         if (!saveSettingsBox.isSelected()) return;
@@ -128,15 +141,6 @@ public class Controller extends Component {
 
     /// FILE MANAGEMENT /////////////////////////////////////////////////////////////////
 
-    // initialize controls
-    public HTMLEditor textEdit = new HTMLEditor();
-    public Menu recentMenu = new Menu();
-    public Slider opacitySlider = new Slider();
-    public CheckMenuItem disableMouseBox = new CheckMenuItem(),
-            reloadLastBox = new CheckMenuItem(),
-            saveSettingsBox = new CheckMenuItem(),
-            oldUiBox = new CheckMenuItem();
-
     private File file;
     private boolean modified;
 
@@ -169,7 +173,9 @@ public class Controller extends Component {
     }
 
     /**
-     * Opens a file and renders its content in textEdit
+     * Opens this file and renders its content in textEdit
+     *
+     * @param file the file to open
      */
     private void openFile(File file) {
         if (!modified) {
@@ -264,7 +270,8 @@ public class Controller extends Component {
     }
 
     /**
-     * Loads an existing web page into textEdit
+     * Fetches an existing web page from the web and renders
+     * it in textEdit
      */
     public void loadWebPage() {
         String url = Dialogs.longInputDialog(
@@ -294,7 +301,10 @@ public class Controller extends Component {
     /// EDITING AND INSERTING OBJECTS ///////////////////////////////////////////////////
 
     /**
-     * Appends HTML text to the textEdit
+     * Appends the provided HTML text to this editor
+     *
+     * @param editor the editor that'll get the text
+     * @param text   the text to append
      */
     private void appendHtmlText(HTMLEditor editor, String text) {
         editor.setHtmlText(editor.getHtmlText() + text);
@@ -468,7 +478,7 @@ public class Controller extends Component {
     /// OPTIONS MENU ////////////////////////////////////////////////////////////////////
 
     /**
-     * Displays the HTML source code
+     * Displays HTML source code
      */
     public void openSource() {
         try {
@@ -477,14 +487,14 @@ public class Controller extends Component {
             stage.setTitle("HTML Source Code");
             if (file != null) stage.setTitle("HTML Source Code - " + file.getName());
             HTMLSource.htmlSourceText = textEdit.getHtmlText();
-            ToggleExperimentalUI(stage, new Scene(root, 822, 562));
+            toggleNewUi(stage, new Scene(root, 822, 562));
         } catch (IOException e) {
             System.err.println("Failed loading HTML source code window: " + e.getMessage());
         }
     }
 
     /**
-     * Toggles the default non-styled UI
+     * Toggles between the default and non-styled UI
      */
     public void toggleOldUi() {
         if (oldUiBox.isSelected())
@@ -493,7 +503,7 @@ public class Controller extends Component {
     }
 
     /**
-     * Sets saving settings on or off
+     * Toggles saving settings
      */
     public void toggleSaveSettings() {
         if (saveSettingsBox.isSelected()) return;
@@ -514,18 +524,21 @@ public class Controller extends Component {
     }
 
     /**
-     * Changes the opacity of MainWindow
+     * Sets the opacity of MainWindow
      */
-    public void changeOpacity() {
+    public void setOpacity() {
         float opacity = (float) opacitySlider.getValue() / 100;
         if (opacity < 0.01f) opacity = 0.01f; // do not make the window invisible
         MainFX.currentStage.setOpacity(opacity);
     }
 
     /**
-     * Toggles the new experimental UI style
+     * Toggles the new UI style, for this stage and scene
+     *
+     * @param stage the wrapper stage
+     * @param scene the scene which this applies to
      */
-    private void ToggleExperimentalUI(Stage stage, Scene scene) {
+    private void toggleNewUi(Stage stage, Scene scene) {
         if (!oldUiBox.isSelected()) scene.getStylesheets().add("Styles.css");
         stage.setScene(scene);
         stage.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -538,14 +551,14 @@ public class Controller extends Component {
     /// INFO MENU ///////////////////////////////////////////////////////////////////////
 
     /**
-     * Displays an About dialog
+     * Displays the about box
      */
     public void showAboutDialog() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("About.fxml"));
             Stage stage = new Stage();
             stage.setTitle("About HTMLNotepadFX");
-            ToggleExperimentalUI(stage, new Scene(root, 638, 281));
+            toggleNewUi(stage, new Scene(root, 638, 281));
         } catch (IOException e) {
             System.err.println("Failed loading about dialog: " + e.getMessage());
         }
