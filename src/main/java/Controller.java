@@ -315,7 +315,7 @@ public class Controller extends Component {
      * Inserts a web image
      */
     public void insertImage() {
-        Optional<Pair<String, String>> input = Dialogs.twoFieldsInputDialog(
+        Optional<Pair<String, String>> input = Dialogs.imageInputDialog(
                 "Insert",
                 "Insert an image",
                 "Insert an image into the document",
