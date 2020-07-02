@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import util.Dialogs;
 import util.FileIO;
+import util.ImageDialog;
 import util.VersionData;
 
 import java.awt.Component;
@@ -315,16 +316,12 @@ public class Controller extends Component {
      * Inserts a web image
      */
     public void insertImage() {
-        Optional<Pair<String, String>> input = Dialogs.imageInputDialog(
+        Optional<String> input = ImageDialog.imageInsertionDialog(
                 "Insert",
                 "Insert an image",
-                "Insert an image into the document",
-                "Insert",
-                "Enter image address",
-                "Enter image alternative text",
-                "Address:", "Alt Text:");
-        input.ifPresent(bothFields -> appendHtmlText(textEdit, "<img src=\""
-                + bothFields.getKey() + "\" alt=\"" + bothFields.getValue() + "\" />"));
+                "Insert an image into the document");
+        if (input.isEmpty()) return;
+        appendHtmlText(textEdit, input.get());
     }
 
     /**
