@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -21,108 +20,16 @@ import java.io.FileInputStream;
 import java.util.Base64;
 import java.util.Optional;
 
-public class ImageDialog {
+public class ImageDialog extends CustomDialog<String> {
 
-    /**
-     * Displays an image selection dialog with two fields and a preview box
-     *
-     * @param caption the title bar text
-     * @param header  the dialog box header text
-     * @param body    the dialog box body text / content
-     * @return an optional string containing the HTML code
-     */
-    public static Optional<String> imageInsertionDialog(String caption, String header, String body) {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle(caption);
-        dialog.setHeaderText(header);
-
-        // set button types
-        ButtonType mainButtonType = new ButtonType("Insert", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
-
-        // create basic controls
-        GridPane pane = new GridPane(),
-                controlPane = new GridPane(), imgBoxPane = new GridPane(),
-                selectionPane = new GridPane();
-        TextField field1 = new TextField(), field2 = new TextField();
-        WebView imgBox = new WebView();
-        RadioButton localBtn = new RadioButton("From this computer"),
-                webBtn = new RadioButton("From the Internet");
-        ToggleGroup mainGroup = new ToggleGroup();
-        imgBox.setMaxSize(250, 220);
-        imgBox.setZoom(0.5);
-        localBtn.setToggleGroup(mainGroup);
-        webBtn.setToggleGroup(mainGroup);
-        webBtn.setSelected(true);
-
-        controlPane.setHgap(10);
-        controlPane.setVgap(10);
-        controlPane.setPadding(new Insets(10, 10, 0, 0));
-        selectionPane.setHgap(10);
-        selectionPane.setVgap(10);
-        selectionPane.setPadding(new Insets(10, 10, 0, 0));
-
-        field1.setPromptText("Image path");
-        field2.setPromptText("Alt text");
-
-        controlPane.add(new Label(body), 0, 0);
-        controlPane.add(localBtn, 0, 1);
-        controlPane.add(webBtn, 0, 2);
-        Label addressLabel = new Label("Address:");
-        selectionPane.add(addressLabel, 0, 0);
-        selectionPane.add(field1, 1, 0);
-        selectionPane.add(new Label("Alt text:"), 0, 1);
-        selectionPane.add(field2, 1, 1);
-        controlPane.add(selectionPane, 0, 3);
-        imgBoxPane.add(imgBox, 0, 0);
-
-        pane.add(controlPane, 0, 1);
-        pane.add(imgBoxPane, 1, 1);
-
-        // disable the main button until some text is entered into the fields
-        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
-        mainButton.setDisable(true);
-        field1.textProperty().addListener((obs, oldVal, newVal) -> {
-            field2.setText(field1.getText());
-            mainButton.setDisable(newVal.trim().isEmpty());
-            String html = getImageHtml(field1.getText(), field2.getText(),
-                    localBtn.isSelected());
-            imgBox.getEngine().loadContent(html);
-        });
-
-        // add the browse button
-        Button browseBtn = new Button("Browse...");
-        ButtonBar bar = (ButtonBar) dialog.getDialogPane().lookup("ButtonBar");
-        if (bar != null)
-            bar.getButtons().add(browseBtn);
-        browseBtn.setOnMouseClicked(e -> {
-            File f = browseImages(dialog.getDialogPane().getScene().getWindow());
-            if (f == null) return;
-            field1.setText(f.getAbsolutePath());
-            field2.setText(f.getName());
-            localBtn.setSelected(true);
-            imgBox.getEngine().loadContent(getImageHtml(f.getAbsolutePath(),
-                    f.getName(), true));
-        });
-
-        // change the value when Local/Web is selected
-        localBtn.selectedProperty().addListener((obs, oldVal, newVal)
-                -> addressLabel.setText(newVal ? "Path:" : "Address:"));
-
-        // add controls, add border to the preview box, request focus
-        dialog.getDialogPane().setContent(pane);
-        dialog.getDialogPane().getScene().getStylesheets().add("Styles.css");
-        imgBoxPane.setStyle("-fx-border-color: rgb(59, 146, 219);");
-        Platform.runLater(field1::requestFocus);
-
-        // convert the result to a string
-        dialog.setResultConverter(btn -> {
-            if (btn == mainButtonType)
-                return getImageHtml(field1.getText(), field2.getText(), localBtn.isSelected());
-            return null;
-        });
-        return dialog.showAndWait();
+    public ImageDialog(String caption, String header, String body) {
+        super(caption, header, body);
     }
+
+    private ButtonType mainButtonType;
+
+    private String input1, input2;
+    private boolean local;
 
     /**
      * Displays an image browser dialog
@@ -180,6 +87,102 @@ public class ImageDialog {
                     + "\" alt=\"" + alt + "\"/>";
         }
         return html;
+    }
+
+    @Override
+    public void setControls() {
+        // set button types
+        mainButtonType = new ButtonType("Insert", ButtonBar.ButtonData.OK_DONE);
+        this.dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
+
+        GridPane pane = new GridPane(), controlPane = new GridPane(),
+                imgBoxPane = new GridPane(), selectionPane = new GridPane();
+        TextField field1 = new TextField(), field2 = new TextField();
+        WebView imgBox = new WebView();
+        RadioButton localBtn = new RadioButton("From this computer"),
+                webBtn = new RadioButton("From the Internet");
+        ToggleGroup mainGroup = new ToggleGroup();
+
+        // create basic controls
+        imgBox.setMaxSize(250, 220);
+        imgBox.setZoom(0.5);
+        localBtn.setToggleGroup(mainGroup);
+        webBtn.setToggleGroup(mainGroup);
+        webBtn.setSelected(true);
+
+        controlPane.setHgap(10);
+        controlPane.setVgap(10);
+        controlPane.setPadding(new Insets(10, 10, 0, 0));
+        selectionPane.setHgap(10);
+        selectionPane.setVgap(10);
+        selectionPane.setPadding(new Insets(10, 10, 0, 0));
+
+        field1.setPromptText("Image path");
+        field2.setPromptText("Alt text");
+
+        controlPane.add(new Label(this.dialog.getContentText()), 0, 0);
+        controlPane.add(localBtn, 0, 1);
+        controlPane.add(webBtn, 0, 2);
+        Label addressLabel = new Label("Address:");
+        selectionPane.add(addressLabel, 0, 0);
+        selectionPane.add(field1, 1, 0);
+        selectionPane.add(new Label("Alt text:"), 0, 1);
+        selectionPane.add(field2, 1, 1);
+        controlPane.add(selectionPane, 0, 3);
+        imgBoxPane.add(imgBox, 0, 0);
+
+        pane.add(controlPane, 0, 1);
+        pane.add(imgBoxPane, 1, 1);
+
+        // disable the main button until some text is entered into the fields
+        Node mainButton = this.dialog.getDialogPane().lookupButton(mainButtonType);
+        mainButton.setDisable(true);
+        field1.textProperty().addListener((obs, oldVal, newVal) -> {
+            field2.setText(field1.getText());
+            mainButton.setDisable(newVal.trim().isEmpty());
+            String html = getImageHtml(field1.getText(), field2.getText(),
+                    localBtn.isSelected());
+            imgBox.getEngine().loadContent(html);
+            this.input1 = newVal;
+        });
+
+        // add the browse button
+        Button browseBtn = new Button("Browse...");
+        ButtonBar bar = (ButtonBar) this.dialog.getDialogPane().lookup("ButtonBar");
+        if (bar != null)
+            bar.getButtons().add(browseBtn);
+        browseBtn.setOnMouseClicked(e -> {
+            File f = browseImages(this.dialog.getDialogPane().getScene().getWindow());
+            if (f == null) return;
+            field1.setText(f.getAbsolutePath());
+            field2.setText(f.getName());
+            localBtn.setSelected(true);
+            imgBox.getEngine().loadContent(getImageHtml(f.getAbsolutePath(),
+                    f.getName(), true));
+        });
+
+        field2.textProperty().addListener((obs, oldVal, newVal) -> this.input2 = newVal);
+
+        // change the value when Local/Web is selected
+        localBtn.selectedProperty().addListener((obs, oldVal, newVal) -> {
+            addressLabel.setText(newVal ? "Path:" : "Address:");
+            local = newVal;
+        });
+
+        // add controls, add border to the preview box, request focus
+        this.dialog.getDialogPane().setContent(pane);
+        this.dialog.getDialogPane().getScene().getStylesheets().add("Styles.css");
+        imgBoxPane.setStyle("-fx-border-color: rgb(59, 146, 219);");
+        Platform.runLater(field1::requestFocus);
+    }
+
+    @Override
+    public void setResultConverter() {
+        this.dialog.setResultConverter(btn -> {
+            if (btn == mainButtonType)
+                return getImageHtml(input1, input2, local);
+            return null;
+        });
     }
 
 }

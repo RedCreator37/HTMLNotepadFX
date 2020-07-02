@@ -316,10 +316,9 @@ public class Controller extends Component {
      * Inserts a web image
      */
     public void insertImage() {
-        Optional<String> input = ImageDialog.imageInsertionDialog(
-                "Insert",
-                "Insert an image",
-                "Insert an image into the document");
+        ImageDialog dlg = new ImageDialog("Insert", "Insert and image",
+                "Insert an image to the document");
+        Optional<String> input = dlg.run();
         if (input.isEmpty()) return;
         appendHtmlText(textEdit, input.get());
     }
