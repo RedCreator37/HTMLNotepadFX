@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import util.Dialogs;
 import util.FileIO;
-import util.ImageDialog;
+import dialogs.ImageDialog;
 import util.VersionData;
 
 import java.awt.Component;
@@ -316,7 +316,7 @@ public class Controller extends Component {
      * Inserts a web image
      */
     public void insertImage() {
-        ImageDialog dlg = new ImageDialog("Insert", "Insert and image",
+        ImageDialog dlg = new ImageDialog("Insert", "Insert an image",
                 "Insert an image to the document");
         Optional<String> input = dlg.run();
         if (input.isEmpty()) return;

@@ -1,4 +1,4 @@
-package util;
+package dialogs;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -20,75 +20,29 @@ import java.io.FileInputStream;
 import java.util.Base64;
 import java.util.Optional;
 
+/**
+ * A basic image insertion dialog box with preview
+ */
 public class ImageDialog extends CustomDialog<String> {
 
+    /**
+     * Constructs a new ImageDialog instance
+     *
+     * @param caption the title bar text
+     * @param header  the dialog box header text
+     * @param body    the dialog box body text / content
+     */
     public ImageDialog(String caption, String header, String body) {
         super(caption, header, body);
     }
 
     private ButtonType mainButtonType;
-
     private String input1, input2;
     private boolean local;
 
     /**
-     * Displays an image browser dialog
-     *
-     * @param parent the parent window
-     * @return the selected file or null if the dialog was cancelled
+     * Initializes the controls
      */
-    private static File browseImages(Window parent) {
-        FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG images (*.jpg, *.jpeg)",
-                        "*.jpg", "*.jpeg"),
-                new FileChooser.ExtensionFilter("GIF images (*.gif)", "*.gif"),
-                new FileChooser.ExtensionFilter("PNG images (*.png)", "*.png"),
-                new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-        return chooser.showOpenDialog(parent);
-    }
-
-    /**
-     * Returns the HTML code for the image in this location
-     *
-     * @param location image path (either a web location or a local
-     *                 filesystem path)
-     * @param alt      image alt text
-     * @param local    set to <code>true</code> if location points to a
-     *                 local filesystem location
-     * @return the HTML code of the image (if the image is loaded from
-     * local filesystem, it'll be read and base64 encoded into html)
-     */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static String getImageHtml(String location, String alt, boolean local) {
-        String html;
-        location = location.replace("\"", "");
-        if (local) {
-            String base64;
-            File file = new File(location);
-            try (FileInputStream stream = new FileInputStream(file)) {
-                byte[] contents = new byte[(int) file.length()];
-                stream.read(contents);
-                base64 = Base64.getEncoder().encodeToString(contents);
-            } catch (Exception ignored) {
-                return "<h1><i>Image not found</i></h1>";
-            }
-
-            Optional<String> extension = Optional.of(file.getName())
-                    .filter(f -> f.contains("."))
-                    .map(f -> f.substring(file.getName().lastIndexOf(".") + 1));
-            if (extension.isEmpty())    // assume it's png if there's no extension
-                extension = Optional.of("png");
-
-            html = "<img src=\"data:image/" + extension.get() + ";base64,"
-                    + base64 + "\" alt=\"" + alt + "\"</img>";
-        } else {
-            html = "<img src=\"" + location
-                    + "\" alt=\"" + alt + "\"/>";
-        }
-        return html;
-    }
-
     @Override
     public void setControls() {
         // set button types
@@ -135,11 +89,11 @@ public class ImageDialog extends CustomDialog<String> {
         pane.add(imgBoxPane, 1, 1);
 
         // disable the main button until some text is entered into the fields
-        Node mainButton = this.dialog.getDialogPane().lookupButton(mainButtonType);
-        mainButton.setDisable(true);
+        Node mainBtn = this.dialog.getDialogPane().lookupButton(mainButtonType);
+        mainBtn.setDisable(true);
         field1.textProperty().addListener((obs, oldVal, newVal) -> {
             field2.setText(field1.getText());
-            mainButton.setDisable(newVal.trim().isEmpty());
+            mainBtn.setDisable(newVal.trim().isEmpty());
             String html = getImageHtml(field1.getText(), field2.getText(),
                     localBtn.isSelected());
             imgBox.getEngine().loadContent(html);
@@ -147,7 +101,7 @@ public class ImageDialog extends CustomDialog<String> {
         });
 
         // add the browse button
-        Button browseBtn = new Button("Browse...");
+        Node browseBtn = new Button("Browse...");
         ButtonBar bar = (ButtonBar) this.dialog.getDialogPane().lookup("ButtonBar");
         if (bar != null)
             bar.getButtons().add(browseBtn);
@@ -176,6 +130,9 @@ public class ImageDialog extends CustomDialog<String> {
         Platform.runLater(field1::requestFocus);
     }
 
+    /**
+     * Sets the result converter
+     */
     @Override
     public void setResultConverter() {
         this.dialog.setResultConverter(btn -> {
@@ -183,6 +140,60 @@ public class ImageDialog extends CustomDialog<String> {
                 return getImageHtml(input1, input2, local);
             return null;
         });
+    }
+
+    /**
+     * Displays an image browser dialog
+     *
+     * @param parent the parent window
+     * @return the selected file or null if the dialog was cancelled
+     */
+    private static File browseImages(Window parent) {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("JPG images (*.jpg, *.jpeg)",
+                        "*.jpg", "*.jpeg"),
+                new FileChooser.ExtensionFilter("GIF images (*.gif)", "*.gif"),
+                new FileChooser.ExtensionFilter("PNG images (*.png)", "*.png"),
+                new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+        return chooser.showOpenDialog(parent);
+    }
+
+    /**
+     * Returns the HTML code for the image in this location
+     *
+     * @param location image path (either a web location or a local
+     *                 filesystem path)
+     * @param alt      image alt text
+     * @param local    set to <code>true</code> if location points to a
+     *                 local filesystem location
+     * @return the HTML code of the image (if the image is loaded from
+     * local filesystem, it'll be read and base64 encoded into html)
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static String getImageHtml(String location, String alt, boolean local) {
+        location.replace("\"", "");
+        if (local) {
+            String base64;
+            File file = new File(location);
+            try (FileInputStream stream = new FileInputStream(file)) {
+                byte[] contents = new byte[(int) file.length()];
+                stream.read(contents);
+                base64 = Base64.getEncoder().encodeToString(contents);
+            } catch (Exception ignored) {
+                return "<h1><i>Image not found</i></h1>";
+            }
+
+            Optional<String> extension = Optional.of(file.getName())
+                    .filter(f -> f.contains("."))
+                    .map(f -> f.substring(file.getName().lastIndexOf(".") + 1));
+            if (extension.isEmpty())    // assume it's png if there's no extension
+                extension = Optional.of("png");
+
+            return "<img src=\"data:image/" + extension.get() + ";base64,"
+                    + base64 + "\" alt=\"" + alt + "\"</img>";
+        }
+        return "<img src=\"" + location + "\" alt=\"" + alt + "\"/>";
     }
 
 }
