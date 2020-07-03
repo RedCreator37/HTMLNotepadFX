@@ -1,3 +1,5 @@
+import dialogs.ImageDialog;
+import dialogs.LinkDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PrinterJob;
@@ -15,10 +17,8 @@ import javafx.scene.web.HTMLEditor;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import util.Dialogs;
 import util.FileIO;
-import dialogs.ImageDialog;
 import util.VersionData;
 
 import java.awt.Component;
@@ -53,6 +53,7 @@ public class Controller extends Component {
 
     private double confVersion = VersionData.CONFIG_VERSION;
     private List<String> recentFiles = new ArrayList<>();
+    private final String stylesheet = "Styles.css";
 
     /**
      * Loads settings from the config file
@@ -317,7 +318,7 @@ public class Controller extends Component {
      */
     public void insertImage() {
         ImageDialog dlg = new ImageDialog("Insert", "Insert an image",
-                "Insert an image to the document");
+                "Insert an image to the document", stylesheet);
         Optional<String> input = dlg.run();
         if (input.isEmpty()) return;
         appendHtmlText(textEdit, input.get());
@@ -327,16 +328,11 @@ public class Controller extends Component {
      * Inserts a hyperlink
      */
     public void insertLink() {
-        Optional<Pair<String, String>> input = Dialogs.twoFieldsInputDialog(
-                "Insert",
-                "Insert hyperlink",
-                "Insert a hyperlink into the document",
-                "Insert",
-                "Enter link address",
-                "Enter link text",
-                "Address:", "Text:");
-        input.ifPresent(bothFields -> appendHtmlText(textEdit, "<a href=\""
-                + bothFields.getKey() + "\">" + bothFields.getValue() + "</a>"));
+        LinkDialog dlg = new LinkDialog("Insert", "Insert a hyperlink",
+                "Insert a hyperlink to the document", stylesheet);
+        Optional<String> input = dlg.run();
+        if (input.isEmpty()) return;
+        appendHtmlText(textEdit, input.get());
     }
 
     /**

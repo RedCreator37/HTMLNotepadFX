@@ -1,7 +1,6 @@
 package dialogs;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
@@ -28,12 +27,14 @@ public class ImageDialog extends CustomDialog<String> {
     /**
      * Constructs a new ImageDialog instance
      *
-     * @param caption the title bar text
-     * @param header  the dialog box header text
-     * @param body    the dialog box body text / content
+     * @param caption    the title bar text
+     * @param header     the dialog box header text
+     * @param body       the dialog box body text / content
+     * @param stylesheet the stylesheet to use or <code>null</code>
+     *                   to use the default
      */
-    public ImageDialog(String caption, String header, String body) {
-        super(caption, header, body);
+    public ImageDialog(String caption, String header, String body, String stylesheet) {
+        super(caption, header, body, stylesheet);
     }
 
     private ButtonType mainButtonType;
@@ -64,12 +65,8 @@ public class ImageDialog extends CustomDialog<String> {
         webBtn.setToggleGroup(mainGroup);
         webBtn.setSelected(true);
 
-        controlPane.setHgap(10);
-        controlPane.setVgap(10);
-        controlPane.setPadding(new Insets(10, 10, 0, 0));
-        selectionPane.setHgap(10);
-        selectionPane.setVgap(10);
-        selectionPane.setPadding(new Insets(10, 10, 0, 0));
+        setGridInsets(controlPane);
+        setGridInsets(selectionPane);
 
         field1.setPromptText("Image path");
         field2.setPromptText("Alt text");
@@ -94,17 +91,18 @@ public class ImageDialog extends CustomDialog<String> {
         field1.textProperty().addListener((obs, oldVal, newVal) -> {
             field2.setText(field1.getText());
             mainBtn.setDisable(newVal.trim().isEmpty());
-            String html = getImageHtml(field1.getText(), field2.getText(),
-                    localBtn.isSelected());
-            imgBox.getEngine().loadContent(html);
+            imgBox.getEngine().loadContent(getImageHtml(field1.getText(), field2.getText(),
+                    localBtn.isSelected()));
             this.input1 = newVal;
         });
 
         // add the browse button
         Node browseBtn = new Button("Browse...");
         ButtonBar bar = (ButtonBar) this.dialog.getDialogPane().lookup("ButtonBar");
-        if (bar != null)
+        if (bar != null) {
+            bar.setStyle("-fx-alignment: baseline-left");
             bar.getButtons().add(browseBtn);
+        }
         browseBtn.setOnMouseClicked(e -> {
             File f = browseImages(this.dialog.getDialogPane().getScene().getWindow());
             if (f == null) return;
@@ -125,8 +123,7 @@ public class ImageDialog extends CustomDialog<String> {
 
         // add controls, add border to the preview box, request focus
         this.dialog.getDialogPane().setContent(pane);
-        this.dialog.getDialogPane().getScene().getStylesheets().add("Styles.css");
-        imgBoxPane.setStyle("-fx-border-color: rgb(59, 146, 219);");
+        imgBoxPane.setStyle("-fx-border-color: rgb(59, 146, 219)");
         Platform.runLater(field1::requestFocus);
     }
 
