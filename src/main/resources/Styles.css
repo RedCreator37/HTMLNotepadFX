@@ -43,23 +43,28 @@
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
-    -fx-border-radius: 0;
+    -fx-border-radius: 3;
 }
 
 .button:hover, .button:default:hover {
     -fx-background-color: #e9f3fb;
 }
 
-.button:pressed, .button:default, button:default:pressed {
+.button:pressed, .button:default {
     -fx-background-color: #d4e7f7;
 }
+
+.button:default:pressed {
+    -fx-background-color: #bee1fd;
+}
+
 
 /* toggle buttons */
 .toggle-button {
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
-    -fx-border-radius: 0;
+    -fx-border-radius: 3;
 }
 
 .toggle-button:hover {
@@ -113,18 +118,19 @@
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
+    -fx-border-radius: 3;
 }
 
 .html-editor .toggle-button:hover, .html-editor .button:hover,
 .html-editor .toggle-button:selected:hover, .html-editor .color-picker:hover {
     -fx-background-color: #e9f3fb;
-    -fx-background-radius: 0;
+    -fx-background-radius: 3;
 }
 
 .html-editor .toggle-button:selected, .html-editor .button:pressed,
 .html-editor .color-picker:pressed {
     -fx-background-color: #d4e7f7;
-    -fx-background-radius: 0;
+    -fx-background-radius: 3;
 }
 
 /* font combo boxes */
