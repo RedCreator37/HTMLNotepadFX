@@ -1,29 +1,18 @@
 package util;
 
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
-import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
-import javafx.stage.Window;
-import javafx.util.Pair;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Base64;
 import java.util.Optional;
 
 /**
@@ -83,73 +72,6 @@ public final class Dialogs {
         input.setContentText(body);
         input.showAndWait();
         return input.getResult();
-    }
-
-    /**
-     * Displays a customizable text input dialog with two fields. The
-     * second field will get updated when the first one changes.
-     *
-     * @param caption the title bar text
-     * @param header  the dialog box header text
-     * @param body    the dialog box body text / content
-     * @param action  default button action text (ex. "Insert")
-     * @param hint1   first text field's hint text
-     * @param hint2   second text field's hint text
-     * @param label1  text to be displayed above the first text field
-     * @param label2  text to be displayed above the second text field
-     * @return an optional string pair containing the values
-     */
-    public static Optional<Pair<String, String>> twoFieldsInputDialog(String caption, String header, String body,
-                                                                      String action, String hint1, String hint2,
-                                                                      String label1, String label2) {
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
-        dialog.setTitle(caption);
-        dialog.setHeaderText(header);
-
-        // set button types
-        ButtonType mainButtonType = new ButtonType(action, ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(mainButtonType, ButtonType.CANCEL);
-
-        // create other controls
-        GridPane pane = new GridPane(), textPane = new GridPane(),
-                controlPane = new GridPane();
-        TextField field1 = new TextField(), field2 = new TextField();
-
-        controlPane.setHgap(10);
-        textPane.setHgap(10);
-        controlPane.setVgap(10);
-        controlPane.setPadding(new Insets(10, 10, 0, 0));
-
-        field1.setPromptText(hint1);
-        field2.setPromptText(hint2);
-
-        textPane.add(new Label(body), 0, 0);
-        controlPane.add(new Label(label1), 0, 0);
-        controlPane.add(field1, 1, 0);
-        controlPane.add(new Label(label2), 0, 1);
-        controlPane.add(field2, 1, 1);
-
-        pane.add(textPane, 0, 0);
-        pane.add(controlPane, 0, 1);
-
-        // disable the main button until some text is entered into the fields
-        Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
-        mainButton.setDisable(true);
-        field1.textProperty().addListener((observable, oldVal, newVal) -> {
-            field2.setText(field1.getText());
-            mainButton.setDisable(newVal.trim().isEmpty());
-        });
-
-        dialog.getDialogPane().setContent(pane);
-        Platform.runLater(field1::requestFocus);
-
-        // convert the result to a string pair
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == mainButtonType)
-                return new Pair<>(field1.getText(), field2.getText());
-            return null;
-        });
-        return dialog.showAndWait();
     }
 
     /**
