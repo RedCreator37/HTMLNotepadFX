@@ -1,5 +1,6 @@
 import dialogs.ImageDialog;
 import dialogs.LinkDialog;
+import dialogs.simple.QuoteDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.print.PrinterJob;
@@ -368,14 +369,11 @@ public class Controller extends Component {
      * Inserts a quote
      */
     public void insertQuote() {
-        String quoteText = Dialogs.textAreaInputDialog(
-                "Insert",
-                "Insert a quote",
-                "Enter a quote to insert:",
-                "Insert",
-                "Enter a quote...");
-        if (quoteText == null) return;
-        appendHtmlText(textEdit, "<q> " + quoteText + " </q>");
+        QuoteDialog dlg = new QuoteDialog("Insert", "Insert a quote",
+                "Enter a quote to insert:", stylesheet);
+        Optional<String> input = dlg.run();
+        if (input.isEmpty()) return;
+        appendHtmlText(textEdit, input.get());
     }
 
     /**

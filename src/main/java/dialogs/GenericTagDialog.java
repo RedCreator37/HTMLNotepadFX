@@ -1,37 +1,33 @@
 package dialogs;
 
 import javafx.application.Platform;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
 
 /**
- * A link insertion dialog with a collapsible preview pane
+ * A simple HTML tag insertion dialog with a preview pane
  */
-public class LinkDialog extends CustomDialog<String> {
+public abstract class GenericTagDialog extends CustomDialog<String> {
 
     /**
-     * Constructs a new LinkDialog instance
+     * Constructs a new GenericTagDialog instance
      *
      * @param caption    the title bar text
      * @param header     the dialog box header text
      * @param body       the dialog box body text / content
      * @param stylesheet the stylesheet to use or <code>null</code>
-     *                   to use the default
      */
-    public LinkDialog(String caption, String header, String body, String stylesheet) {
+    public GenericTagDialog(String caption, String header, String body, String stylesheet) {
         super(caption, header, body, stylesheet);
     }
 
     private ButtonType mainButtonType;
-    private TextField field1, field2;
+    private TextArea textField;
 
     /**
      * Initializes the controls
@@ -45,27 +41,20 @@ public class LinkDialog extends CustomDialog<String> {
         // create other controls
         GridPane pane = new GridPane(), textPane = new GridPane(),
                 controlPane = new GridPane(), previewPane = new GridPane();
-        field1 = new TextField();
-        field2 = new TextField();
+        textField = new TextArea();
         WebView preview = new WebView();
 
         textPane.setHgap(10);
         setGridInsets(controlPane);
         preview.setMaxHeight(250);
-        preview.setMaxWidth(400);
+        preview.setMaxWidth(260);
 
-        field1.setPromptText("Link address");
-        field1.setMinWidth(260);
-        field2.setPromptText("Link text");
-        field2.setMinWidth(260);
+        setFieldText(textField);
+        textField.setMaxWidth(320);
+        textField.setMaxHeight(135);
 
         textPane.add(new Label(dialog.getContentText()), 0, 0);
-        controlPane.add(new Label("Address:"), 0, 0);
-        controlPane.add(field1, 1, 0);
-        controlPane.add(new Label("Text:"), 0, 1);
-        controlPane.add(field2, 1, 1);
-        Node checkBtn = new Button("Check...");
-        controlPane.add(checkBtn, 2, 0);
+        controlPane.add(textField, 0, 0);
         previewPane.add(preview, 0, 0);
 
         pane.add(textPane, 0, 0);
@@ -73,29 +62,21 @@ public class LinkDialog extends CustomDialog<String> {
         dialog.getDialogPane().setExpandableContent(previewPane);
 
         // reload the preview when Check is clicked
-        checkBtn.setOnMouseClicked(e -> {
-            Scene s = checkBtn.getScene().getWindow().getScene();
-            s.setCursor(Cursor.WAIT);
-            try {
-                preview.getEngine().load(field1.getText());
-            } catch (Exception ignored) { }
-            s.setCursor(Cursor.DEFAULT);
-        });
+        textField.textProperty().addListener((obs, oldVal, newVal)
+                -> preview.getEngine().loadContent(getHtmlCode(textField.getText())));
 
         // disable the main button until some text is entered into the fields
         Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
         mainButton.setDisable(true);
-        field1.textProperty().addListener((obs, oldVal, newVal) -> {
-            field2.setText(field1.getText());
-            mainButton.setDisable(newVal.trim().isEmpty());
-        });
+        textField.textProperty().addListener((obs, oldVal, newVal)
+                -> mainButton.setDisable(newVal.trim().isEmpty()));
 
         dialog.getDialogPane().setContent(pane);
         // rename the "Show Details" hyperlink to "Show Preview"
         Platform.runLater(() -> DialogUtils.setDetailsButtonText(dialog
                 .getDialogPane(), "Show Preview", "Hide Preview"));
         previewPane.setStyle("-fx-border-color: rgb(59, 146, 219)");
-        Platform.runLater(field1::requestFocus);
+        Platform.runLater(textField::requestFocus);
     }
 
     /**
@@ -105,20 +86,24 @@ public class LinkDialog extends CustomDialog<String> {
     public void setResultConverter() {
         dialog.setResultConverter(btn -> {
             if (btn == mainButtonType)
-                return htmlLink(field1.getText(), field2.getText());
+                return getHtmlCode(textField.getText());
             return null;
         });
     }
 
     /**
-     * Returns the HTML code for this link
+     * Encodes the input into the html
      *
-     * @param link the link location
-     * @param text the text to be linked
-     * @return HTML code of the link
+     * @param input the string entered in the text field
+     * @return resulting HTML code
      */
-    private static String htmlLink(String link, String text) {
-        return "<a href=\"" + link + "\">" + text + "</a>";
-    }
+    public abstract String getHtmlCode(String input);
+
+    /**
+     * Sets the parameters for the input box
+     *
+     * @param inputBox the input box
+     */
+    public abstract void setFieldText(TextArea inputBox);
 
 }

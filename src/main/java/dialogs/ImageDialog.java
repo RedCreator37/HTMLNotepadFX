@@ -12,7 +12,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,7 +57,6 @@ public class ImageDialog extends CustomDialog<String> {
                 webBtn = new RadioButton("From the Internet");
         ToggleGroup mainGroup = new ToggleGroup();
 
-        // create basic controls
         imgBox.setMaxSize(250, 220);
         imgBox.setZoom(0.5);
         localBtn.setToggleGroup(mainGroup);
@@ -103,8 +101,9 @@ public class ImageDialog extends CustomDialog<String> {
             bar.setStyle("-fx-alignment: baseline-left");
             bar.getButtons().add(browseBtn);
         }
+
         browseBtn.setOnMouseClicked(e -> {
-            File f = browseImages(this.dialog.getDialogPane().getScene().getWindow());
+            File f = browseImages(this.dialog.getDialogPane());
             if (f == null) return;
             field1.setText(f.getAbsolutePath());
             field2.setText(f.getName());
@@ -113,7 +112,8 @@ public class ImageDialog extends CustomDialog<String> {
                     f.getName(), true));
         });
 
-        field2.textProperty().addListener((obs, oldVal, newVal) -> this.input2 = newVal);
+        field2.textProperty().addListener((obs, oldVal, newVal)
+                -> this.input2 = newVal);
 
         // change the value when Local/Web is selected
         localBtn.selectedProperty().addListener((obs, oldVal, newVal) -> {
@@ -145,7 +145,7 @@ public class ImageDialog extends CustomDialog<String> {
      * @param parent the parent window
      * @return the selected file or null if the dialog was cancelled
      */
-    private static File browseImages(Window parent) {
+    private static File browseImages(Node parent) {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("JPG images (*.jpg, *.jpeg)",
@@ -153,7 +153,7 @@ public class ImageDialog extends CustomDialog<String> {
                 new FileChooser.ExtensionFilter("GIF images (*.gif)", "*.gif"),
                 new FileChooser.ExtensionFilter("PNG images (*.png)", "*.png"),
                 new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-        return chooser.showOpenDialog(parent);
+        return chooser.showOpenDialog(parent.getScene().getWindow());
     }
 
     /**
