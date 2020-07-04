@@ -19,7 +19,7 @@ import java.util.Optional;
  * Contains utility methods for displaying dialog boxes
  *
  * Parts of the code from
- * <href a="https://code.makery.ch/blog/javafx-dialogs-official/"></href>
+ * <href a="https://code.makery.ch/blog/javafx-dialogs-official/">here</href>
  */
 public final class Dialogs {
 

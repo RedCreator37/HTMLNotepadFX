@@ -1,5 +1,7 @@
 import dialogs.ImageDialog;
 import dialogs.LinkDialog;
+import dialogs.simple.CodeDialog;
+import dialogs.simple.CustomTagDialog;
 import dialogs.simple.QuoteDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -406,14 +408,12 @@ public class Controller extends Component {
      * Insert a code tag to textEdit
      */
     public void insertCode() {
-        String code = Dialogs.textAreaInputDialog(
-                "Insert",
-                "Insert source code",
-                "Insert some text to be displayed in the <code> tag:",
-                "Insert",
-                "Enter some code...");
-        if (code == null) return;
-        appendHtmlText(textEdit, "<code> " + code + " </code>");
+        CodeDialog dlg = new CodeDialog("Insert",
+                "Insert code", "Enter code to be displayed within" +
+                " <code> tags:", stylesheet);
+        Optional<String> input = dlg.run();
+        if (input.isEmpty()) return;
+        appendHtmlText(textEdit, input.get());
     }
 
     /**
@@ -442,14 +442,14 @@ public class Controller extends Component {
      * Inserts a custom HTML tag
      */
     public void insertHtmlTag() {
-        String htmlTag = Dialogs.textAreaInputDialog(
-                "Insert",
-                "Insert a custom HTML tag",
-                "Refer to HTML documentation for valid values.\n" +
-                        "\nWarning!\nSome browsers may block certain tags for security reasons.",
-                "Insert",
-                "Enter something like \"<tag>text</tag>\"");
-        if (htmlTag != null) appendHtmlText(textEdit, htmlTag);
+        CustomTagDialog dlg = new CustomTagDialog("Insert",
+                "Insert a custom HTNL tag",
+                "Enter any valid HTML in the field below.\nKeep in mind that" +
+                        " some browsers might block certain\ntags for security reasons.",
+                stylesheet);
+        Optional<String> input = dlg.run();
+        if (input.isEmpty()) return;
+        appendHtmlText(textEdit, input.get());
     }
 
     /// PRINTING ////////////////////////////////////////////////////////////////////////
