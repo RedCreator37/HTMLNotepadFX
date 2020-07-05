@@ -4,6 +4,10 @@ import dialogs.DialogUtils;
 import dialogs.GenericTagDialog;
 import javafx.scene.control.TextArea;
 
+/**
+ * A dialog that lets the user to insert a string to be displayed
+ * inside the &lt;code&gt; tags
+ */
 public class CodeDialog extends GenericTagDialog {
 
     /**

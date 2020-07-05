@@ -3,6 +3,9 @@ package dialogs.simple;
 import dialogs.GenericTagDialog;
 import javafx.scene.control.TextArea;
 
+/**
+ * A dialog that lets the user insert arbitrary HTML tags
+ */
 public class CustomTagDialog extends GenericTagDialog {
 
     /**
