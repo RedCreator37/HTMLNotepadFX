@@ -70,16 +70,10 @@
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="L" control="UP" meta="UP" shift="UP" shortcut="UP" />
             </accelerator></MenuItem>
-            <Menu mnemonicParsing="false" text="Script">
-                <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script...">
-               <accelerator>
-                  <KeyCodeCombination alt="DOWN" code="J" control="UP" meta="UP" shift="UP" shortcut="UP" />
-               </accelerator></MenuItem>
-                <MenuItem mnemonicParsing="false" onAction="#insertScriptAltText" text="Script alternative text...">
-               <accelerator>
-                  <KeyCodeCombination alt="DOWN" code="A" control="UP" meta="UP" shift="UP" shortcut="UP" />
-               </accelerator></MenuItem>
-            </Menu>
+            <MenuItem mnemonicParsing="false" onAction="#insertScript" text="JavaScript script...">
+            <accelerator>
+                <KeyCodeCombination alt="DOWN" code="J" control="UP" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#insertQuote" text="Quote...">
             <accelerator>
                <KeyCodeCombination alt="DOWN" code="Q" control="UP" meta="UP" shift="UP" shortcut="UP" />

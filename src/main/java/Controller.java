@@ -1,5 +1,6 @@
 import dialogs.ImageDialog;
 import dialogs.LinkDialog;
+import dialogs.ScriptDialog;
 import dialogs.simple.CodeDialog;
 import dialogs.simple.CustomTagDialog;
 import dialogs.simple.QuoteDialog;
@@ -339,32 +340,14 @@ public class Controller extends Component {
     }
 
     /**
-     * Inserts a script
+     * Inserts a JavaScript script
      */
     public void insertScript() {
-        String scriptText = Dialogs.textAreaInputDialog(
-                "Insert",
-                "Insert a script",
-                "Warning!\nScripts can be harmful and some browsers will block them!\n",
-                "Insert",
-                "Enter script code");
-        if (scriptText == null) return;
-        appendHtmlText(textEdit, "<script> " + scriptText + " </script>");
-    }
-
-    /**
-     * Inserts a script alternative text
-     */
-    public void insertScriptAltText() {
-        String altText = Dialogs.textAreaInputDialog(
-                "Insert",
-                "Insert script alternative text",
-                "This text will be displayed instead of script result " +
-                        "if the browser blocks / doesn't support\nJavaScript scripts.",
-                "Insert",
-                "Enter something like \"Your browser does not support JavaScript\"...");
-        if (altText == null) return;
-        appendHtmlText(textEdit, "<noscript> " + altText + " </noscript>");
+        ScriptDialog dlg = new ScriptDialog("Insert", "Insert a script",
+                "Insert a JavaScript script to the document", stylesheet);
+        Optional<String> input = dlg.run();
+        if (input.isEmpty()) return;
+        appendHtmlText(textEdit, input.get());
     }
 
     /**
