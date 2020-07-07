@@ -75,51 +75,6 @@ public final class Dialogs {
     }
 
     /**
-     * Displays a text input dialog with a text area
-     *
-     * @param caption the title bar text
-     * @param header  the dialog box header text
-     * @param body    the dialog box body text / content
-     * @param action  default button action text (ex. "Insert")
-     * @param hint    text area's hint text
-     * @return the entered string (or null if cancelled)
-     */
-    public static String textAreaInputDialog(String caption, String header, String body,
-                                             String action, String hint) {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle(caption);
-        dialog.setHeaderText(header);
-
-        // set button types
-        ButtonType buttonType = new ButtonType(action, ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(buttonType, ButtonType.CANCEL);
-
-        GridPane pane = new GridPane();
-        TextArea area = new TextArea();
-
-        area.setPromptText(hint);
-        pane.add(new Label(body + "\n"), 0, 0);
-        pane.add(area, 0, 1);
-
-        // disable the default button until text is entered
-        Node mainButton = dialog.getDialogPane().lookupButton(buttonType);
-        mainButton.setDisable(true);
-        area.textProperty().addListener(newVal -> mainButton.setDisable(false));
-
-        dialog.getDialogPane().setContent(pane);
-        Platform.runLater(area::requestFocus);
-
-        // convert the result
-        dialog.setResultConverter(btn -> {
-            if (btn == buttonType) return area.getText();
-            return null;
-        });
-
-        dialog.showAndWait();
-        return dialog.getResult();
-    }
-
-    /**
      * Displays a text input dialog with a wide text field (for
      * entering long strings of data, such as web addresses)
      *

@@ -40,6 +40,7 @@ public class ScriptDialog extends CustomDialog<String> {
     private ButtonType mainButtonType;
     private TextArea scriptBox;
     private TextField altTextField;
+    private CheckBox altCheckBox;
 
     /**
      * Initializes the controls
@@ -72,7 +73,7 @@ public class ScriptDialog extends CustomDialog<String> {
 
         textPane.add(new Label(dialog.getContentText()), 0, 0);
         editingPane.add(scriptBox, 0, 0);
-        CheckBox altCheckBox = new CheckBox("Set alt text");
+        altCheckBox = new CheckBox("Set alt text");
         altCheckBox.setSelected(false);
         editingPane.add(new Label("Warning! Scripts can be harmful and some" +
                 " browsers will block them!"), 0, 1);
@@ -133,8 +134,10 @@ public class ScriptDialog extends CustomDialog<String> {
     @Override
     public void setResultConverter() {
         dialog.setResultConverter(btn -> {
-            if (btn == mainButtonType)
-                return getScriptHtml(scriptBox.getText(), altTextField.getText());
+            if (btn == mainButtonType) {
+                String altText = altCheckBox.isSelected() ? altTextField.getText() : "";
+                return getScriptHtml(scriptBox.getText(), altText);
+            }
             return null;
         });
     }
