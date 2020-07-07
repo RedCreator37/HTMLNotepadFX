@@ -11,6 +11,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
+import util.FileIO;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A JavaScript script insertion dialog with preview pane and support
@@ -68,7 +75,7 @@ public class ScriptDialog extends CustomDialog<String> {
         CheckBox altCheckBox = new CheckBox("Set alt text");
         altCheckBox.setSelected(false);
         editingPane.add(new Label("Warning! Scripts can be harmful and some" +
-                "browsers will block them!"), 0, 1);
+                " browsers will block them!"), 0, 1);
         editingPane.add(altCheckBox, 0, 2);
         altTextField.setDisable(true);
         editingPane.add(altTextField, 0, 3);
@@ -97,6 +104,15 @@ public class ScriptDialog extends CustomDialog<String> {
         altCheckBox.selectedProperty().addListener((obs, oldVal, newVal)
                 -> altTextField.setDisable(!newVal));
 
+        // load and save button functionality
+        loadBtn.setOnMouseClicked(e -> {
+            String s = loadScriptText(dialog.getDialogPane().getScene().getWindow());
+            if (s != null && !s.trim().isEmpty()) scriptBox.setText(s);
+        });
+
+        saveBtn.setOnMouseClicked(e -> saveScriptText(scriptBox.getText(),
+                dialog.getDialogPane().getScene().getWindow()));
+
         // disable the main button until some text is entered into the fields
         Node mainButton = dialog.getDialogPane().lookupButton(mainButtonType);
         mainButton.setDisable(true);
@@ -121,6 +137,43 @@ public class ScriptDialog extends CustomDialog<String> {
                 return getScriptHtml(scriptBox.getText(), altTextField.getText());
             return null;
         });
+    }
+
+    /**
+     * The extension filter for JavaScript script files
+     */
+    private final static List<FileChooser.ExtensionFilter> scriptExtensionFilters =
+            new ArrayList<>() {{
+                add(new FileChooser.ExtensionFilter("JavaScript files (*.js)", "*.js"));
+                add(new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"));
+                add(new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+            }};
+
+    /**
+     * Loads a script from a file
+     *
+     * @param window the parent window
+     * @return the script or <code>null</code> if cancelled
+     */
+    private static String loadScriptText(Window window) {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(scriptExtensionFilters);
+        File file = chooser.showOpenDialog(window);
+        if (file != null) return FileIO.loadFile(file);
+        else return null;
+    }
+
+    /**
+     * Saves this script to a file
+     *
+     * @param text  the script text
+     * @param stage the parent window
+     */
+    private static void saveScriptText(String text, Window stage) {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().addAll(scriptExtensionFilters);
+        File file = chooser.showSaveDialog(stage);
+        if (file != null) FileIO.saveFile(file, text);
     }
 
     /**
