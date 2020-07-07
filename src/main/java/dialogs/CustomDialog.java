@@ -9,14 +9,14 @@ import java.util.Optional;
 /**
  * A custom instance of the standard dialog
  *
- * @param <T> the type of the dialog result
+ * @param <R> the type of the dialog result
  */
-public abstract class CustomDialog<T> {
+public abstract class CustomDialog<R> {
 
     /**
      * The current dialog instance
      */
-    final Dialog<T> dialog;
+    final Dialog<R> dialog;
 
     /**
      * Constructs a new CustomDialog instance
@@ -54,7 +54,7 @@ public abstract class CustomDialog<T> {
      * @return the result or <code>empty</code> if the dialog was
      * cancelled
      */
-    public Optional<T> run() {
+    public Optional<R> run() {
         return dialog.showAndWait();
     }
 
