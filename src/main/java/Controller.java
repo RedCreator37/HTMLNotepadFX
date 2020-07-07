@@ -3,6 +3,7 @@ import dialogs.LinkDialog;
 import dialogs.ScriptDialog;
 import dialogs.simple.CodeDialog;
 import dialogs.simple.CustomTagDialog;
+import dialogs.simple.MarqueeDialog;
 import dialogs.simple.QuoteDialog;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -324,8 +325,7 @@ public class Controller extends Component {
         ImageDialog dlg = new ImageDialog("Insert", "Insert an image",
                 "Insert an image to the document", stylesheet);
         Optional<String> input = dlg.run();
-        if (input.isEmpty()) return;
-        appendHtmlText(textEdit, input.get());
+        input.ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
@@ -335,8 +335,7 @@ public class Controller extends Component {
         LinkDialog dlg = new LinkDialog("Insert", "Insert a hyperlink",
                 "Insert a hyperlink to the document", stylesheet);
         Optional<String> input = dlg.run();
-        if (input.isEmpty()) return;
-        appendHtmlText(textEdit, input.get());
+        input.ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
@@ -346,8 +345,7 @@ public class Controller extends Component {
         ScriptDialog dlg = new ScriptDialog("Insert", "Insert a script",
                 "Insert a JavaScript script to the document", stylesheet);
         Optional<String> input = dlg.run();
-        if (input.isEmpty()) return;
-        appendHtmlText(textEdit, input.get());
+        input.ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
@@ -357,21 +355,17 @@ public class Controller extends Component {
         QuoteDialog dlg = new QuoteDialog("Insert", "Insert a quote",
                 "Enter a quote to insert:", stylesheet);
         Optional<String> input = dlg.run();
-        if (input.isEmpty()) return;
-        appendHtmlText(textEdit, input.get());
+        input.ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
-     * Inserts scrolling text (marquee tag)
+     * Inserts scrolling text (&lt;marquee&gt; tag)
      */
     public void insertScrollingText() {
-        String marqueeText = Dialogs.inputDialog(
-                "Insert",
-                "Insert scrolling text",
-                "Enter the text to insert:",
-                "Text");
-        if (marqueeText == null) return;
-        appendHtmlText(textEdit, "<marquee> " + marqueeText + " </marquee>");
+        MarqueeDialog dlg = new MarqueeDialog("Insert", "Insert scrolling text",
+                "Enter the text to insert:", stylesheet);
+        Optional<String> input = dlg.run();
+        input.ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
@@ -395,8 +389,7 @@ public class Controller extends Component {
                 "Insert code", "Enter code to be displayed within" +
                 " <code> tags:", stylesheet);
         Optional<String> input = dlg.run();
-        if (input.isEmpty()) return;
-        appendHtmlText(textEdit, input.get());
+        input.ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
