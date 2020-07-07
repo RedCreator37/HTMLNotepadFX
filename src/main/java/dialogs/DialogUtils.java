@@ -16,20 +16,28 @@ public final class DialogUtils {
     }
 
     /**
-     * FIXME: implement
+     * Escapes HTML metacharacters and non-ascii characters in this
+     * string
      *
-     * @param text the input text
-     * @return the input text with HTML metacharacters escaped
+     * @param text the input string
+     * @return the string with HTML metacharacters escaped
      */
     public static String escapeHtmlText(String text) {
-        return text;
+        StringBuilder b = new StringBuilder(text.length() * 2);
+        for (char c : text.toCharArray()) {
+            if (c > 127 || Character.toString(c).matches("[<>\\\\\"'&]"))
+                b.append("&#").append((int) c).append(';');
+            else b.append(c);
+        }
+        return b.toString();
     }
 
     /**
      * Sets the text of the "Show Details" button / hyperlink
-     * @param pane the dialog pane
+     *
+     * @param pane      the dialog pane
      * @param collapsed the initial text
-     * @param expanded the text after the pane is expanded
+     * @param expanded  the text after the pane is expanded
      */
     public static void setDetailsButtonText(DialogPane pane, String collapsed, String expanded) {
         Hyperlink detailsButton = (Hyperlink) pane.lookup(".details-button");
