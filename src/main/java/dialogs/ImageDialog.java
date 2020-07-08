@@ -144,7 +144,7 @@ public class ImageDialog extends CustomDialog<String> {
     private static File browseImages(Node parent) {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("JPG images (*.jpg, *.jpeg)",
+                new FileChooser.ExtensionFilter("JPEG images (*.jpg, *.jpeg)",
                         "*.jpg", "*.jpeg"),
                 new FileChooser.ExtensionFilter("GIF images (*.gif)", "*.gif"),
                 new FileChooser.ExtensionFilter("PNG images (*.png)", "*.png"),

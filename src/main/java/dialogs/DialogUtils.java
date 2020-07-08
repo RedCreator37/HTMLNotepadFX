@@ -61,4 +61,17 @@ public final class DialogUtils {
         pane.setPadding(new Insets(10, 10, 0, 0));
     }
 
+    /**
+     * Sets the stylesheet for this dialog pane if it's not
+     * null or empty
+     *
+     * @param pane       the dialog pane that the stylesheet will be
+     *                   applied to
+     * @param stylesheet the name of the stylesheet to use
+     */
+    public static void setStylesheet(DialogPane pane, String stylesheet) {
+        if (stylesheet != null && !stylesheet.trim().equals(""))
+            pane.getScene().getStylesheets().add(stylesheet);
+    }
+
 }

@@ -24,7 +24,7 @@ public class AboutController {
         versionLabel.setText(VersionData.VERSION);
         buildLabel.setText(String.valueOf(VersionData.BUILD_NUMBER));
         buildDateLabel.setText(VersionData.BUILD_DATE);
-        betaLabel.setText(String.valueOf(VersionData.IS_BETA));
+        betaLabel.setText(VersionData.IS_BETA ? "Yes" : "No");
 
         // the amount of ram available to the program
         ramLabel.setText(Runtime.getRuntime().maxMemory() / 1048576 + " MB");

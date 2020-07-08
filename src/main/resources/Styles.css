@@ -1,8 +1,8 @@
 /* Main HTMLNotepadFX Style Sheet
    --------------------------------------
-   This is an experimental version of the new user interface theme
-   for HTMLNotepadFX. Many things are not done yet and most of the
-   more advanced UI components are broken.
+   This is an experimental version of the new UI theme for
+   HTMLNotepadFX. Many things are not finished yet and most
+   of the more advanced UI components are still broken.
 */
 .root {
     -fx-background-color: #ffffff;

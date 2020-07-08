@@ -45,7 +45,7 @@
             <Font name="System Bold" size="14.0" />
         </font>
     </Label>
-    <Label layoutX="12.0" layoutY="134.0" text="BETA Pre-Release:">
+    <Label layoutX="12.0" layoutY="134.0" text="Pre-Release:">
         <font>
             <Font name="System Bold" size="14.0" />
         </font>

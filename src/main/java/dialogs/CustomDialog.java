@@ -36,8 +36,7 @@ public abstract class CustomDialog<R> {
         dialog.setTitle(caption);
         dialog.setHeaderText(header);
         dialog.setContentText(body);
-        if (stylesheet != null && !stylesheet.trim().equals(""))
-            dialog.getDialogPane().getScene().getStylesheets().add(stylesheet);
+        DialogUtils.setStylesheet(dialog.getDialogPane(), stylesheet);
         setControls();
         setResultConverter();
     }
