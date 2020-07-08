@@ -455,9 +455,10 @@ public class Controller extends Component {
      * Toggles between the default and non-styled UI
      */
     public void toggleOldUi() {
-        if (oldUiBox.isSelected())
+        stylesheet = oldUiBox.isSelected() ? "" : "Styles.css";
+        if (stylesheet.trim().isEmpty())
             MainFX.currentStage.getScene().getStylesheets().clear();
-        else MainFX.currentStage.getScene().getStylesheets().add("Styles.css");
+        else MainFX.currentStage.getScene().getStylesheets().add(stylesheet);
     }
 
     /**

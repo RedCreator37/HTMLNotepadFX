@@ -70,6 +70,6 @@ public final class VersionData {
      * The stylesheet currently in use
      * TODO: move into Controller class
      */
-    public static final String stylesheet = "Styles.css";
+    public static String stylesheet = "Styles.css";
 
 }
