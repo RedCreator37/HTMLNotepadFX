@@ -32,6 +32,7 @@ public class AboutController {
 
         // available disk space
         diskLabel.setText(new File("/").getTotalSpace() / 1073741824 + " GB");
+        descTextBox.setStyle("-fx-border-color: #ffffff");
     }
 
     /**

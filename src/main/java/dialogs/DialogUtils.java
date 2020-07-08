@@ -1,8 +1,10 @@
 package dialogs;
 
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Insets;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.GridPane;
 
 /**
  * Common methods used in dialog classes
@@ -46,6 +48,17 @@ public final class DialogUtils {
                         -> detailsButton.setText(newVal ? expanded : collapsed));
         pane.setExpanded(true);
         pane.setExpanded(false);
+    }
+
+    /**
+     * Sets default grid insets on this GridPane
+     *
+     * @param pane the GridPane
+     */
+    public static void setGridInsets(GridPane pane) {
+        pane.setHgap(10);
+        pane.setVgap(10);
+        pane.setPadding(new Insets(10, 10, 0, 0));
     }
 
 }

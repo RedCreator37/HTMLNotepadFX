@@ -26,7 +26,6 @@ public abstract class GenericTagDialog extends CustomDialog<String> {
         super(caption, header, body, stylesheet);
     }
 
-    private ButtonType mainButtonType;
     private TextArea textField;
 
     /**
@@ -45,7 +44,7 @@ public abstract class GenericTagDialog extends CustomDialog<String> {
         WebView preview = new WebView();
 
         textPane.setHgap(10);
-        setGridInsets(controlPane);
+        DialogUtils.setGridInsets(controlPane);
         preview.setMaxHeight(250);
         preview.setMaxWidth(260);
 
@@ -84,11 +83,8 @@ public abstract class GenericTagDialog extends CustomDialog<String> {
      */
     @Override
     public void setResultConverter() {
-        dialog.setResultConverter(btn -> {
-            if (btn == mainButtonType)
-                return getHtmlCode(textField.getText());
-            return null;
-        });
+        dialog.setResultConverter(btn -> btn == mainButtonType
+                ? getHtmlCode(textField.getText()) : null);
     }
 
     /**

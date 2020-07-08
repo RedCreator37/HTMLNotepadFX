@@ -36,7 +36,6 @@ public class ImageDialog extends CustomDialog<String> {
         super(caption, header, body, stylesheet);
     }
 
-    private ButtonType mainButtonType;
     private String input1, input2;
     private boolean local;
 
@@ -63,8 +62,8 @@ public class ImageDialog extends CustomDialog<String> {
         webBtn.setToggleGroup(mainGroup);
         webBtn.setSelected(true);
 
-        setGridInsets(controlPane);
-        setGridInsets(selectionPane);
+        DialogUtils.setGridInsets(controlPane);
+        DialogUtils.setGridInsets(selectionPane);
 
         field1.setPromptText("Image path");
         field2.setPromptText("Alt text");
@@ -132,11 +131,8 @@ public class ImageDialog extends CustomDialog<String> {
      */
     @Override
     public void setResultConverter() {
-        this.dialog.setResultConverter(btn -> {
-            if (btn == mainButtonType)
-                return getImageHtml(input1, input2, local);
-            return null;
-        });
+        this.dialog.setResultConverter(btn -> btn == mainButtonType
+                ? getImageHtml(input1, input2, local) : null);
     }
 
     /**

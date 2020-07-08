@@ -22,6 +22,7 @@ public class HTMLSource {
     @FXML
     protected void initialize() {
         refreshHTML();
+        sourceText.setStyle("-fx-border-color: #ffffff");
     }
 
     /**

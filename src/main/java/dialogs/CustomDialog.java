@@ -1,8 +1,7 @@
 package dialogs;
 
-import javafx.geometry.Insets;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
-import javafx.scene.layout.GridPane;
 
 import java.util.Optional;
 
@@ -17,6 +16,11 @@ public abstract class CustomDialog<R> {
      * The current dialog instance
      */
     final Dialog<R> dialog;
+
+    /**
+     * The type of the dialog accept button
+     */
+    ButtonType mainButtonType;
 
     /**
      * Constructs a new CustomDialog instance
@@ -56,17 +60,6 @@ public abstract class CustomDialog<R> {
      */
     public Optional<R> run() {
         return dialog.showAndWait();
-    }
-
-    /**
-     * Sets default grid insets on this GridPane
-     *
-     * @param pane the GridPane
-     */
-    public static void setGridInsets(GridPane pane) {
-        pane.setHgap(10);
-        pane.setVgap(10);
-        pane.setPadding(new Insets(10, 10, 0, 0));
     }
 
 }

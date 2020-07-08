@@ -37,7 +37,6 @@ public class ScriptDialog extends CustomDialog<String> {
         super(caption, header, body, stylesheet);
     }
 
-    private ButtonType mainButtonType;
     private TextArea scriptBox;
     private TextField altTextField;
     private CheckBox altCheckBox;
@@ -59,9 +58,9 @@ public class ScriptDialog extends CustomDialog<String> {
         altTextField = new TextField();
         WebView preview = new WebView();
 
-        setGridInsets(editingPane);
-        setGridInsets(testingPane);
-        setGridInsets(buttonPane);
+        DialogUtils.setGridInsets(editingPane);
+        DialogUtils.setGridInsets(testingPane);
+        DialogUtils.setGridInsets(buttonPane);
         textPane.setHgap(10);
         preview.setMaxHeight(250);
         preview.setMaxWidth(400);
@@ -147,7 +146,7 @@ public class ScriptDialog extends CustomDialog<String> {
      */
     private final static List<FileChooser.ExtensionFilter> scriptExtensionFilters =
             new ArrayList<>() {{
-                add(new FileChooser.ExtensionFilter("JavaScript files (*.js)", "*.js"));
+                add(new FileChooser.ExtensionFilter("JavaScript scripts (*.js)", "*.js"));
                 add(new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"));
                 add(new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
             }};

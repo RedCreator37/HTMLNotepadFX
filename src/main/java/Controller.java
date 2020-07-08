@@ -1,6 +1,7 @@
 import dialogs.ImageDialog;
 import dialogs.LinkDialog;
 import dialogs.ScriptDialog;
+import dialogs.WebsiteDialog;
 import dialogs.simple.CodeDialog;
 import dialogs.simple.CustomTagDialog;
 import dialogs.simple.MarqueeDialog;
@@ -281,21 +282,19 @@ public class Controller extends Component {
      * it in textEdit
      */
     public void loadWebPage() {
-        String url = Dialogs.wideInputDialog(
-                "HTMLNotepadFX",
-                "Load web page",
-                "Enter a valid address of an existing page on\n" +
-                        "the web to load into the editor for editing.",
-                "\nWarning!\nAny unsaved changes in the current file will be lost!",
-                "Load",
-                "http://");
-        if (url == null) return;
+        WebsiteDialog dlg = new WebsiteDialog("Download web page",
+                "Download an existing web page",
+                "Enter a valid web address of an existing page" +
+                        " to download.\n\nWarning! Any unsaved changes" +
+                        "to the current file will be lost!\n\n", stylesheet);
+        Optional<String> input = dlg.run();
+        if (input.isEmpty()) return;
         Platform.runLater(() -> textEdit.getScene().getWindow().getScene()
                 .setCursor(Cursor.WAIT));
 
         WebView webView = (WebView) textEdit.lookup("WebView");
         if (webView != null) {
-            webView.getEngine().load(url);
+            webView.getEngine().load(input.get());
             MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
             modified = false;
             file = null;
@@ -404,14 +403,12 @@ public class Controller extends Component {
      * Inserts an embedded website (iframe)
      */
     public void insertEmbeddedWebsite() {
-        String websiteAddress = Dialogs.inputDialog(
-                "Insert",
-                "Embed a website",
-                "Enter web address of the website to embed:",
-                "http://");
-        if (websiteAddress == null) return;
-        appendHtmlText(textEdit, "<iframe src=\"" + websiteAddress
-                + "\" height=\"300\" " + "width=\"500\"></iframe>");
+        WebsiteDialog dlg = new WebsiteDialog("Insert",
+                "Embed a website", "Enter the web address of an existing" +
+                " website to embed into the\ndocument:", stylesheet);
+        Optional<String> input = dlg.run();
+        input.ifPresent(s -> appendHtmlText(textEdit, "<iframe src=\""
+                + s + "\" height=\"300\" " + "width=\"500\"></iframe>"));
     }
 
     /**
@@ -419,7 +416,7 @@ public class Controller extends Component {
      */
     public void insertHtmlTag() {
         CustomTagDialog dlg = new CustomTagDialog("Insert",
-                "Insert a custom HTNL tag",
+                "Insert a custom HTML tag",
                 "Enter any valid HTML in the field below.\nKeep in mind that" +
                         " some browsers might block certain\ntags for security reasons.",
                 stylesheet);
