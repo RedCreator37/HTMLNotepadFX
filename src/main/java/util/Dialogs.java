@@ -1,14 +1,9 @@
 package util;
 
-import javafx.application.Platform;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -75,54 +70,6 @@ public final class Dialogs {
     }
 
     /**
-     * Displays a text input dialog with a wide text field (for
-     * entering long strings of data, such as web addresses)
-     *
-     * @param caption    the title bar text
-     * @param header     the dialog box header text
-     * @param text1      the text to be displayed above the first text field
-     * @param text2      the text to be displayed above the second text field
-     * @param action     default button action text (ex. "Insert")
-     * @param defaultVal the default value in the text field
-     * @return the entered string (or null if cancelled)
-     */
-    public static String wideInputDialog(String caption, String header, String text1, String text2,
-                                         String action, String defaultVal) {
-        Dialog<String> dialog = new Dialog<>();
-        dialog.setTitle(caption);
-        dialog.setHeaderText(header);
-
-        // set button types
-        ButtonType buttonType = new ButtonType(action, ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(buttonType, ButtonType.CANCEL);
-
-        GridPane pane = new GridPane();
-        TextField field = new TextField();
-
-        field.setText(defaultVal);
-        pane.add(new Label(text1 + "\n"), 0, 0);
-        pane.add(field, 0, 1);
-        pane.add(new Label(text2), 0, 2);
-
-        // disable the default button until text is entered
-        Node mainButton = dialog.getDialogPane().lookupButton(buttonType);
-        mainButton.setDisable(true);
-        field.textProperty().addListener(newVal -> mainButton.setDisable(false));
-
-        dialog.getDialogPane().setContent(pane);
-        Platform.runLater(field::requestFocus);
-
-        // convert the result
-        dialog.setResultConverter(btn -> {
-            if (btn == buttonType) return field.getText();
-            return null;
-        });
-
-        dialog.showAndWait();
-        return dialog.getResult();
-    }
-
-    /**
      * Displays a generic error dialog with a Details sub pane containing
      * exception stacktrace.
      *
@@ -151,4 +98,5 @@ public final class Dialogs {
         alert.getDialogPane().setExpandableContent(expContent);
         alert.showAndWait();
     }
+
 }
