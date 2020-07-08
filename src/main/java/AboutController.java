@@ -12,7 +12,6 @@ import java.io.File;
  */
 public class AboutController {
 
-    // initialize controls
     public Button closeButton;
     public Label versionLabel, buildLabel, buildDateLabel, betaLabel, ramLabel, diskLabel;
     public TextArea descTextBox;

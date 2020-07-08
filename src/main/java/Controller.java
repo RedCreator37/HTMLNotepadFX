@@ -155,15 +155,24 @@ public class Controller extends Component {
     private boolean modified;
 
     /**
+     * Asks the user whether they want to keep or discard the changes
+     * they've made to the file
+     *
+     * @param modified the modified status of the file
+     * @return true if the user confirmed to <strong>discard</strong>
+     * changes
+     */
+    private static boolean askKeepChanges(boolean modified) {
+        return modified && !Dialogs.confirmationDialog(
+                "Confirmation", "Warning",
+                "All unsaved changes will be lost! Continue?");
+    }
+
+    /**
      * Creates a blank file by emptying textEdit
      */
     public void newFile() {
-        if (modified) {
-            boolean confirmedNewFile = Dialogs.confirmationDialog(
-                    "Confirmation", "Warning",
-                    "All unsaved changes will be lost! Continue?");
-            if (!confirmedNewFile) return;
-        }
+        if (askKeepChanges(modified)) return;
         textEdit.setHtmlText("");
         MainFX.setTitle("Untitled - HTMLNotepadFX", MainFX.currentStage);
         modified = false;
@@ -258,7 +267,8 @@ public class Controller extends Component {
      */
     public void fileModified() {
         if (modified) return;
-        MainFX.setTitle(MainFX.currentStage.getTitle() + " (Modified)", MainFX.currentStage);
+        MainFX.setTitle(MainFX.currentStage.getTitle()
+                + " (Modified)", MainFX.currentStage);
         modified = true;
     }
 
@@ -273,16 +283,14 @@ public class Controller extends Component {
     }
 
     /**
-     * Fetches an existing web page from the web and renders
-     * it in textEdit
+     * Fetches an existing web page from the web and renders it
      */
     public void loadWebPage() {
-        WebsiteDialog dlg = new WebsiteDialog("Download web page",
+        Optional<String> input = new WebsiteDialog("Download web page",
                 "Download an existing web page",
                 "Enter a valid web address of an existing page" +
                         " to download.\n\nWarning! Any unsaved changes" +
-                        "to the current file will be lost!\n\n", stylesheet);
-        Optional<String> input = dlg.run();
+                        "to the current file will be lost!\n\n", stylesheet).run();
         if (input.isEmpty()) return;
         Platform.runLater(() -> textEdit.getScene().getWindow().getScene()
                 .setCursor(Cursor.WAIT));
@@ -316,50 +324,45 @@ public class Controller extends Component {
      * Inserts a web image
      */
     public void insertImage() {
-        ImageDialog dlg = new ImageDialog("Insert", "Insert an image",
-                "Insert an image to the document", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, s));
+        new ImageDialog("Insert", "Insert an image",
+                "Insert an image to the document", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
      * Inserts a hyperlink
      */
     public void insertLink() {
-        LinkDialog dlg = new LinkDialog("Insert", "Insert a hyperlink",
-                "Insert a hyperlink to the document", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, s));
+        new LinkDialog("Insert", "Insert a hyperlink",
+                "Insert a hyperlink to the document", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
      * Inserts a JavaScript script
      */
     public void insertScript() {
-        ScriptDialog dlg = new ScriptDialog("Insert", "Insert a script",
-                "Insert a JavaScript script to the document", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, s));
+        new ScriptDialog("Insert", "Insert a script",
+                "Insert a JavaScript script to the document", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
      * Inserts a quote
      */
     public void insertQuote() {
-        QuoteDialog dlg = new QuoteDialog("Insert", "Insert a quote",
-                "Enter a quote to insert:", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, s));
+        new QuoteDialog("Insert", "Insert a quote",
+                "Enter a quote to insert:", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
      * Inserts scrolling text (&lt;marquee&gt; tag)
      */
     public void insertScrollingText() {
-        MarqueeDialog dlg = new MarqueeDialog("Insert", "Insert scrolling text",
-                "Enter the text to insert:", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, s));
+        new MarqueeDialog("Insert", "Insert scrolling text",
+                "Enter the text to insert:", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
@@ -379,11 +382,10 @@ public class Controller extends Component {
      * Insert a code tag to textEdit
      */
     public void insertCode() {
-        CodeDialog dlg = new CodeDialog("Insert",
+        new CodeDialog("Insert",
                 "Insert code", "Enter code to be displayed within" +
-                " <code> tags:", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, s));
+                " <code> tags:", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /**
@@ -398,26 +400,22 @@ public class Controller extends Component {
      * Inserts an embedded website (iframe)
      */
     public void insertEmbeddedWebsite() {
-        WebsiteDialog dlg = new WebsiteDialog("Insert",
+        new WebsiteDialog("Insert",
                 "Embed a website", "Enter the web address of an existing" +
-                " website to embed into the\ndocument:", stylesheet);
-        Optional<String> input = dlg.run();
-        input.ifPresent(s -> appendHtmlText(textEdit, "<iframe src=\""
-                + s + "\" height=\"300\" " + "width=\"500\"></iframe>"));
+                " website to embed into the\ndocument:", stylesheet).run()
+                .ifPresent(s -> appendHtmlText(textEdit, "<iframe src=\""
+                        + s + "\" height=\"300\" " + "width=\"500\"></iframe>"));
     }
 
     /**
      * Inserts a custom HTML tag
      */
     public void insertHtmlTag() {
-        CustomTagDialog dlg = new CustomTagDialog("Insert",
+        new CustomTagDialog("Insert",
                 "Insert a custom HTML tag",
                 "Enter any valid HTML in the field below.\nKeep in mind that" +
                         " some browsers might block certain\ntags for security reasons.",
-                stylesheet);
-        Optional<String> input = dlg.run();
-        if (input.isEmpty()) return;
-        appendHtmlText(textEdit, input.get());
+                stylesheet).run().ifPresent(s -> appendHtmlText(textEdit, s));
     }
 
     /// PRINTING ////////////////////////////////////////////////////////////////////////
@@ -529,11 +527,7 @@ public class Controller extends Component {
      * Closes the program
      */
     public void close() {
-        boolean confirmedClose = true;
-        if (modified) confirmedClose = Dialogs.confirmationDialog(
-                "Confirmation", "Warning",
-                "All unsaved changes will be lost! Continue?");
-        if (!confirmedClose) return;
+        if (askKeepChanges(modified)) return;
         saveSettings();
         System.exit(0);
     }

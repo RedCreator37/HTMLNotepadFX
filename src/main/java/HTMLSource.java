@@ -13,8 +13,7 @@ import java.io.File;
  */
 public class HTMLSource {
 
-    // initialize controls
-    public TextArea sourceText; // text area for the source code
+    public TextArea sourceText;
     static String htmlSourceText;
 
     /**
