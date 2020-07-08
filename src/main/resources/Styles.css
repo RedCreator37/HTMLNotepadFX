@@ -165,19 +165,23 @@
 .bottom-toolbar .container .font-menu-button .arrow-button:pressed,
 .combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:hover,
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb,
+.text-area .scroll-bar .thumb,
 .web-view .scroll-bar .thumb {
     -fx-background-color: #d4e7f7;
     -fx-background-radius: 0;
 }
 
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar,
+.text-area .scroll-bar,
 .web-view .scroll-bar {
     -fx-background-color: #f8f8f8;
 }
 
 .combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected,
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:hover,
-.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:pressed {
+.bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:pressed,
+.text-area .scroll-bar .thumb:hover,
+.text-area .scroll-bar .thumb:pressed {
     -fx-background-color: rgb(59, 146, 219);
 }
 
