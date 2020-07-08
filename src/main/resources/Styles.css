@@ -39,18 +39,21 @@
 }
 
 /* buttons */
-.button {
+.button,
+.check-box .box {
     -fx-background-color: #ffffff;
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
     -fx-border-radius: 3;
 }
 
-.button:hover, .button:default:hover {
+.button:hover, .button:default:hover,
+.check-box .box:hover {
     -fx-background-color: #e9f3fb;
 }
 
-.button:pressed, .button:default {
+.button:pressed, .button:default,
+.check-box .box:pressed {
     -fx-background-color: #d4e7f7;
 }
 
@@ -75,27 +78,29 @@
 }
 
 /* text field */
-.text-field, .text-field .scroll-pane .viewport .content {
+.text-field, .text-field .scroll-pane .viewport .content,
+.text-area .scroll-pane .viewport .content {
     -fx-border-color: #cccccc;
     -fx-border-width: 1;
     -fx-background-insets: 0 0 0 0, 0, 1, 2;
     -fx-background-radius: 0;
 }
 
-.text-field:focused, .text-field:hover {
+.text-field:focused, .text-field:hover, .text-area:focused {
     -fx-border-color: rgb(59, 146, 219);
     -fx-border-width: 1;
 }
 
 /* text area */
 .text-area {
-    -fx-border-color: #cccccc;
+    -fx-border-color: #ffffff;
     -fx-border-width: 1;
     -fx-background-radius: 0;
 }
 
-.text-area:focused {
-    -fx-border-color: rgb(59, 146, 219);
+.text-area .scroll-pane {
+    -fx-border-color: #ffffff;
+    -fx-border-width: 0;
 }
 
 /* editor toolbars */
@@ -168,7 +173,7 @@
 .text-area .scroll-bar .thumb,
 .web-view .scroll-bar .thumb {
     -fx-background-color: #d4e7f7;
-    -fx-background-radius: 0;
+    -fx-background-radius: 3;
 }
 
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar,
@@ -177,12 +182,15 @@
     -fx-background-color: #f8f8f8;
 }
 
-.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected,
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:hover,
+.text-area .scroll-bar .thumb:hover {
+    -fx-background-color: #e9f3fb;
+}
+
+.combo-box-popup .list-view .virtual-flow .clipped-container .sheet .list-cell:filled:selected,
 .bottom-toolbar .container .font-menu-button .list-view .virtual-flow .scroll-bar .thumb:pressed,
-.text-area .scroll-bar .thumb:hover,
 .text-area .scroll-bar .thumb:pressed {
-    -fx-background-color: rgb(59, 146, 219);
+    -fx-background-color: #bee1fd;
 }
 
 /* get rid of the weird blue line at the top */
