@@ -1,5 +1,9 @@
 package util;
 
+import javafx.stage.FileChooser;
+
+import java.util.ArrayList;
+
 /**
  * Stores the program version data
  */
@@ -42,6 +46,16 @@ public final class VersionData {
     public static final double CONFIG_VERSION = 15012;
 
     /**
+     * The shared extension filter used when loading and saving
+     * HTML files and their source code
+     */
+    public static final ArrayList<FileChooser.ExtensionFilter> HTML_FILE_EXTENSIONS = new ArrayList<>() {{
+        add(new FileChooser.ExtensionFilter("HTML files (*.html, *.htm)", "*.html", "*.htm"));
+        add(new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"));
+        add(new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+    }};
+
+    /**
      * Gets the location of the config file
      *
      * @return the config file location, based on the OS
@@ -51,4 +65,11 @@ public final class VersionData {
         return System.getProperty("user.home") + (os.contains("win")
                 ? "\\HTMLNotepadFX_settings.xml" : "/.HTMLNotepadFX_settings.xml");
     }
+
+    /**
+     * The stylesheet currently in use
+     * TODO: move into Controller class
+     */
+    public static final String stylesheet = "Styles.css";
+
 }

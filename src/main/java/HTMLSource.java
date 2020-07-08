@@ -4,6 +4,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.FileIO;
 import util.Printing;
+import util.VersionData;
 
 import java.io.File;
 
@@ -34,9 +35,7 @@ public class HTMLSource {
         stage.setAlwaysOnTop(false);
 
         FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
-                new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+        chooser.getExtensionFilters().addAll(VersionData.HTML_FILE_EXTENSIONS);
         File file = chooser.showSaveDialog(MainFX.currentStage);
         if (file != null) FileIO.saveFile(file, sourceText.getText());
 

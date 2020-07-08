@@ -28,6 +28,7 @@ public final class Dialogs {
      */
     public static void alert(String caption, String header, String body, Alert.AlertType type) {
         Alert alert = new Alert(type);
+        alert.getDialogPane().getStylesheets().add(VersionData.stylesheet);
         alert.setTitle(caption);
         alert.setHeaderText(header);
         alert.setContentText(body);
@@ -44,6 +45,7 @@ public final class Dialogs {
      */
     public static boolean confirmationDialog(String caption, String header, String body) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.getDialogPane().getStylesheets().add(VersionData.stylesheet);
         alert.setTitle(caption);
         alert.setHeaderText(header);
         alert.setContentText(body);
@@ -62,6 +64,7 @@ public final class Dialogs {
      */
     public static String inputDialog(String caption, String header, String body, String hint) {
         TextInputDialog input = new TextInputDialog(hint);
+        input.getDialogPane().getStylesheets().add(VersionData.stylesheet);
         input.setTitle(caption);
         input.setHeaderText(header);
         input.setContentText(body);
@@ -80,6 +83,7 @@ public final class Dialogs {
      */
     static void detailedExceptionDialog(String caption, String header, String body, String stacktrace) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.getDialogPane().getStylesheets().add(VersionData.stylesheet);
         alert.setTitle(caption);
         alert.setHeaderText(header);
         alert.setContentText(body);

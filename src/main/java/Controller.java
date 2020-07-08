@@ -33,7 +33,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +41,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+
+import static util.VersionData.CONFIG_LOCATION;
+import static util.VersionData.CONFIG_VERSION;
+import static util.VersionData.HTML_FILE_EXTENSIONS;
+import static util.VersionData.stylesheet;
 
 /**
  * Controller class for MainWindow.fxml
@@ -57,9 +61,8 @@ public class Controller extends Component {
             saveSettingsBox = new CheckMenuItem(),
             oldUiBox = new CheckMenuItem();
 
-    private double confVersion = VersionData.CONFIG_VERSION;
+    private double confVersion = CONFIG_VERSION;
     private List<String> recentFiles = new ArrayList<>();
-    private final String stylesheet = "Styles.css";
 
     /**
      * Loads settings from the config file
@@ -69,13 +72,13 @@ public class Controller extends Component {
     void loadSettings() {
         Properties settings = new Properties();
         try {
-            settings.loadFromXML(new FileInputStream(VersionData.CONFIG_LOCATION));
+            settings.loadFromXML(new FileInputStream(CONFIG_LOCATION));
             confVersion = Double.parseDouble(settings.getProperty("config_version"));
-            if (confVersion > VersionData.CONFIG_VERSION) {
+            if (confVersion > CONFIG_VERSION) {
                 Dialogs.alert("Error", "Config file version mismatch",
                         "The config file reports the version " + confVersion +
                                 " while this program is still using " +
-                                VersionData.CONFIG_VERSION +
+                                CONFIG_VERSION +
                                 "\nSettings will not be loaded.", Alert.AlertType.ERROR);
                 return;
             }
@@ -133,15 +136,14 @@ public class Controller extends Component {
         settings.setProperty("recent_files", recent.toString());
 
         try {
-            var fileOut = new FileOutputStream(new File(VersionData.CONFIG_LOCATION));
+            var fileOut = new FileOutputStream(new File(CONFIG_LOCATION));
             settings.storeToXML(fileOut, "");
             fileOut.close();
 
             // manually hide the properties file on windows
-            if (System.getProperty("os.name").toLowerCase().contains("win")) {
-                Path path = Paths.get(VersionData.CONFIG_LOCATION);
-                Files.setAttribute(path, "dos:hidden", true);
-            }
+            if (System.getProperty("os.name").toLowerCase().contains("win"))
+                Files.setAttribute(Paths.get(CONFIG_LOCATION),
+                        "dos:hidden", true);
         } catch (IOException e) {
             System.err.println("Saving settings failed: " + e.getMessage());
         }
@@ -173,9 +175,7 @@ public class Controller extends Component {
      */
     public void openFileDialog() {
         FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().addAll(   // set file extensions filter
-                new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
-                new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+        chooser.getExtensionFilters().addAll(HTML_FILE_EXTENSIONS);
         file = chooser.showOpenDialog(MainFX.currentStage);
         if (file != null) openFile(file);
     }
@@ -234,9 +234,7 @@ public class Controller extends Component {
      */
     public void saveAs() {
         FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().addAll(   // set extensions filters
-                new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html"),
-                new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
+        chooser.getExtensionFilters().addAll(HTML_FILE_EXTENSIONS);
         file = chooser.showSaveDialog(MainFX.currentStage);
         if (file != null) saveFile();
     }
@@ -246,11 +244,8 @@ public class Controller extends Component {
      */
     public void exportSource() {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Export HTML source to a file");
-        chooser.getExtensionFilters().addAll(   // set extension filters
-                new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt"),
-                new FileChooser.ExtensionFilter("All files (*.*)", "*.*"));
-
+        chooser.setTitle("Export HTML source code");
+        chooser.getExtensionFilters().addAll(HTML_FILE_EXTENSIONS);
         if (file != null) // original filename + .txt
             chooser.setInitialFileName(file.getName() + ".txt");
 
@@ -395,7 +390,7 @@ public class Controller extends Component {
      * Insert the current system date and time
      */
     public void insertDateTime() {
-        appendHtmlText(textEdit, new SimpleDateFormat(("yyyy-MM-dd HH:mm:ss"))
+        appendHtmlText(textEdit, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
                 .format(Calendar.getInstance().getTime()));
     }
 
@@ -475,7 +470,7 @@ public class Controller extends Component {
                 "Confirmation", "Confirmation",
                 "Would you also like to delete the settings file?");
         if (!doDeleteFile) return;
-        if (new File(VersionData.CONFIG_LOCATION).delete())
+        if (new File(CONFIG_LOCATION).delete())
             System.out.println("Removing settings file done.");
     }
 
