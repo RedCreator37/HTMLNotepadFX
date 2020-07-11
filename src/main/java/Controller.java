@@ -465,10 +465,10 @@ public class Controller extends Component {
     public void toggleSaveSettings() {
         if (saveSettingsBox.isSelected()) return;
         // ask to delete the settings file when saving is disabled
-        boolean doDeleteFile = Dialogs.confirmationDialog(
+        boolean confirmed = Dialogs.confirmationDialog(
                 "Confirmation", "Confirmation",
                 "Would you also like to delete the settings file?");
-        if (!doDeleteFile) return;
+        if (!confirmed) return;
         if (new File(CONFIG_LOCATION).delete())
             System.out.println("Removing settings file done.");
     }
